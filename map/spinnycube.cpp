@@ -129,7 +129,7 @@ class singlepoint_app : public sb6::application
         glEnable(GL_DEPTH_TEST);
         glDepthFunc(GL_LEQUAL);
 
-		level = new Level(8,8);
+		level = new Level(10, 6);
     }
 
     virtual void render(double currentTime)

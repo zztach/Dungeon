@@ -5,6 +5,8 @@
 #include <vmath.h>
 #include <list>
 #include <time.h>
+#include <fstream>
+#include <string>
 #include "IDrawable.h"
 
 using std::list;

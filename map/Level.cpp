@@ -1,4 +1,5 @@
 #include "Level.h"
+using namespace std;
 
 Level::Level(int w, int h)
 {	
@@ -30,7 +31,28 @@ Level::~Level()
 
 void Level::createLevel(void)
 {
-	for(int x = 0; x < width; x++)
+	string line;
+	ifstream mapFile;
+	mapFile.open("map.txt");
+
+	int rowNumber = 0;
+	while(!mapFile.eof()) 
+	{		
+		getline(mapFile, line);
+		const char *column = line.c_str();
+		for(int i=0; i<line.size(); i++)
+		{
+			if (column[i] == 'X')
+				level[rowNumber][i] = TILE_WALL;
+			else if (column[i] == 'O')
+				level[rowNumber][i] = TILE_EMPTY;
+		}
+		rowNumber++;
+	}
+
+	mapFile.close();
+
+	/*for(int x = 0; x < width; x++)
 	{
 		for(int y = 0; y < height; y++)
 		{
@@ -45,7 +67,7 @@ void Level::createLevel(void)
 					level[x][y] = TILE_WALL;
 			}
 		}
-	}
+	}*/
 }
 
 void Level::init() 
@@ -74,15 +96,15 @@ void Level::init()
 void Level::draw(GLuint program)
 {
 	GLuint mv_location = glGetUniformLocation(program, "mv_matrix");
-	for(int i=0; i < width; i++)
+	for(int i=0; i < height; i++)
 	{
-		for(int j=0; j < height; j++)
+		for(int j=0; j < width; j++)
 		{				
 			
 			if (level[i][j] == TILE_EMPTY) 
 			{									
 				GLfloat color[] = {1.0f, 0.0f, 0.0f, 1.0f}; 
-				vmath::mat4 mv_matrix = vmath::translate(-(float)width*2.5f/2.0f + (float)j*2.5f, -(float)height*2.5f/2.0f + (float)i*2.5f, -34.0f) *
+				vmath::mat4 mv_matrix = vmath::translate(-(float)width*2.5f/2.0f + (float)j*2.5f, (float)height*2.5f/2.0f - (float)i*2.5f, -34.0f) *
 										vmath::scale(5.0f, 5.0f, 5.0f);
 				glUniformMatrix4fv(mv_location, 1, GL_FALSE, mv_matrix);
 				glVertexAttrib4fv(1, color);
@@ -90,7 +112,7 @@ void Level::draw(GLuint program)
 			} else 
 			{
 				GLfloat color[] = {1.0f, 1.0f, 0.0f, 1.0f}; 
-				vmath::mat4 mv_matrix = vmath::translate(-(float)width*2.5f/2.0f + (float)j*2.5f, -(float)height*2.5f/2.0f + (float)i*2.5f, -34.0f) *
+				vmath::mat4 mv_matrix = vmath::translate(-(float)width*2.5f/2.0f + (float)j*2.5f, (float)height*2.5f/2.0f - (float)i*2.5f, -34.0f) *
 										vmath::scale(5.0f, 5.0f, 5.0f);
 				glUniformMatrix4fv(mv_location, 1, GL_FALSE, mv_matrix);
 				glVertexAttrib4fv(1, color);
