@@ -30,7 +30,7 @@ class singlepoint_app : public sb6::application
 {
     void init()
     {
-        static const char title[] = "OpenGL SuperBible - Spinny Cube";
+        static const char title[] = "Dungeon - OpenGL SuperBible";
 
         sb6::application::init();
 
