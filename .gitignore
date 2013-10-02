@@ -234,3 +234,7 @@ map/map.vcxproj.user
 Debug/map.txt
 ipch/map-e24c8d92/map-ae055b8a.ipch
 map/Debug/map.vcxprojResolveAssemblyReference.cache
+Debug/fragment_shader.fg
+Debug/vertex_shader.vs
+map/Debug/fragment_shader.fg
+map/Debug/vertex_shader.vs
