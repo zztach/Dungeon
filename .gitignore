@@ -233,3 +233,4 @@ map/map.vcxproj.filters
 map/map.vcxproj.user
 Debug/map.txt
 ipch/map-e24c8d92/map-ae055b8a.ipch
+map/Debug/map.vcxprojResolveAssemblyReference.cache
