@@ -34,6 +34,7 @@ private :
 	int height;
 	char** level;		
 	GLuint buffer;
+	GLuint normals_buffer;
 };
 
 #endif

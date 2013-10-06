@@ -8,6 +8,7 @@ in VS_OUT
 } fs_in;                                                          
                                                                   
 void main(void)                                                   
-{                                                                 
-   color = fs_in.color;                                           
+{  
+// Write incoming color to the framebuffer                                                               
+   color = fs_in.color;                                              
 }                    

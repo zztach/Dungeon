@@ -56,7 +56,7 @@ class singlepoint_app : public sb6::application
         glBindVertexArray(vao);
      
         glEnable(GL_CULL_FACE);
-        glFrontFace(GL_CCW);
+        glFrontFace(GL_CW);
 
         glEnable(GL_DEPTH_TEST);
         glDepthFunc(GL_LEQUAL);
