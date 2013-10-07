@@ -4,7 +4,7 @@
 class IDrawable
 {
 public:  
-  virtual void draw(GLuint program) = 0;
+  virtual void render(GLuint program) = 0;
 };
 
 #endif

@@ -1,11 +1,23 @@
 #include "Level.h"
-using namespace std;
 
-Level::Level(int w, int h)
-{	
-	width = w;
-	height = h;
+Level::Level()
+{		
+	std::string line;	
+	ifstream mapFile;
+	mapFile.open("map.txt");
 
+	int rowNumber = 0;	
+	while(!mapFile.eof()) 
+	{				
+		getline(mapFile, line);						
+		mapLines.push_back(line);
+		rowNumber++;
+	}
+	mapFile.close();	
+
+	width = mapLines.at(0).size();
+	height = rowNumber;
+	
 	// create memory for the table that will hold table data
 	level = new char*[width];
 	for(int i=0; i< width; i++)
@@ -14,7 +26,7 @@ Level::Level(int w, int h)
 	}
 
 	srand (time(NULL));
-	// create the level
+
 	createLevel();	
 	init();
 }
@@ -31,59 +43,24 @@ Level::~Level()
 
 void Level::createLevel(void)
 {
-	string line;
-	ifstream mapFile;
-	mapFile.open("map.txt");
-
 	int rowNumber = 0;
-	while(!mapFile.eof()) 
-	{		
-		getline(mapFile, line);
-		const char *column = line.c_str();
-		for(int i=0; i<line.size(); i++)
+	for(std::vector<string>::iterator row = mapLines.begin(); row != mapLines.end(); ++row) {
+		const char *columns = (*row).c_str();		
+
+		for(int i=0; i<(*row).size(); i++)
 		{
-			if (column[i] == 'X')
+			if (columns[i] == 'X')
 				level[rowNumber][i] = TILE_WALL;
-			else if (column[i] == 'O')
+			else if (columns[i] == 'O')
 				level[rowNumber][i] = TILE_EMPTY;
 		}
 		rowNumber++;
-	}
+	}	
 
-	mapFile.close();
-
-	/*for(int x = 0; x < width; x++)
-	{
-		for(int y = 0; y < height; y++)
-		{
-			int random = rand() % 100;
-
-			if (y == 0 || y == height-1 || x ==0 || x == width -1)
-				level[x][y] = TILE_WALL;
-			else {
-				if (random < 50 || (x <3 && y < 3) )
-					level[x][y] = TILE_EMPTY;
-				else 
-					level[x][y] = TILE_WALL;
-			}
-		}
-	}*/
 }
 
 void Level::init() 
-{
-	/*static const GLfloat square_vertex_positions[] =
-    {
-        -0.25f,  0.25f, -0.25f,
-        -0.25f, -0.25f, -0.25f,
-         0.25f, -0.25f, -0.25f,
-
-         0.25f, -0.25f, -0.25f,
-         0.25f,  0.25f, -0.25f,
-        -0.25f,  0.25f, -0.25f             
-    };*/
-
-	
+{		
     static const GLfloat vertex_positions[] =
     {
 	    // back face
@@ -213,10 +190,11 @@ void Level::init()
     glEnableVertexAttribArray(1);
 }
 
-void Level::draw(GLuint program)
+void Level::render(GLuint program)
 {
 	GLuint mv_location = glGetUniformLocation(program, "mv_matrix");
-	vmath::mat4 mv_matrix_initial = vmath::translate(0.0f, 15.0f, -25.0f) * vmath::rotate(25.0f, 0.0f, 1.0f, 0.0f)  * vmath::rotate(-25.0f, 1.0f, 0.0f, 0.0f);
+	vmath::mat4 mv_matrix_initial = vmath::translate(15.0f, 15.0f, -25.0f) * vmath::rotate(25.0f, 0.0f, 1.0f, 0.0f)  * vmath::rotate(-25.0f, 1.0f, 0.0f, 0.0f);
+
 	for(int i=0; i < height; i++)
 	{
 		for(int j=0; j < width; j++)

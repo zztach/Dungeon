@@ -7,9 +7,10 @@
 #include <time.h>
 #include <fstream>
 #include <string>
+#include <vector>
 #include "IDrawable.h"
 
-using std::list;
+using namespace std;
 enum 
 {
 	TILE_EMPTY,
@@ -19,12 +20,12 @@ enum
 class Level : public IDrawable
 {
 public :
-	Level(int width = 4, int height = 4);
+	Level();
 	~Level();	
 	void update(void);		
 	// IDrawable
 	void init();
-	void draw(GLuint program);
+	void render(GLuint program);
 	
 protected: 
 	void createLevel(void);
@@ -32,7 +33,8 @@ protected:
 private :
 	int width;
 	int height;
-	char** level;		
+	char** level;
+	vector<string> mapLines;
 	GLuint buffer;
 	GLuint normals_buffer;
 };

@@ -61,23 +61,23 @@ class singlepoint_app : public sb6::application
         glEnable(GL_DEPTH_TEST);
         glDepthFunc(GL_LEQUAL);
 
-		level = new Level(10, 6);
+		level = new Level();
     }
 
     virtual void render(double currentTime)
     {
-        static const GLfloat green[] = { 0.0f, 0.25f, 0.0f, 1.0f };
+        static const GLfloat gray[] = { 0.6f, 0.6f, 0.6f, 1.0f };
         static const GLfloat one = 1.0f;
 
         glViewport(0, 0, info.windowWidth, info.windowHeight);
-        glClearBufferfv(GL_COLOR, 0, green);
+        glClearBufferfv(GL_COLOR, 0, gray);
         glClearBufferfv(GL_DEPTH, 0, &one);
 
         glUseProgram(program);
 
         glUniformMatrix4fv(proj_location, 1, GL_FALSE, proj_matrix);
 
-		level->draw(program);
+		level->render(program);
 	}
 
     virtual void shutdown()
@@ -92,7 +92,7 @@ class singlepoint_app : public sb6::application
         sb6::application::onResize(w, h);
 
         aspect = (float)w / (float)h;
-        proj_matrix = vmath::perspective(50.0f, aspect, 0.1f, 1000.0f);
+        proj_matrix = vmath::perspective(45.0f, aspect, 0.1f, 100.0f);
     }
 
 private:

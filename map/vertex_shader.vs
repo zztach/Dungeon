@@ -13,25 +13,23 @@ uniform mat4 mv_matrix;
 uniform mat4 proj_matrix;                                          
 
 // Light and material properties
-uniform vec3 light_pos = vec3(0.0, 60.0, -10.0);
+uniform vec3 light_pos = vec3(45.0, 70.0, -15.0);
 uniform vec3 diffuse_albedo = vec3(0.9, 0.2, 0.7);
-uniform vec3 specular_albedo = vec3(0.7);
+uniform vec3 specular_albedo = vec3(0.8);
 uniform float specular_power = 128.0;
-uniform vec4 ambient = vec4(0.3, 0.3, 0.3, 1.0);                                                                   
+uniform vec4 ambient = vec4(0.2, 0.2, 0.2, 1.0);                                                                   
                                                                    
 void main(void)                                                    
-{                                                                  
-    //gl_Position = proj_matrix * mv_matrix * position;              
-    //vs_out.color = position * 2.0 + vec4(0.5, 0.5, 0.5, 0.0);					
-    //vs_out.color = color;													    
-
-	// Calculate view-space coordinate
+{                                                                      
+	// Calculate coordinate in view-space
     vec4 P = mv_matrix * position;
 
-    // Calculate normal in view space
+    // Calculate normal in view-space
     vec3 N = mat3(mv_matrix) * normal;
-    // Calculate view-space light vector
+
+    // Calculate light vector in view-space
     vec3 L = light_pos - P.xyz;
+
     // Calculate view vector (simply the negative of the view-space position)
     vec3 V = -P.xyz;
 
@@ -39,6 +37,7 @@ void main(void)
     N = normalize(N);
     L = normalize(L);
     V = normalize(V);
+
     // Calculate R by reflecting -L around the plane defined by N
     vec3 R = reflect(-L, N);
 
