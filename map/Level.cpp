@@ -1,7 +1,7 @@
 #include "Level.h"
 
 Level::Level()
-{		
+{			
 	std::string line;	
 	ifstream mapFile;
 	mapFile.open("map.txt");
@@ -64,58 +64,58 @@ void Level::init()
     static const GLfloat vertex_positions[] =
     {
 	    // back face
-        -0.25f,  0.25f, -0.25f,
-        -0.25f, -0.25f, -0.25f,
-         0.25f, -0.25f, -0.25f,
+        -5*0.25f,  5*0.25f, -5*0.25f,
+        -5*0.25f, -5*0.25f, -5*0.25f,
+         5*0.25f, -5*0.25f, -5*0.25f,
 
-         0.25f, -0.25f, -0.25f,
-         0.25f,  0.25f, -0.25f,
-        -0.25f,  0.25f, -0.25f,
+         5*0.25f, -5*0.25f, -5*0.25f,
+         5*0.25f,  5*0.25f, -5*0.25f,
+        -5*0.25f,  5*0.25f, -5*0.25f,
 
 		// right face
-         0.25f, -0.25f, -0.25f,
-         0.25f, -0.25f,  0.25f,
-         0.25f,  0.25f, -0.25f,
+         5*0.25f, -5*0.25f, -5*0.25f,
+         5*0.25f, -5*0.25f,  5*0.25f,
+         5*0.25f,  5*0.25f, -5*0.25f,
 		 
-		 0.25f, -0.25f,  0.25f,
-         0.25f,  0.25f,  0.25f,
-         0.25f,  0.25f, -0.25f,
+		 5*0.25f, -5*0.25f,  5*0.25f,
+         5*0.25f,  5*0.25f,  5*0.25f,
+         5*0.25f,  5*0.25f, -5*0.25f,
 
 		 // front face
-         0.25f, -0.25f,  0.25f,
-        -0.25f, -0.25f,  0.25f,
-         0.25f,  0.25f,  0.25f,
+         5*0.25f, -5*0.25f,  5*0.25f,
+        -5*0.25f, -5*0.25f,  5*0.25f,
+         5*0.25f,  5*0.25f,  5*0.25f,
 
-        -0.25f, -0.25f,  0.25f,
-        -0.25f,  0.25f,  0.25f,
-         0.25f,  0.25f,  0.25f,
+        -5*0.25f, -5*0.25f,  5*0.25f,
+        -5*0.25f,  5*0.25f,  5*0.25f,
+         5*0.25f,  5*0.25f,  5*0.25f,
 
 		 // left face
-        -0.25f, -0.25f,  0.25f,
-        -0.25f, -0.25f, -0.25f,
-        -0.25f,  0.25f,  0.25f,
+        -5*0.25f, -5*0.25f,  5*0.25f,
+        -5*0.25f, -5*0.25f, -5*0.25f,
+        -5*0.25f,  5*0.25f,  5*0.25f,
 
-        -0.25f, -0.25f, -0.25f,
-        -0.25f,  0.25f, -0.25f,
-        -0.25f,  0.25f,  0.25f,
+        -5*0.25f, -5*0.25f, -5*0.25f,
+        -5*0.25f,  5*0.25f, -5*0.25f,
+        -5*0.25f,  5*0.25f,  5*0.25f,
 
 		 // bottom face
-        -0.25f, -0.25f,  0.25f,
-         0.25f, -0.25f,  0.25f,
-         0.25f, -0.25f, -0.25f,
+        -5*0.25f, -5*0.25f,  5*0.25f,
+         5*0.25f, -5*0.25f,  5*0.25f,
+         5*0.25f, -5*0.25f, -5*0.25f,
 
-         0.25f, -0.25f, -0.25f,
-        -0.25f, -0.25f, -0.25f,
-        -0.25f, -0.25f,  0.25f,
+         5*0.25f, -5*0.25f, -5*0.25f,
+        -5*0.25f, -5*0.25f, -5*0.25f,
+        -5*0.25f, -5*0.25f,  5*0.25f,
 
 		 // up face
-        -0.25f,  0.25f, -0.25f,
-         0.25f,  0.25f, -0.25f,
-         0.25f,  0.25f,  0.25f,
+        -5*0.25f,  5*0.25f, -5*0.25f,
+         5*0.25f,  5*0.25f, -5*0.25f,
+         5*0.25f,  5*0.25f,  5*0.25f,
 		 
-		 0.25f,  0.25f,  0.25f,
-        -0.25f,  0.25f,  0.25f,
-        -0.25f,  0.25f, -0.25f
+		 5*0.25f,  5*0.25f,  5*0.25f,
+        -5*0.25f,  5*0.25f,  5*0.25f,
+        -5*0.25f,  5*0.25f, -5*0.25f
     };
 
 	static const GLfloat vertex_normals[] =
@@ -192,8 +192,11 @@ void Level::init()
 
 void Level::render(GLuint program)
 {
-	GLuint mv_location = glGetUniformLocation(program, "mv_matrix");
-	vmath::mat4 mv_matrix_initial = vmath::translate(15.0f, 15.0f, -25.0f) * vmath::rotate(25.0f, 0.0f, 1.0f, 0.0f)  * vmath::rotate(-25.0f, 1.0f, 0.0f, 0.0f);
+	GLuint mv_location = glGetUniformLocation(program, "mv_matrix");	
+	
+	// get the camera transformation from inside the shader
+	vmath::mat4 mv_matrix_initial;
+	glGetUniformfv(program, mv_location, mv_matrix_initial);
 
 	for(int i=0; i < height; i++)
 	{
@@ -203,16 +206,18 @@ void Level::render(GLuint program)
 			if (level[i][j] == TILE_EMPTY) 
 			{									
 				GLfloat color[] = {0.5f, 0.5f, 0.5f, 1.0f}; 
-				vmath::mat4 mv_matrix = mv_matrix_initial * vmath::translate(-(float)width*2.5f/2.0f + (float)j*2.5f, (float)height*2.5f/2.0f - (float)i*2.5f, -34.0f - 1.5f) *										
-										vmath::scale(5.0f, 5.0f, 5.0f);
+				vmath::mat4 mv_matrix = mv_matrix_initial * 
+										vmath::translate(-(float)width*2.5f/2.0f + (float)j*2.5f, (float)height*2.5f/2.0f - (float)i*2.5f, -34.0f - 1.5f);
+										//* vmath::scale(5.0f, 5.0f, 5.0f);
 				glUniformMatrix4fv(mv_location, 1, GL_FALSE, mv_matrix);
 				glVertexAttrib4fv(2, color);
 				glDrawArrays(GL_TRIANGLES, 12, 6);
 			} else 
 			{
 				GLfloat color[] = {1.0f, 1.0f, 0.0f, 1.0f}; 
-				vmath::mat4 mv_matrix = mv_matrix_initial * vmath::translate(-(float)width*2.5f/2.0f + (float)j*2.5f, (float)height*2.5f/2.0f - (float)i*2.5f, -34.0f) *										
-										vmath::scale(5.0f, 5.0f, 5.0f);
+				vmath::mat4 mv_matrix = mv_matrix_initial * 
+										vmath::translate(-(float)width*2.5f/2.0f + (float)j*2.5f, (float)height*2.5f/2.0f - (float)i*2.5f, -34.0f);
+										//* vmath::scale(5.0f, 5.0f, 5.0f);
 				glUniformMatrix4fv(mv_location, 1, GL_FALSE, mv_matrix);
 				glVertexAttrib4fv(2, color);
 				glDrawArrays(GL_TRIANGLES, 0, 36);

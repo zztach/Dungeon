@@ -26,7 +26,7 @@
 #include <vmath.h>
 #include "Level.h"
 
-class singlepoint_app : public sb6::application
+class Dungeon : public sb6::application
 {
     void init()
     {
@@ -36,6 +36,29 @@ class singlepoint_app : public sb6::application
 
         memcpy(info.title, title, sizeof(title));
     }
+
+	void onKey(int key, int action)
+	{
+		if (action)
+		{
+			switch (key)
+			{
+				case 'W':
+					z += 1.0f;
+					break;				
+				case 'S':
+					z -= 1.0f;
+					break;
+				case 'D':
+					x -= 1.0f;
+					break;
+				case 'A':
+					x += 1.0f;
+					break;    
+			}
+		}
+    
+	}
 
     virtual void startup()
     {        
@@ -59,13 +82,20 @@ class singlepoint_app : public sb6::application
         glFrontFace(GL_CW);
 
         glEnable(GL_DEPTH_TEST);
-        glDepthFunc(GL_LEQUAL);
+        glDepthFunc(GL_LEQUAL);		
 
 		level = new Level();
+		x = z = 0.0f;
+		
     }
 
     virtual void render(double currentTime)
-    {
+    {			
+		// store the "initial camera" matrix
+		mv_matrix_initial = vmath::translate(15.0f + x, 15.0f, -25.0f + z) * vmath::rotate(25.0f, 0.0f, 1.0f, 0.0f)  * vmath::rotate(-25.0f, 1.0f, 0.0f, 0.0f);		
+		GLuint mv_location = glGetUniformLocation(program, "mv_matrix");
+		glUniformMatrix4fv(mv_location, 1, GL_FALSE, mv_matrix_initial);
+
         static const GLfloat gray[] = { 0.6f, 0.6f, 0.6f, 1.0f };
         static const GLfloat one = 1.0f;
 
@@ -98,13 +128,15 @@ class singlepoint_app : public sb6::application
 private:
     GLuint          program;
     GLuint          vao;
-
+	
     GLint           mv_location;
     GLint           proj_location;
 
     float           aspect;
     vmath::mat4     proj_matrix;
 	IDrawable*		level;
+	float			x, z;
+	vmath::mat4		mv_matrix_initial;
 };
 
-DECLARE_MAIN(singlepoint_app)
+DECLARE_MAIN(Dungeon)

@@ -32,7 +32,7 @@ protected:
 
 private :
 	int width;
-	int height;
+	int height;	
 	char** level;
 	vector<string> mapLines;
 	GLuint buffer;

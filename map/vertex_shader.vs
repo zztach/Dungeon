@@ -13,10 +13,10 @@ uniform mat4 mv_matrix;
 uniform mat4 proj_matrix;                                          
 
 // Light and material properties
-uniform vec3 light_pos = vec3(45.0, 70.0, -15.0);
-uniform vec3 diffuse_albedo = vec3(0.9, 0.2, 0.7);
-uniform vec3 specular_albedo = vec3(0.8);
-uniform float specular_power = 128.0;
+uniform vec3 light_pos = vec3(35.0, 50.0, -15.0);
+uniform vec3 diffuse_albedo = vec3(0.5, 0.5, 0.7);
+uniform vec3 specular_albedo = vec3(0.95);
+uniform float specular_power = 188.0;
 uniform vec4 ambient = vec4(0.2, 0.2, 0.2, 1.0);                                                                   
                                                                    
 void main(void)                                                    
@@ -46,8 +46,7 @@ void main(void)
     vec3 specular = pow(max(dot(R, V), 0.0), specular_power) * specular_albedo;
 
     // Send the color output to the fragment shader
-    vs_out.color = color * (ambient + vec4(diffuse, 1.0f) + vec4(specular, 1.0f));
-	//vs_out.color = color;
+    vs_out.color = color * (ambient + vec4(diffuse, 1.0f) + vec4(specular, 1.0f));		
 
     // Calculate the clip-space position of each vertex
     gl_Position = proj_matrix * P;
