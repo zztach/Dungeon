@@ -198,6 +198,11 @@ void Level::render(GLuint program)
 	vmath::mat4 mv_matrix_initial;
 	glGetUniformfv(program, mv_location, mv_matrix_initial);
 
+	/*GLfloat color[] = {1.0f, 1.0f, 0.0f, 1.0f}; 
+	
+				glVertexAttrib4fv(2, color);
+				glDrawArrays(GL_TRIANGLES, 0, 36);
+*/
 	for(int i=0; i < height; i++)
 	{
 		for(int j=0; j < width; j++)
@@ -205,18 +210,20 @@ void Level::render(GLuint program)
 			
 			if (level[i][j] == TILE_EMPTY) 
 			{									
-				GLfloat color[] = {0.5f, 0.5f, 0.5f, 1.0f}; 
-				vmath::mat4 mv_matrix = mv_matrix_initial * 
-										vmath::translate(-(float)width*2.5f/2.0f + (float)j*2.5f, (float)height*2.5f/2.0f - (float)i*2.5f, -34.0f - 1.5f);
+				GLfloat color[] = {1.0f, 0.0f, 0.0f, 1.0f}; 
+				vmath::mat4 mv_matrix = mv_matrix_initial *
+										vmath::translate(-(float)width*2.5f/2.0f + (float)j*2.5f, -2.5f, -34.0f -(float)height*2.5f/2.0f - (float)i*2.5f);
 										//* vmath::scale(5.0f, 5.0f, 5.0f);
 				glUniformMatrix4fv(mv_location, 1, GL_FALSE, mv_matrix);
 				glVertexAttrib4fv(2, color);
-				glDrawArrays(GL_TRIANGLES, 12, 6);
-			} else 
+				// draw only the upper face of the cube and translate it -2.5 on the y axis in order to get the floor ;)
+				glDrawArrays(GL_TRIANGLES, 30, 6);
+			} 
+			else 
 			{
 				GLfloat color[] = {1.0f, 1.0f, 0.0f, 1.0f}; 
-				vmath::mat4 mv_matrix = mv_matrix_initial * 
-										vmath::translate(-(float)width*2.5f/2.0f + (float)j*2.5f, (float)height*2.5f/2.0f - (float)i*2.5f, -34.0f);
+				vmath::mat4 mv_matrix = mv_matrix_initial *
+										vmath::translate(-(float)width*2.5f/2.0f + (float)j*2.5f, 0.0f, -34.0f -(float)height*2.5f/2.0f - (float)i*2.5f);										
 										//* vmath::scale(5.0f, 5.0f, 5.0f);
 				glUniformMatrix4fv(mv_location, 1, GL_FALSE, mv_matrix);
 				glVertexAttrib4fv(2, color);

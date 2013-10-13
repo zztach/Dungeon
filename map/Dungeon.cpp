@@ -24,6 +24,7 @@
 #include <sb6.h>
 #include <shader.h>
 #include <vmath.h>
+#include <stack>
 #include "Level.h"
 
 class Dungeon : public sb6::application
@@ -74,7 +75,8 @@ class Dungeon : public sb6::application
 
         mv_location = glGetUniformLocation(program, "mv_matrix");
         proj_location = glGetUniformLocation(program, "proj_matrix");
-
+		light_pos = glGetUniformLocation(program, "light_pos");
+		
         glGenVertexArrays(1, &vao);
         glBindVertexArray(vao);
      
@@ -86,27 +88,42 @@ class Dungeon : public sb6::application
 
 		level = new Level();
 		x = z = 0.0f;
-		
+		mv_matrix_initial = vmath::mat4::identity();
+		//mv_matrix_initial = /*vmath::rotate(-15.0f, 1.0f, 0.0f, 0.0f) * */ /*vmath::translate(10.0f, 0.0f, 10.0f) **/ vmath::rotate(-15.0f, 1.0f, 0.0f, 0.0f);
+		//mv_matrix_initial = vmath::translate(0.0f, 0.0f, 0.0f);
     }
 
     virtual void render(double currentTime)
     {			
-		// store the "initial camera" matrix
-		mv_matrix_initial = vmath::translate(15.0f + x, 15.0f, -25.0f + z) * vmath::rotate(25.0f, 0.0f, 1.0f, 0.0f)  * vmath::rotate(-25.0f, 1.0f, 0.0f, 0.0f);		
-		GLuint mv_location = glGetUniformLocation(program, "mv_matrix");
-		glUniformMatrix4fv(mv_location, 1, GL_FALSE, mv_matrix_initial);
-
-        static const GLfloat gray[] = { 0.6f, 0.6f, 0.6f, 1.0f };
+		static const GLfloat gray[] = { 0.6f, 0.6f, 0.6f, 1.0f };
         static const GLfloat one = 1.0f;
 
         glViewport(0, 0, info.windowWidth, info.windowHeight);
         glClearBufferfv(GL_COLOR, 0, gray);
         glClearBufferfv(GL_DEPTH, 0, &one);
 
-        glUseProgram(program);
+		// store the "initial camera" matrix
+		stack<vmath::mat4> modelviewStack;
 
+		modelviewStack.push(mv_matrix_initial);
+		mv_matrix_camera = modelviewStack.top() * vmath::translate(0.0f + x, -10.0f, 30.0f + z);		
+		modelviewStack.push(mv_matrix_camera);
+		
+		//mv_matrix_initial = vmath::rotate(-45.0f, 1.0f, 0.0f, 0.0f) * vmath::translate(0.0f, 10.0f, -20.0f);
+		GLuint mv_location = glGetUniformLocation(program, "mv_matrix");		
+		glUniformMatrix4fv(mv_location, 1, GL_FALSE, modelviewStack.top());               
         glUniformMatrix4fv(proj_location, 1, GL_FALSE, proj_matrix);
 
+		// w=0.0 equals directional light (sunlight), while w=1.0 equals positional light
+		vmath::vec4 light = vmath::vec4(25.0, 20.0, 15.0, 1.0f);
+		glUniform4fv(light_pos, 1, light);
+
+		glUseProgram(program);
+		level->render(program);
+
+		// object in static distance from viewer
+		modelviewStack.pop();		
+		glUniformMatrix4fv(mv_location, 1, GL_FALSE, modelviewStack.top());        
 		level->render(program);
 	}
 
@@ -131,12 +148,14 @@ private:
 	
     GLint           mv_location;
     GLint           proj_location;
+	GLint			light_pos;
 
     float           aspect;
     vmath::mat4     proj_matrix;
 	IDrawable*		level;
 	float			x, z;
 	vmath::mat4		mv_matrix_initial;
+	vmath::mat4		mv_matrix_camera;
 };
 
 DECLARE_MAIN(Dungeon)
