@@ -138,14 +138,15 @@ public:
             }
         }
 
+		glfwEnable(GLFW_KEY_REPEAT);
         startup();
 
         do
-        {
+        {			
             render(glfwGetTime());
 
             glfwSwapBuffers();
-
+			
             running &= (glfwGetKey( GLFW_KEY_ESC ) == GLFW_RELEASE);
             running &= (glfwGetWindowParam( GLFW_OPENED ) != GL_FALSE);
         } while(running);

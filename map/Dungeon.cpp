@@ -42,19 +42,33 @@ class Dungeon : public sb6::application
 	{
 		if (action)
 		{
+			float yrotrad = (rotY / 180 * 3.141592654f);					
 			switch (key)
 			{
-				case 'W':
-					z += 1.0f;
+				case 'W':						
+					z += 1.0f * float(cos(yrotrad));
+					x -= 1.0f * float(sin(yrotrad));
 					break;				
-				case 'S':
-					z -= 1.0f;
+				case 'S':					
+					z -= 1.0f * float(cos(yrotrad));
+					x += 1.0f * float(sin(yrotrad));
 					break;
-				case 'D':
-					x -= 1.0f;
-					break;
+				case 'D':					
+					//z -= 1.0f * float(cos(yrotrad));
+					//x -= 1.0f * float(sin(-yrotrad));
+					break;				
 				case 'A':
-					x += 1.0f;
+					//x += 1.0f * float(sin(yrotrad));
+					break;
+				case 'Q':
+					rotY -= 1.0f;
+				    if (rotY > 360) 
+						rotY -= 360;
+					break;    
+				case 'E':
+					rotY += 1.0f;
+					if (rotY < -360) 
+						rotY += 360;
 					break;    
 			}
 		}
@@ -87,10 +101,8 @@ class Dungeon : public sb6::application
         glDepthFunc(GL_LEQUAL);		
 
 		level = new Level();
-		x = z = 0.0f;
+		x = z = rotY = 0.0f;
 		mv_matrix_initial = vmath::mat4::identity();
-		//mv_matrix_initial = /*vmath::rotate(-15.0f, 1.0f, 0.0f, 0.0f) * */ /*vmath::translate(10.0f, 0.0f, 10.0f) **/ vmath::rotate(-15.0f, 1.0f, 0.0f, 0.0f);
-		//mv_matrix_initial = vmath::translate(0.0f, 0.0f, 0.0f);
     }
 
     virtual void render(double currentTime)
@@ -104,14 +116,17 @@ class Dungeon : public sb6::application
 
 		// store the "initial camera" matrix
 		stack<vmath::mat4> modelviewStack;
+		
+		mv_rot_camera = vmath::rotate(rotY, 0.0f, 1.0f, 0.0f);		
+		GLuint rot_location = glGetUniformLocation(program, "rot_matrix");	
+		glUniformMatrix4fv(rot_location, 1, GL_FALSE, mv_rot_camera);               
 
 		modelviewStack.push(mv_matrix_initial);
-		mv_matrix_camera = modelviewStack.top() * vmath::translate(0.0f + x, -10.0f, 30.0f + z);		
-		modelviewStack.push(mv_matrix_camera);
-		
-		//mv_matrix_initial = vmath::rotate(-45.0f, 1.0f, 0.0f, 0.0f) * vmath::translate(0.0f, 10.0f, -20.0f);
-		GLuint mv_location = glGetUniformLocation(program, "mv_matrix");		
-		glUniformMatrix4fv(mv_location, 1, GL_FALSE, modelviewStack.top());               
+				
+		mv_matrix_camera = mv_matrix_initial * vmath::translate(x, -0.0f, 30.0f + z);		
+		modelviewStack.push(mv_matrix_camera);		
+		GLuint camera_location = glGetUniformLocation(program, "camera_matrix");	
+		glUniformMatrix4fv(camera_location, 1, GL_FALSE, mv_matrix_camera);               		
         glUniformMatrix4fv(proj_location, 1, GL_FALSE, proj_matrix);
 
 		// w=0.0 equals directional light (sunlight), while w=1.0 equals positional light
@@ -121,9 +136,10 @@ class Dungeon : public sb6::application
 		glUseProgram(program);
 		level->render(program);
 
-		// object in static distance from viewer
-		modelviewStack.pop();		
-		glUniformMatrix4fv(mv_location, 1, GL_FALSE, modelviewStack.top());        
+		// object in static distance from viewer		
+		modelviewStack.pop();
+		glUniformMatrix4fv(mv_location, 1, GL_FALSE, modelviewStack.top());        		
+		glUseProgram(program);
 		level->render(program);
 	}
 
@@ -153,9 +169,10 @@ private:
     float           aspect;
     vmath::mat4     proj_matrix;
 	IDrawable*		level;
-	float			x, z;
+	float			x, z, rotY;
 	vmath::mat4		mv_matrix_initial;
 	vmath::mat4		mv_matrix_camera;
+	vmath::mat4		mv_rot_camera;
 };
 
 DECLARE_MAIN(Dungeon)
