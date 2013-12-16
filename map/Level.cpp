@@ -202,8 +202,8 @@ void Level::render(GLuint program)
 			if (level[i][j] == TILE_EMPTY) 
 			{									
 				GLfloat color[] = {1.0f, 0.0f, 0.0f, 1.0f}; 
-				vmath::mat4 mv_matrix = vmath::translate(-(float)width*2.5f/2.0f + (float)j*2.5f, -2.5f, -34.0f -(float)height*2.5f/2.0f - (float)i*2.5f);																				
-				glUniformMatrix4fv(mv_location, 1, GL_FALSE, mv_matrix);
+				glm::mat4 mv_matrix = glm::translate(glm::mat4(1.0f), glm::vec3(-(float)width*2.5f/2.0f + (float)j*2.5f, -2.5f, -34.0f -(float)height*2.5f/2.0f - (float)i*2.5f));																				
+				glUniformMatrix4fv(mv_location, 1, GL_FALSE, glm::value_ptr(mv_matrix));
 				glVertexAttrib4fv(2, color);
 				// draw only the upper face of the cube and translate it -2.5 on the y axis in order to get the floor ;)
 				glDrawArrays(GL_TRIANGLES, 30, 6);
@@ -211,9 +211,9 @@ void Level::render(GLuint program)
 			else 
 			{
 				GLfloat color[] = {1.0f, 1.0f, 0.0f, 1.0f}; 
-				vmath::mat4 mv_matrix = vmath::translate(-(float)width*2.5f/2.0f + (float)j*2.5f, 0.0f, -34.0f -(float)height*2.5f/2.0f - (float)i*2.5f);										
+				glm::mat4 mv_matrix = glm::translate(glm::mat4(1.0f), glm::vec3(-(float)width*2.5f/2.0f + (float)j*2.5f, 0.0f, -34.0f -(float)height*2.5f/2.0f - (float)i*2.5f));										
 				// rotate as first matrix operation rotates each cude around its axis. Interesting for effect
-				glUniformMatrix4fv(mv_location, 1, GL_FALSE, mv_matrix);
+				glUniformMatrix4fv(mv_location, 1, GL_FALSE, glm::value_ptr(mv_matrix));
 				glVertexAttrib4fv(2, color);
 				glDrawArrays(GL_TRIANGLES, 0, 36);
 			}

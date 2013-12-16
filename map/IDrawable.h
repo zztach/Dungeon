@@ -1,5 +1,5 @@
-#ifndef IDRAWABLE_H_
-#define IDRAWABLE_H_
+#ifndef IDRAWABLE_H
+#define IDRAWABLE_H
 
 class IDrawable
 {

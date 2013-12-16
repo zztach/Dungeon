@@ -1,14 +1,17 @@
 #ifndef LEVEL_H
 #define LEVEL_H
 
-#include <sb6.h>
-#include <vmath.h>
-#include <list>
-#include <time.h>
 #include <fstream>
 #include <string>
 #include <vector>
+#include <list>
+#include <time.h>
+#include <glew.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 #include "IDrawable.h"
+
 
 using namespace std;
 enum 
