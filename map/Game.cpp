@@ -97,6 +97,7 @@ void Game::render()
 	level->render(program);*/
 
     SDL_GL_SwapWindow(g_pWindow);  
+    SDL_GL_SetSwapInterval(1);
 }
 
 void Game::clean()
@@ -115,23 +116,39 @@ void Game::clean()
 
 void Game::handleEvents() {
     SDL_Event event;
-    float yrotrad = (rotY / 180 * 3.141592654f);
+    float yrotrad = (rotY / 180 * M_PI);
+    float zVector = .5f * float(cos(yrotrad));
+    float xVector = .5f * float(sin(yrotrad));
     while (SDL_PollEvent(&event)) {
         switch (event.type) {
             case SDL_QUIT:
                 m_bRunning = false;
                 break;
             case SDL_KEYDOWN:
+                if (event.key.keysym.sym == SDLK_ESCAPE) {
+                    m_bRunning = false;
+                    break;
+                }                               
                 if (event.key.keysym.sym == SDLK_w) {
-                    z += 1.0f * float(cos(yrotrad));
-                    x -= 1.0f * float(sin(yrotrad));
+                    z += zVector;
+                    x -= xVector;
                     break;
                 }
                 if (event.key.keysym.sym == SDLK_s) {
-                    z -= 1.0f * float(cos(yrotrad));
-                    x += 1.0f * float(sin(yrotrad));
+                    z -= zVector;
+                    x += xVector;
                     break;
                 }
+                if (event.key.keysym.sym == SDLK_a) {
+                    z -= -xVector;
+                    x += zVector;
+                    break;
+                }
+                if (event.key.keysym.sym == SDLK_d) {
+                    z += -xVector;
+                    x -= zVector;
+                    break;
+                }       
                 if (event.key.keysym.sym == SDLK_q) {
                     rotY -= 1.0f;
                     if (rotY > 360)
@@ -145,10 +162,18 @@ void Game::handleEvents() {
                     break;
                 }
                 break;
+            case SDL_MOUSEMOTION:
+                rotY += event.motion.xrel/5.0;
+                    if (rotY > 360)
+                        rotY -= 360;
+                    if (rotY < -360)
+                        rotY += 360;                
+                break;   
             default:
                 break;
         }
     }
+    SDL_SetRelativeMouseMode(SDL_TRUE);
 }
 
 std::string Game::readFile(const char *filePath)
