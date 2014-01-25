@@ -2,16 +2,16 @@
 
 bool Game::init(const char* title, int xpos, int ypos, int width, int height, int flags)
 {
-	// initialize SDL
+    // initialize SDL
     if (SDL_Init(SDL_INIT_EVERYTHING) >= 0) {
         // if succeeded create our window
-        SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-        SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
-        SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+//        SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+//        SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
+//        SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
       
         g_pWindow = SDL_CreateWindow("Chapter 1: Setting up SDL",
                 SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-                640, 480,
+                width, height,
                 SDL_WINDOW_OPENGL|SDL_WINDOW_SHOWN);
 		// Create an OpenGL context associated with the window.
         glContext = SDL_GL_CreateContext(g_pWindow);
@@ -32,33 +32,32 @@ bool Game::init(const char* title, int xpos, int ypos, int width, int height, in
        
     fprintf(stdout, "Status: Using GLEW %s\n", glewGetString(GLEW_VERSION));
     
-    GLuint program = LoadShader("C:\\Users\\zisis\\Development\\Dungeon\\map\\vertex_shader.vs", 
-                                "C:\\Users\\zisis\\Development\\Dungeon\\map\\fragment_shader.fg");
+    GLuint program = LoadShader("vertex_shader.vs", "fragment_shader.fg");
     
     mv_location = glGetUniformLocation(program, "mv_matrix");
     proj_location = glGetUniformLocation(program, "proj_matrix");
-	light_pos = glGetUniformLocation(program, "light_pos");
+    light_pos = glGetUniformLocation(program, "light_pos");
 
     printf("OpenGL %s, GLSL %s\n", glGetString(GL_VERSION), glGetString(GL_SHADING_LANGUAGE_VERSION));
     glGenVertexArrays(1, &vao);    
     glBindVertexArray(vao);  
-    
+     
     glEnable(GL_CULL_FACE);
     glFrontFace(GL_CW);
 
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LEQUAL);		
 
-	level = new Level();
-	x = z = rotY = 0.0f;
-	mv_matrix_initial = glm::mat4(1.0f);
+    level = new Level();
+    x = z = rotY = 0.0f;
+    mv_matrix_initial = glm::mat4(1.0f);
 
-	glViewport(0, 0, 640, 480);
-	aspect = (float)640 / (float)480;
-	proj_matrix = glm::perspective(45.0f, aspect, 0.1f, 100.0f);
-	std::cout << "init success\n";
-	m_bRunning = true; // everything inited successfully, start the main loop
-	return true;
+    glViewport(0, 0, width, height);
+    aspect = (float)width / (float)height;
+
+    proj_matrix = glm::perspective(45.0f, aspect, 0.1f, 100.0f);
+    m_bRunning = true; // everything inited successfully, start the main loop
+    return true;
 }
 
 void Game::render()
@@ -102,62 +101,59 @@ void Game::render()
 
 void Game::clean()
 {	
-	std::cout << "cleaning game\n";
-	glDeleteVertexArrays(1, &vao);
+    std::cout << "cleaning game\n";
+    glDeleteVertexArrays(1, &vao);
     glDeleteProgram(program);
-	delete level;
+    delete level;
 
-	if( glContext ) SDL_GL_DeleteContext(glContext);
+    if( glContext ) SDL_GL_DeleteContext(glContext);
     if( g_pWindow ) SDL_DestroyWindow(g_pWindow);
     
     // clean up SDL
     SDL_Quit();    
 }
 
-void Game::handleEvents()
-{
-	SDL_Event event;
-	float yrotrad = (rotY / 180 * 3.141592654f);					
-	while(SDL_PollEvent(&event))
-	{
-		switch (event.type)
-		{
-			case SDL_QUIT:
-				m_bRunning = false;
-				break;
-			case SDL_KEYDOWN:
+void Game::handleEvents() {
+    SDL_Event event;
+    float yrotrad = (rotY / 180 * 3.141592654f);
+    while (SDL_PollEvent(&event)) {
+        switch (event.type) {
+            case SDL_QUIT:
+                m_bRunning = false;
+                break;
+            case SDL_KEYDOWN:
                 if (event.key.keysym.sym == SDLK_w) {
                     z += 1.0f * float(cos(yrotrad));
-					x -= 1.0f * float(sin(yrotrad));
-					break;				
+                    x -= 1.0f * float(sin(yrotrad));
+                    break;
                 }
-				if (event.key.keysym.sym==SDLK_s) {
-					z -= 1.0f * float(cos(yrotrad));
-					x += 1.0f * float(sin(yrotrad));
-					break;
-                }		
-				if (event.key.keysym.sym==SDLK_q) {
-					rotY -= 1.0f;
-				    if (rotY > 360) 
-						rotY -= 360;
-					break;    
-                }	
-				if (event.key.keysym.sym==SDLK_e) {
-					rotY += 1.0f;
-					if (rotY < -360) 
-						rotY += 360;
-					break;
+                if (event.key.keysym.sym == SDLK_s) {
+                    z -= 1.0f * float(cos(yrotrad));
+                    x += 1.0f * float(sin(yrotrad));
+                    break;
+                }
+                if (event.key.keysym.sym == SDLK_q) {
+                    rotY -= 1.0f;
+                    if (rotY > 360)
+                        rotY -= 360;
+                    break;
+                }
+                if (event.key.keysym.sym == SDLK_e) {
+                    rotY += 1.0f;
+                    if (rotY < -360)
+                        rotY += 360;
+                    break;
                 }
                 break;
-			default:
-				break;
-		}
-	}
+            default:
+                break;
+        }
+    }
 }
 
 std::string Game::readFile(const char *filePath)
 {
-	std::string content;
+    std::string content;
     std::ifstream fileStream(filePath, std::ios::in);
 
     if(!fileStream.is_open()) {
@@ -177,7 +173,7 @@ std::string Game::readFile(const char *filePath)
 
 GLuint Game::LoadShader(const char *vertex_path, const char *fragment_path)
 {
-	 GLuint vertShader = glCreateShader(GL_VERTEX_SHADER);
+    GLuint vertShader = glCreateShader(GL_VERTEX_SHADER);
     GLuint fragShader = glCreateShader(GL_FRAGMENT_SHADER);
 
     // Read shaders
