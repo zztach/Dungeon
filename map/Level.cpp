@@ -186,15 +186,15 @@ void Level::render(GLuint program) {
     for (int i = 0; i < height; i++) {
         for (int j = 0; j < width; j++) {
 
-            if (level[i][j] == TILE_EMPTY) {
+            /*if (level[i][j] == TILE_EMPTY) {
                 GLfloat color[] = {1.0f, 0.0f, 0.0f, 1.0f};
                 glm::mat4 mv_matrix = glm::translate(glm::mat4(1.0f), glm::vec3(-(float) width * 2.5f / 2.0f + (float) j * 2.5f, -2.5f, -34.0f - (float) height * 2.5f / 2.0f - (float) i * 2.5f));
                 glUniformMatrix4fv(mv_location, 1, GL_FALSE, glm::value_ptr(mv_matrix));
                 glVertexAttrib4fv(2, color);
                 // draw only the upper face of the cube and translate it -2.5 on the y axis in order to get the floor ;)
                 glDrawArrays(GL_TRIANGLES, 30, 6);
-            }
-            else {
+            }*/
+            if (level[i][j] == TILE_WALL) {
                 GLfloat color[] = {1.0f, 1.0f, 0.0f, 1.0f};
                 glm::mat4 mv_matrix = glm::translate(glm::mat4(1.0f), glm::vec3(-(float) width * 2.5f / 2.0f + (float) j * 2.5f, 0.0f, -34.0f - (float) height * 2.5f / 2.0f - (float) i * 2.5f));
                 // rotate as first matrix operation rotates each cude around its axis. Interesting for effect
@@ -203,6 +203,16 @@ void Level::render(GLuint program) {
                 glDrawArrays(GL_TRIANGLES, 0, 36);
             }
 
+        }
+    }
+    // generate floor
+     for (int i = -height*4; i < height * 4; i++) {
+        for (int j = -width*4; j < width * 4; j++) {
+            GLfloat color[] = {0.9f, 0.9f, 0.9f, 0.0f};
+            glm::mat4 mv_matrix = glm::translate(glm::mat4(1.0f), glm::vec3(-(float) width * 2.5f / 2.0f + (float) j * 2.5f, -2.5f, -34.0f - (float) height * 2.5f / 2.0f - (float) i * 2.5f));
+            glUniformMatrix4fv(mv_location, 1, GL_FALSE, glm::value_ptr(mv_matrix));
+            glVertexAttrib4fv(2, color);
+            glDrawArrays(GL_TRIANGLES, 30, 6);
         }
     }
 }

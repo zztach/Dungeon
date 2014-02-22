@@ -71,20 +71,20 @@ void Game::render()
 	// store the "initial camera" matrix
 	stack<glm::mat4> modelviewStack;
 		
-	mv_rot_camera = glm::rotate(glm::mat4(1.0f), rotY, glm::vec3(0.0f, 1.0f, 0.0f));		
+	mv_rot_camera = glm::rotate(mv_matrix_initial, rotY, glm::vec3(0.0f, 1.0f, 0.0f));		
 	GLuint rot_location = glGetUniformLocation(program, "rot_matrix");	
 	glUniformMatrix4fv(rot_location, 1, GL_FALSE, glm::value_ptr(mv_rot_camera));               
 
 	modelviewStack.push(mv_matrix_initial);
 				
-	mv_matrix_camera = glm::translate(mv_matrix_initial, glm::vec3(x, -0.0f, 30.0f + z));		
+	mv_matrix_camera = glm::translate(mv_matrix_initial, glm::vec3(x, 0.0f, 30.0f + z));		
 	modelviewStack.push(mv_matrix_camera);		
 	GLuint camera_location = glGetUniformLocation(program, "camera_matrix");	
 	glUniformMatrix4fv(camera_location, 1, GL_FALSE, glm::value_ptr(mv_matrix_camera));               		
 	glUniformMatrix4fv(proj_location, 1, GL_FALSE, glm::value_ptr(proj_matrix));
 
 	// w=0.0 equals directional light (sunlight), while w=1.0 equals positional light
-	glm::vec4 light = glm::vec4(25.0, 20.0, 15.0, 1.0f);
+	glm::vec4 light = glm::vec4(25.0, 20.0, 15.0, 0.0f);
 	glUniform4fv(light_pos, 1, glm::value_ptr(light));
 	
 	glUseProgram(program);
