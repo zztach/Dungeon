@@ -23,20 +23,20 @@ uniform vec4 ambient = vec4(0.2, 0.2, 0.2, 1.0);
                                                                    
 void main(void)                                                    
 {                                                                      
-	// Calculate coordinate in view-space
+    // Calculate coordinate in view-space
     vec4 P = rot_matrix * camera_matrix * mv_matrix * position;
 
     // Calculate normal in view-space	
     vec3 N = mat3(mv_matrix) * normal;
 
     // Calculate light vector in view-space
-	vec3 L;
-	if (light_pos.w == 0.0f)
-		L = light_pos.xyz;
-	else 
-	    L = light_pos.xyz - P.xyz;    
-		// this ones moves the light along with the camera
-		//L = mat3(mv_matrix)*light_pos.xyz - P.xyz;
+    vec3 L;
+    if (light_pos.w == 0.0f)
+            L = light_pos.xyz;
+    else 
+        L = light_pos.xyz - P.xyz;    
+            // this ones moves the light along with the camera
+            //L = mat3(mv_matrix)*light_pos.xyz - P.xyz;
 
     // Calculate view vector (simply the negative of the view-space position)
     //vec3 V = -P.xyz;
@@ -57,6 +57,6 @@ void main(void)
     vs_out.color = color * (ambient + vec4(diffuse, 1.0f));// + vec4(specular, 1.0f));		
 
     // Calculate the clip-space position of each vertex
-	// adding here the transformations we get steady light    
-	gl_Position = proj_matrix *  P;
+    // adding here the transformations we get steady light    
+    gl_Position = proj_matrix *  P;
 }                                                                  

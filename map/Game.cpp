@@ -9,11 +9,11 @@ bool Game::init(const char* title, int xpos, int ypos, int width, int height, in
 //        SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
 //        SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
       
-        g_pWindow = SDL_CreateWindow("Chapter 1: Setting up SDL",
+        g_pWindow = SDL_CreateWindow("Dungeon",
                 SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
                 width, height,
                 SDL_WINDOW_OPENGL|SDL_WINDOW_SHOWN);
-		// Create an OpenGL context associated with the window.
+	// Create an OpenGL context associated with the window.
         glContext = SDL_GL_CreateContext(g_pWindow);
         if (glContext != NULL)
             std::cout << "GL Context setup properly" << std::endl;        
@@ -34,15 +34,10 @@ bool Game::init(const char* title, int xpos, int ypos, int width, int height, in
     
     GLuint program = LoadShader("vertex_shader.vs", "fragment_shader.fg");
     
-    mv_location = glGetUniformLocation(program, "mv_matrix");
-    proj_location = glGetUniformLocation(program, "proj_matrix");
-    light_pos = glGetUniformLocation(program, "light_pos");
-
     printf("OpenGL %s, GLSL %s\n", glGetString(GL_VERSION), glGetString(GL_SHADING_LANGUAGE_VERSION));
-    glGenVertexArrays(1, &vao);    
-    glBindVertexArray(vao);  
      
     glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
     glFrontFace(GL_CW);
 
     glEnable(GL_DEPTH_TEST);
@@ -68,33 +63,38 @@ void Game::render()
     glClearBufferfv(GL_COLOR, 0, gray);
     glClearBufferfv(GL_DEPTH, 0, &one);
 
-	// store the "initial camera" matrix
-	stack<glm::mat4> modelviewStack;
-		
-	mv_rot_camera = glm::rotate(mv_matrix_initial, rotY, glm::vec3(0.0f, 1.0f, 0.0f));		
-	GLuint rot_location = glGetUniformLocation(program, "rot_matrix");	
-	glUniformMatrix4fv(rot_location, 1, GL_FALSE, glm::value_ptr(mv_rot_camera));               
+    // store the "initial camera" matrix
+    stack<glm::mat4> modelviewStack;
 
-	modelviewStack.push(mv_matrix_initial);
-				
-	mv_matrix_camera = glm::translate(mv_matrix_initial, glm::vec3(x, 0.0f, 30.0f + z));		
-	modelviewStack.push(mv_matrix_camera);		
-	GLuint camera_location = glGetUniformLocation(program, "camera_matrix");	
-	glUniformMatrix4fv(camera_location, 1, GL_FALSE, glm::value_ptr(mv_matrix_camera));               		
-	glUniformMatrix4fv(proj_location, 1, GL_FALSE, glm::value_ptr(proj_matrix));
+    mv_rot_camera = glm::rotate(mv_matrix_initial, rotY, glm::vec3(0.0f, 1.0f, 0.0f));		
+    GLuint rot_location = glGetUniformLocation(program, "rot_matrix");	
+    glUniformMatrix4fv(rot_location, 1, GL_FALSE, glm::value_ptr(mv_rot_camera));               
 
-	// w=0.0 equals directional light (sunlight), while w=1.0 equals positional light
-	glm::vec4 light = glm::vec4(25.0, 20.0, 15.0, 0.0f);
-	glUniform4fv(light_pos, 1, glm::value_ptr(light));
-	
-	glUseProgram(program);
-	level->render(program);
+    modelviewStack.push(mv_matrix_initial);
 
-	// object in static distance from viewer		
-	/*modelviewStack.pop();
-	glUniformMatrix4fv(mv_location, 1, GL_FALSE, glm::value_ptr(modelviewStack.top()));        		
-	glUseProgram(program);
-	level->render(program);*/
+    mv_matrix_camera = glm::translate(mv_matrix_initial, glm::vec3(x, 0.0f, 30.0f + z));		
+    modelviewStack.push(mv_matrix_camera);		
+    GLuint camera_location = glGetUniformLocation(program, "camera_matrix");	
+    glUniformMatrix4fv(camera_location, 1, GL_FALSE, glm::value_ptr(mv_matrix_camera));               		
+
+    // set the projection matrix
+    GLint proj_location = glGetUniformLocation(program, "proj_matrix");
+    glUniformMatrix4fv(proj_location, 1, GL_FALSE, glm::value_ptr(proj_matrix));
+
+    // w=0.0 equals directional light (sunlight), while w=1.0 equals positional light
+    // set the light matrix
+    glm::vec4 light = glm::vec4(25.0, 20.0, 15.0, 0.0f);
+    GLint light_pos = glGetUniformLocation(program, "light_pos");
+    glUniform4fv(light_pos, 1, glm::value_ptr(light));
+
+    glUseProgram(program);
+    level->render(program);
+
+    // object in static distance from viewer		
+    /*modelviewStack.pop();
+    glUniformMatrix4fv(mv_location, 1, GL_FALSE, glm::value_ptr(modelviewStack.top()));        		
+    glUseProgram(program);
+    level->render(program);*/
 
     SDL_GL_SwapWindow(g_pWindow);  
     SDL_GL_SetSwapInterval(1);
@@ -103,7 +103,6 @@ void Game::render()
 void Game::clean()
 {	
     std::cout << "cleaning game\n";
-    glDeleteVertexArrays(1, &vao);
     glDeleteProgram(program);
     delete level;
 

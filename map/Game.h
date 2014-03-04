@@ -34,23 +34,19 @@ private:
 	std::string readFile(const char *filePath);
 	GLuint LoadShader(const char *vertex_path, const char *fragment_path);
 private:
-	SDL_Window* g_pWindow;
-	SDL_GLContext glContext;
-	GLuint          vao;
-	GLuint program;
-	bool m_bRunning;
-
-    GLint           mv_location;
-    GLint           proj_location;
-	GLint			light_pos;
+    
+    SDL_Window* g_pWindow;
+    SDL_GLContext glContext;
+    GLuint program;
+    bool m_bRunning;
 
     float           aspect;
     glm::mat4       proj_matrix;
-	IDrawable*		level;
-	float			x, z, rotY;
-	glm::mat4		mv_matrix_initial;
-	glm::mat4		mv_matrix_camera;
-	glm::mat4		mv_rot_camera;
+    IDrawable*      level;
+    float           x, z, rotY;
+    glm::mat4       mv_matrix_initial;
+    glm::mat4       mv_matrix_camera;
+    glm::mat4       mv_rot_camera;
 };
 
 #endif
