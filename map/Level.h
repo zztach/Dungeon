@@ -34,8 +34,8 @@ protected:
 	void createLevel(void);
 
 private :
-	int width;
-	int height;		
+	int width;              // # of columns in map.txt
+	int height;             // # of lines in map.txt		
 	char** level;
 	vector<string> mapLines;
 	GLuint buffer;

@@ -1,5 +1,6 @@
 #version 420 core                                                  
-                                                                   
+                                         
+// the incoming vertex                          
 layout (location = 0) in vec4 position;                                                          
 layout (location = 1) in vec3 normal;
 layout (location = 2) in vec4 color; 
@@ -10,7 +11,6 @@ out VS_OUT
 } vs_out;                                                          
 
 uniform mat4 camera_matrix;                                                                   
-uniform mat4 rot_matrix;                                                                   
 uniform mat4 mv_matrix;                                            
 uniform mat4 proj_matrix;                                          
 uniform vec4 light_pos;
@@ -24,10 +24,13 @@ uniform vec4 ambient = vec4(0.2, 0.2, 0.2, 1.0);
 void main(void)                                                    
 {                                                                      
     // Calculate coordinate in view-space
-    vec4 P = rot_matrix * camera_matrix * mv_matrix * position;
+    // add mv_rot_camera just left of position to rotate cubes individually
+    vec4 P = camera_matrix * mv_matrix * position;
 
-    // Calculate normal in view-space	
-    vec3 N = mat3(mv_matrix) * normal;
+    // Calculate normal in view-space. For further explanation check
+    // http://tomdalling.com/blog/modern-opengl/06-diffuse-point-lighting/ and
+    // http://en.wikibooks.org/wiki/GLSL_Programming/Applying_Matrix_Transformations	
+    vec3 N = transpose(inverse(mat3(mv_matrix))) * normal;
 
     // Calculate light vector in view-space
     vec3 L;

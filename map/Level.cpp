@@ -183,7 +183,9 @@ void Level::init() {
 void Level::render(GLuint program) {
     GLuint mv_location = glGetUniformLocation(program, "mv_matrix");
 
+    // iterating the lines of map.txt
     for (int i = 0; i < height; i++) {
+        // iterating the columns of map.txt
         for (int j = 0; j < width; j++) {
 
             /*if (level[i][j] == TILE_EMPTY) {
@@ -196,8 +198,9 @@ void Level::render(GLuint program) {
             }*/
             if (level[i][j] == TILE_WALL) {
                 GLfloat color[] = {1.0f, 1.0f, 0.0f, 1.0f};
+                //                                                                   map_width_center + currect_cube_x,           0  ,            map_height_center - current_cube_y                       
                 glm::mat4 mv_matrix = glm::translate(glm::mat4(1.0f), glm::vec3(-(float) width * 2.5f / 2.0f + (float) j * 2.5f, 0.0f, -34.0f - (float) height * 2.5f / 2.0f - (float) i * 2.5f));
-                // rotate as first matrix operation rotates each cude around its axis. Interesting for effect
+                // rotate as first matrix operation rotates each cube around its axis. Interesting for effect
                 glUniformMatrix4fv(mv_location, 1, GL_FALSE, glm::value_ptr(mv_matrix));
                 glVertexAttrib4fv(2, color);
                 glDrawArrays(GL_TRIANGLES, 0, 36);

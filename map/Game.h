@@ -21,14 +21,14 @@ class Game
 public: 
 	Game() {}
 	~Game() {}
-	// simply set the running variable to true
-	bool init(const char* title, int xpos, int ypos, int width, int height, int flags);
+	bool init(const char* title, const int xpos, const int ypos, 
+                   const int width, const int height, const int flags);
 	void render();
 	void update() {};
 	void handleEvents();
 	void clean();
 	// a function to access the private running variable
-	bool running() { return m_bRunning; }
+	const bool running() { return m_bRunning; }
 
 private:
 	std::string readFile(const char *filePath);
