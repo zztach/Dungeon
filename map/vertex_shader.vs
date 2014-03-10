@@ -3,11 +3,13 @@
 // the incoming vertex                          
 layout (location = 0) in vec4 position;                                                          
 layout (location = 1) in vec3 normal;
-layout (location = 2) in vec4 color; 
-                                                                                                  
+layout (location = 2) in vec4 color;       
+layout (location = 3) in vec2 vertTexCoord;
+                                                                                            
 out VS_OUT                                                         
 {                                                                  
-    vec4 color;                                                    
+    vec4 color;                            
+    vec2 fragTexCoord;                        
 } vs_out;                                                          
 
 uniform mat4 camera_matrix;                                                                   
@@ -19,7 +21,7 @@ uniform vec4 light_pos;
 uniform vec3 diffuse_albedo = vec3(0.5, 0.5, 0.7);
 uniform vec3 specular_albedo = vec3(0.95);
 uniform float specular_power = 188.0;
-uniform vec4 ambient = vec4(0.2, 0.2, 0.2, 1.0);                                                                   
+uniform vec4 ambient = vec4(0.6, 0.6, 0.6, 1.0);                                                                   
                                                                    
 void main(void)                                                    
 {                                                                      
@@ -58,6 +60,9 @@ void main(void)
 
     // Send the color output to the fragment shader
     vs_out.color = color * (ambient + vec4(diffuse, 1.0f));// + vec4(specular, 1.0f));		
+
+    // Pass the texture coordinate to the fragment shader
+    vs_out.fragTexCoord = vertTexCoord;
 
     // Calculate the clip-space position of each vertex
     // adding here the transformations we get steady light    

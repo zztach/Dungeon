@@ -11,6 +11,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <glew.h>
 
 using std::string;
 using std::ifstream;
@@ -19,6 +20,7 @@ class ImageLoader
 {
 public:
     virtual bool load(string filename) = 0;
+    GLubyte* getImageData(); 
 };
 
 

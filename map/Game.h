@@ -8,6 +8,8 @@
 #include <vector>
 #include <algorithm>
 #include <stack>
+#include "Texture.h"
+#include "TgaImageLoader.h"
 #include "Level.h"
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -40,6 +42,8 @@ private:
     GLuint program;
     bool m_bRunning;
 
+    Texture* tex;
+    
     float           aspect;
     glm::mat4       proj_matrix;
     IDrawable*      level;

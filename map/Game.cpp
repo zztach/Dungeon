@@ -43,7 +43,7 @@ bool Game::init(const char* title, const int xpos, const int ypos,
 
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LEQUAL);		
-
+    
     level = new Level();
     x = z = rotY = 0.0f;
     mv_matrix_initial = glm::mat4(1.0f);
@@ -52,6 +52,16 @@ bool Game::init(const char* title, const int xpos, const int ypos,
     aspect = (float)width / (float)height;
 
     proj_matrix = glm::perspective(45.0f, aspect, 0.1f, 100.0f);
+    
+    TgaImageLoader* imgLoader = new TgaImageLoader();
+    //if (imgLoader->load("stone_wall.bmp")) {
+    if (imgLoader->load2("mossy_wall.tga")) {
+        tex = new Texture(imgLoader);
+        tex->load();
+    } else {
+        std::cout << " Problem loading TGA image" << std::endl;
+    }
+    delete imgLoader;
     m_bRunning = true; // everything inited successfully, start the main loop
     return true;
 }
@@ -63,7 +73,7 @@ void Game::render()
     
     glClearBufferfv(GL_COLOR, 0, gray);
     glClearBufferfv(GL_DEPTH, 0, &one);
-
+    
     // store the "initial camera" matrix
     stack<glm::mat4> modelviewStack;
 
@@ -86,6 +96,12 @@ void Game::render()
     GLint light_pos = glGetUniformLocation(program, "light_pos");
     glUniform4fv(light_pos, 1, glm::value_ptr(light));
 
+    // set the texture
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, tex->getTexture());
+    GLint programTex = glGetUniformLocation(program, "tex");
+    glUniform1i(programTex, 0);
+    
     glUseProgram(program);
     level->render(program);
 
@@ -104,7 +120,7 @@ void Game::clean()
     std::cout << "cleaning game\n";
     glDeleteProgram(program);
     delete level;
-
+    delete tex;
     if( glContext ) SDL_GL_DeleteContext(glContext);
     if( g_pWindow ) SDL_DestroyWindow(g_pWindow);
     

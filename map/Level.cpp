@@ -55,58 +55,60 @@ void Level::createLevel(void) {
 void Level::init() {
     static const GLfloat vertex_positions[] ={
         // back face
-        -5 * 0.25f, 5 * 0.25f, -5 * 0.25f,
-        -5 * 0.25f, -5 * 0.25f, -5 * 0.25f,
-        5 * 0.25f, -5 * 0.25f, -5 * 0.25f,
+        -5 * 0.25f, 5 * 0.25f, -5 * 0.25f, 0.0f, 0.0f,
+        -5 * 0.25f, -5 * 0.25f, -5 * 0.25f, 0.0f, 1.0f,
+        5 * 0.25f, -5 * 0.25f, -5 * 0.25f, 1.0f, 1.0f,
 
-        5 * 0.25f, -5 * 0.25f, -5 * 0.25f,
-        5 * 0.25f, 5 * 0.25f, -5 * 0.25f,
-        -5 * 0.25f, 5 * 0.25f, -5 * 0.25f,
+        5 * 0.25f, -5 * 0.25f, -5 * 0.25f, 0.0f, 0.0f,
+        5 * 0.25f, 5 * 0.25f, -5 * 0.25f, 0.0f, 1.0f,
+        -5 * 0.25f, 5 * 0.25f, -5 * 0.25f, 1.0f, 1.0f,
 
         // right face
-        5 * 0.25f, -5 * 0.25f, -5 * 0.25f,
-        5 * 0.25f, -5 * 0.25f, 5 * 0.25f,
-        5 * 0.25f, 5 * 0.25f, -5 * 0.25f,
+        5 * 0.25f, -5 * 0.25f, -5 * 0.25f, 0.0f, 1.0f,
+        5 * 0.25f, -5 * 0.25f, 5 * 0.25f, 0.0f, 0.0f,
+        5 * 0.25f, 5 * 0.25f, -5 * 0.25f, 1.0f, 1.0f,
 
-        5 * 0.25f, -5 * 0.25f, 5 * 0.25f,
-        5 * 0.25f, 5 * 0.25f, 5 * 0.25f,
-        5 * 0.25f, 5 * 0.25f, -5 * 0.25f,
+        5 * 0.25f, -5 * 0.25f, 5 * 0.25f, 0.0f, 0.0f,
+        5 * 0.25f, 5 * 0.25f, 5 * 0.25f, 0.0f, 1.0f,
+        5 * 0.25f, 5 * 0.25f, -5 * 0.25f, 1.0f, 1.0f,
 
-        // front face
-        5 * 0.25f, -5 * 0.25f, 5 * 0.25f,
-        -5 * 0.25f, -5 * 0.25f, 5 * 0.25f,
-        5 * 0.25f, 5 * 0.25f, 5 * 0.25f,
+        // front face 
+        // bottom triangle
+        5 * 0.25f, -5 * 0.25f, 5 * 0.25f, 0.0f, 1.0f,
+        -5 * 0.25f, -5 * 0.25f, 5 * 0.25f, 0.0f, 0.0f,
+        5 * 0.25f, 5 * 0.25f, 5 * 0.25f, 1.0f, 1.0f,
 
-        -5 * 0.25f, -5 * 0.25f, 5 * 0.25f,
-        -5 * 0.25f, 5 * 0.25f, 5 * 0.25f,
-        5 * 0.25f, 5 * 0.25f, 5 * 0.25f,
+        // upper triangle
+        -5 * 0.25f, -5 * 0.25f, 5 * 0.25f, 0.0f, 0.0f,
+        -5 * 0.25f, 5 * 0.25f, 5 * 0.25f, 0.0f, 1.0f,
+        5 * 0.25f, 5 * 0.25f, 5 * 0.25f, 1.0f, 1.0f,
 
         // left face
-        -5 * 0.25f, -5 * 0.25f, 5 * 0.25f,
-        -5 * 0.25f, -5 * 0.25f, -5 * 0.25f,
-        -5 * 0.25f, 5 * 0.25f, 5 * 0.25f,
+        -5 * 0.25f, -5 * 0.25f, 5 * 0.25f, 0.0f, 1.0f,
+        -5 * 0.25f, -5 * 0.25f, -5 * 0.25f, 0.0f, 0.0f,
+        -5 * 0.25f, 5 * 0.25f, 5 * 0.25f, 1.0f, 1.0f,
 
-        -5 * 0.25f, -5 * 0.25f, -5 * 0.25f,
-        -5 * 0.25f, 5 * 0.25f, -5 * 0.25f,
-        -5 * 0.25f, 5 * 0.25f, 5 * 0.25f,
+        -5 * 0.25f, -5 * 0.25f, -5 * 0.25f, 0.0f, 0.0f,
+        -5 * 0.25f, 5 * 0.25f, -5 * 0.25f, 0.0f, 1.0f,
+        -5 * 0.25f, 5 * 0.25f, 5 * 0.25f, 1.0f, 1.0f,
 
         // bottom face
-        -5 * 0.25f, -5 * 0.25f, 5 * 0.25f,
-        5 * 0.25f, -5 * 0.25f, 5 * 0.25f,
-        5 * 0.25f, -5 * 0.25f, -5 * 0.25f,
+        -5 * 0.25f, -5 * 0.25f, 5 * 0.25f, 1.0f, 0.0f,
+        5 * 0.25f, -5 * 0.25f, 5 * 0.25f, 0.0f, 0.0f,
+        5 * 0.25f, -5 * 0.25f, -5 * 0.25f, 0.0f, 1.0f,
 
-        5 * 0.25f, -5 * 0.25f, -5 * 0.25f,
-        -5 * 0.25f, -5 * 0.25f, -5 * 0.25f,
-        -5 * 0.25f, -5 * 0.25f, 5 * 0.25f,
+        5 * 0.25f, -5 * 0.25f, -5 * 0.25f, 0.0f, 0.0f,
+        -5 * 0.25f, -5 * 0.25f, -5 * 0.25f, 0.0f, 1.0f,
+        -5 * 0.25f, -5 * 0.25f, 5 * 0.25f, 1.0f, 1.0f,
 
         // up face
-        -5 * 0.25f, 5 * 0.25f, -5 * 0.25f,
-        5 * 0.25f, 5 * 0.25f, -5 * 0.25f,
-        5 * 0.25f, 5 * 0.25f, 5 * 0.25f,
+        -5 * 0.25f, 5 * 0.25f, -5 * 0.25f, 1.0f, 0.0f,
+        5 * 0.25f, 5 * 0.25f, -5 * 0.25f, 0.0f, 0.0f,
+        5 * 0.25f, 5 * 0.25f, 5 * 0.25f, 0.0f, 1.0f,
 
-        5 * 0.25f, 5 * 0.25f, 5 * 0.25f,
-        -5 * 0.25f, 5 * 0.25f, 5 * 0.25f,
-        -5 * 0.25f, 5 * 0.25f, -5 * 0.25f
+        5 * 0.25f, 5 * 0.25f, 5 * 0.25f, 0.0f, 0.0f,
+        -5 * 0.25f, 5 * 0.25f, 5 * 0.25f, 0.0f, 1.0f,
+        -5 * 0.25f, 5 * 0.25f, -5 * 0.25f, 1.0f, 1.0f,
     };
 
     static const GLfloat vertex_normals[] ={
@@ -165,12 +167,15 @@ void Level::init() {
         0.0f, 1.0f, 0.0f,
     };
 
-    // load vertex positions into the buffer, input to vertex attribute 0
+    // load vertex positions into the buffer, input to vertex attributes 0,3
     glGenBuffers(1, &buffer);
     glBindBuffer(GL_ARRAY_BUFFER, buffer);
     glBufferData(GL_ARRAY_BUFFER, sizeof (vertex_positions), vertex_positions, GL_STATIC_DRAW);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5*sizeof(GLfloat), NULL);
     glEnableVertexAttribArray(0);
+
+    glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, 5*sizeof(GLfloat), (const GLvoid*)(3 * sizeof(GLfloat)));
+    glEnableVertexAttribArray(3);
 
     // load vertex normals into another buffer, input to vertex attribute 2
     glGenBuffers(1, &normals_buffer);
@@ -208,6 +213,7 @@ void Level::render(GLuint program) {
 
         }
     }
+    
     // generate floor
      for (int i = -height*4; i < height * 4; i++) {
         for (int j = -width*4; j < width * 4; j++) {

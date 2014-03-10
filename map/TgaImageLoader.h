@@ -8,6 +8,7 @@
 #ifndef TGAIMAGELOADER_H
 #define	TGAIMAGELOADER_H
 #include "ImageLoader.h"
+#include <iostream>
 #include <glew.h>
 
 struct TGA_Header
@@ -28,16 +29,24 @@ struct TGA_Header
 class TgaImageLoader: public ImageLoader 
 {
 public:
+    TgaImageLoader();
+    ~TgaImageLoader();
     bool load(string filename);
+    bool load2(string filename);
+    GLubyte* getImageData() const;
 // Variables
 private:
 	// the image data read from the image file
-	unsigned char *imageData;
+	GLubyte* imageData;
 	// bits per pixel
 	unsigned int bpp;
 	// width and height of our texture
 	unsigned int width;
 	unsigned int height;
+        // Data read from the header of the BMP file
+        unsigned char header[54]; // Each BMP file begins by a 54-bytes header
+        unsigned int dataPos;     // Position in the file where the actual data begins
+        unsigned int imageSize;   // = width*height*3
 };
 
 #endif	/* TGAIMAGELOADER_H */
