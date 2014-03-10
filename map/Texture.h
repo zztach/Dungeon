@@ -7,7 +7,7 @@
 
 #ifndef TEXTURE_H
 #define	TEXTURE_H
-#include "TgaImageLoader.h"
+#include "TextureImage.h"
 #include <iostream>
 #include <SDL.h>
 #include <glew.h>
@@ -16,15 +16,13 @@
 class Texture
 {
 public:
-    Texture(TgaImageLoader* imgLoader);
+    Texture(TextureImage* imgLoader);
     ~Texture();
     void load();
     GLuint getTexture() const;
     
 private:
-    void generate_texture(float * data, int width, int height);
-    TgaImageLoader* imgLoader;
-    float * data;
+    TextureImage* textureImage;
     GLuint texture;
 };
 

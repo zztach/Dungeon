@@ -9,7 +9,9 @@
 #include <algorithm>
 #include <stack>
 #include "Texture.h"
+#include "ImageLoader.h"
 #include "TgaImageLoader.h"
+#include "BmpImageLoader.h"
 #include "Level.h"
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>

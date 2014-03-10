@@ -53,10 +53,14 @@ bool Game::init(const char* title, const int xpos, const int ypos,
 
     proj_matrix = glm::perspective(45.0f, aspect, 0.1f, 100.0f);
     
-    TgaImageLoader* imgLoader = new TgaImageLoader();
-    //if (imgLoader->load("stone_wall.bmp")) {
-    if (imgLoader->load2("mossy_wall.tga")) {
-        tex = new Texture(imgLoader);
+//    ImageLoader* imgLoader = new TgaImageLoader();
+//    TextureImage* texImage = imgLoader->load("mossy_wall.tga"); 
+
+    ImageLoader* imgLoader = new BmpImageLoader();
+    TextureImage* texImage = imgLoader->load("stone_wall.bmp"); 
+    
+    if (texImage != NULL) {
+        tex = new Texture(texImage);
         tex->load();
     } else {
         std::cout << " Problem loading TGA image" << std::endl;

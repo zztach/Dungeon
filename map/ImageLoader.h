@@ -12,6 +12,7 @@
 #include <fstream>
 #include <string>
 #include <glew.h>
+#include "TextureImage.h"
 
 using std::string;
 using std::ifstream;
@@ -19,8 +20,8 @@ using std::ifstream;
 class ImageLoader 
 {
 public:
-    virtual bool load(string filename) = 0;
-    GLubyte* getImageData(); 
+    virtual ~ImageLoader() {};
+    virtual TextureImage* load(string filename) = 0;
 };
 
 
