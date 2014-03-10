@@ -53,11 +53,11 @@ bool Game::init(const char* title, const int xpos, const int ypos,
 
     proj_matrix = glm::perspective(45.0f, aspect, 0.1f, 100.0f);
     
-//    ImageLoader* imgLoader = new TgaImageLoader();
-//    TextureImage* texImage = imgLoader->load("mossy_wall.tga"); 
+    ImageLoader* imgLoader = new TgaImageLoader();
+    TextureImage* texImage = imgLoader->load("mossy_wall.tga"); 
 
-    ImageLoader* imgLoader = new BmpImageLoader();
-    TextureImage* texImage = imgLoader->load("stone_wall.bmp"); 
+//    ImageLoader* imgLoader = new BmpImageLoader();
+//    TextureImage* texImage = imgLoader->load("stone_wall.bmp"); 
     
     if (texImage != NULL) {
         tex = new Texture(texImage);
@@ -66,6 +66,7 @@ bool Game::init(const char* title, const int xpos, const int ypos,
         std::cout << " Problem loading TGA image" << std::endl;
     }
     delete imgLoader;
+    delete texImage;
     m_bRunning = true; // everything inited successfully, start the main loop
     return true;
 }

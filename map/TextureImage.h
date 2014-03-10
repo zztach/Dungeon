@@ -18,11 +18,12 @@ public:
         this->width = w;
         this->height = h;
         this->type = type;
-    };
-    GLubyte* getImageData() { return imageData;}; 
-    GLuint getWidth() {return width;}; 
-    GLuint getHeight() {return height;}; 
-    GLuint getType() {return type;};     
+    }
+    ~TextureImage() { delete imageData;}
+    GLubyte* getImageData() { return imageData;}
+    GLuint getWidth() {return width;}
+    GLuint getHeight() {return height;}
+    GLuint getType() {return type;}  
 protected:
     // the image data read from the image file
     GLubyte* imageData;
