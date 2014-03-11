@@ -43,7 +43,7 @@ bool Game::init(const char* title, const int xpos, const int ypos,
 
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LEQUAL);		
-    
+    mode = GL_FILL;    
     level = new Level();
     x = z = rotY = 0.0f;
     mv_matrix_initial = glm::mat4(1.0f);
@@ -179,6 +179,10 @@ void Game::handleEvents() {
                     if (rotY < -360)
                         rotY += 360;
                     break;
+                }
+                if (event.key.keysym.sym == SDLK_f) {
+                    mode = (mode == GL_LINE) ? GL_FILL : GL_LINE;  
+                    glPolygonMode(GL_FRONT_AND_BACK, mode);
                 }
                 break;
             case SDL_MOUSEMOTION:

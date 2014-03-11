@@ -43,7 +43,7 @@ private:
     SDL_GLContext glContext;
     GLuint program;
     bool m_bRunning;
-
+    GLenum mode;
     Texture* tex;
     
     float           aspect;

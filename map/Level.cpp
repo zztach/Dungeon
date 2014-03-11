@@ -167,6 +167,10 @@ void Level::init() {
         0.0f, 1.0f, 0.0f,
     };
 
+    // check these in order o replace VBOs with VAOs
+    // http://www.openglsuperbible.com/2013/12/09/vertex-array-performance/
+    //http://stackoverflow.com/questions/5970087/understanding-vertex-array-objects-glgenvertexarrays
+    
     // load vertex positions into the buffer, input to vertex attributes 0,3
     glGenBuffers(1, &buffer);
     glBindBuffer(GL_ARRAY_BUFFER, buffer);
