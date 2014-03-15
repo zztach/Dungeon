@@ -25,10 +25,11 @@ class Level : public IDrawable
 public :
 	Level();
 	~Level();	
-	void update(void);		
-	// IDrawable
+	void update(void);			
 	void init();
-	void render(GLuint program);
+        // IDrawable        
+        void bindVAO();
+	void render(const GLuint program);
 	
 protected: 
 	void createLevel(void);
@@ -39,6 +40,7 @@ private :
 	char** level;
 	vector<string> mapLines;
 	GLuint buffer;
+        GLuint vao;
 	GLuint normals_buffer;
 };
 

@@ -108,6 +108,7 @@ void Game::render()
     glUniform1i(programTex, 0);
     
     glUseProgram(program);
+    level->bindVAO();
     level->render(program);
 
     // object in static distance from viewer		

@@ -3,8 +3,9 @@
 
 class IDrawable
 {
-public:  
-  virtual void render(GLuint program) = 0;
+public:      
+    virtual void bindVAO() = 0; 
+    virtual void render(const GLuint program) = 0;
 };
 
 #endif
