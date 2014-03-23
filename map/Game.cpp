@@ -4,16 +4,20 @@ bool Game::init(const char* title, const int xpos, const int ypos,
                  const int width, const int height, const int flags)
 {
     // initialize SDL
-    if (SDL_Init(SDL_INIT_EVERYTHING) >= 0) {
-        // if succeeded create our window
+    if (SDL_Init(SDL_INIT_EVERYTHING) >= 0) {        
 //        SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
 //        SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
 //        SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
-      
+      SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+        // if succeeded create our window
         g_pWindow = SDL_CreateWindow("Dungeon",
                 SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
                 width, height,
-                SDL_WINDOW_OPENGL|SDL_WINDOW_SHOWN);
+                SDL_WINDOW_OPENGL|SDL_WINDOW_FULLSCREEN_DESKTOP);
+        //SDL_Renderer *renderer = SDL_CreateRenderer(g_pWindow, -1, SDL_RENDERER_PRESENTVSYNC);       
+        //SDL_CreateWindowAndRenderer(width, height, SDL_WINDOW_FULLSCREEN_DESKTOP, &g_pWindow, &renderer);
+
+
 	// Create an OpenGL context associated with the window.
         glContext = SDL_GL_CreateContext(g_pWindow);
         if (glContext != NULL)
@@ -54,10 +58,7 @@ bool Game::init(const char* title, const int xpos, const int ypos,
     proj_matrix = glm::perspective(45.0f, aspect, 0.1f, 100.0f);
     
     ImageLoader* imgLoader = new TgaImageLoader();
-    TextureImage* texImage = imgLoader->load("mossy_wall.tga"); 
-
-//    ImageLoader* imgLoader = new BmpImageLoader();
-//    TextureImage* texImage = imgLoader->load("stone_wall.bmp"); 
+    TextureImage* texImage = imgLoader->load("sunflower.tga"); 
     
     if (texImage != NULL) {
         tex = new Texture(texImage);
@@ -134,11 +135,24 @@ void Game::clean()
     SDL_Quit();    
 }
 
-void Game::handleEvents() {
-    SDL_Event event;
+void Game::handleEvents(float frameTime) {
+    SDL_Event event;    
     float yrotrad = (rotY / 180 * M_PI);
-    float zVector = .5f * float(cos(yrotrad));
-    float xVector = .5f * float(sin(yrotrad));
+    
+    velocity += acceleration * frameTime;
+    velocity = std::min(velocity, 8.0);
+    float zVector = float(cos(yrotrad)) * velocity * frameTime;
+    float xVector = float(sin(yrotrad)) * velocity * frameTime;
+//    const Uint8* keystate = SDL_GetKeyboardState(NULL);
+
+    //continuous-response keys
+    if (/*keystate[SDLK_w] || */keyPressed) {
+        counter++;
+        acceleration += 0.05 * counter;
+        z += zVector;
+        x -= xVector;
+    }    
+    
     while (SDL_PollEvent(&event)) {
         switch (event.type) {
             case SDL_QUIT:
@@ -150,8 +164,7 @@ void Game::handleEvents() {
                     break;
                 }                               
                 if (event.key.keysym.sym == SDLK_w) {
-                    z += zVector;
-                    x -= xVector;
+                    keyPressed = true;
                     break;
                 }
                 if (event.key.keysym.sym == SDLK_s) {
@@ -184,9 +197,19 @@ void Game::handleEvents() {
                 if (event.key.keysym.sym == SDLK_f) {
                     mode = (mode == GL_LINE) ? GL_FILL : GL_LINE;  
                     glPolygonMode(GL_FRONT_AND_BACK, mode);
+                    break;
                 }
                 break;
+            case SDL_KEYUP:                                               
+                if (event.key.keysym.sym == SDLK_w) {    
+                    acceleration = 0.0;
+                    velocity = 4.0;
+                    counter = 0;
+                    keyPressed = false;
+                    break;
+                }    
             case SDL_MOUSEMOTION:
+                // event.motion.rel*frameTime to limit speed of rotation
                 rotY += event.motion.xrel/5.0;
                     if (rotY > 360)
                         rotY -= 360;
@@ -197,6 +220,7 @@ void Game::handleEvents() {
                 break;
         }
     }
+    // allows the mouse events to be processed even when cursor is out of the game window
     SDL_SetRelativeMouseMode(SDL_TRUE);
 }
 

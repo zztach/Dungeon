@@ -8,6 +8,7 @@
 #include <vector>
 #include <algorithm>
 #include <stack>
+#include <cmath>
 #include "Texture.h"
 #include "ImageLoader.h"
 #include "TgaImageLoader.h"
@@ -23,13 +24,18 @@
 class Game
 {
 public: 
-	Game() {}
+	Game() {
+            velocity = 4.0f;
+            acceleration = 0.0f;
+            counter = 0;
+            keyPressed = false;
+        }
 	~Game() {}
 	bool init(const char* title, const int xpos, const int ypos, 
                    const int width, const int height, const int flags);
 	void render();
 	void update() {};
-	void handleEvents();
+	void handleEvents(float deltaTime);
 	void clean();
 	// a function to access the private running variable
 	const bool running() { return m_bRunning; }
@@ -40,6 +46,7 @@ private:
 private:
     
     SDL_Window* g_pWindow;
+    SDL_Renderer *renderer;
     SDL_GLContext glContext;
     GLuint program;
     bool m_bRunning;
@@ -47,6 +54,9 @@ private:
     Texture* tex;
     
     float           aspect;
+    double velocity, acceleration;
+    int counter;
+    bool keyPressed;
     glm::mat4       proj_matrix;
     IDrawable*      level;
     float           x, z, rotY;
