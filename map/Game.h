@@ -9,6 +9,7 @@
 #include <algorithm>
 #include <stack>
 #include <cmath>
+#include <map>
 #include "Texture.h"
 #include "ImageLoader.h"
 #include "TgaImageLoader.h"
@@ -28,9 +29,14 @@ public:
             velocity = 4.0f;
             acceleration = 0.0f;
             counter = 0;
-            keyPressed = false;
+            keyPresses[SDLK_w] = false;
+            keyPresses[SDLK_a] = false;
+            keyPresses[SDLK_s] = false;
+            keyPresses[SDLK_d] = false;            
         }
-	~Game() {}
+	~Game() {
+
+        }
 	bool init(const char* title, const int xpos, const int ypos, 
                    const int width, const int height, const int flags);
 	void render();
@@ -56,13 +62,13 @@ private:
     float           aspect;
     double velocity, acceleration;
     int counter;
-    bool keyPressed;
     glm::mat4       proj_matrix;
     IDrawable*      level;
     float           x, z, rotY;
     glm::mat4       mv_matrix_initial;
     glm::mat4       mv_matrix_camera;
     glm::mat4       mv_rot_camera;
+    std::map<char,bool> keyPresses;
 };
 
 #endif

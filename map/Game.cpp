@@ -143,14 +143,32 @@ void Game::handleEvents(float frameTime) {
     velocity = std::min(velocity, 8.0);
     float zVector = float(cos(yrotrad)) * velocity * frameTime;
     float xVector = float(sin(yrotrad)) * velocity * frameTime;
-//    const Uint8* keystate = SDL_GetKeyboardState(NULL);
+    
+    SDL_PumpEvents();
+    const Uint8* keystate = SDL_GetKeyboardState(NULL);
 
     //continuous-response keys
-    if (/*keystate[SDLK_w] || */keyPressed) {
+    if (keyPresses.at(SDLK_w) || keyPresses.at(SDLK_a) || keyPresses.at(SDLK_s)
+            || keyPresses.at(SDLK_d)) {
         counter++;
         acceleration += 0.05 * counter;
-        z += zVector;
-        x -= xVector;
+        if (keyPresses.at(SDLK_w)) {
+            z += zVector;
+            x -= xVector;
+        }
+        if (keyPresses.at(SDLK_s)) {
+            z -= zVector;
+            x += xVector;
+
+        }
+        if (keyPresses.at(SDLK_a)) {
+            z -= -xVector;
+            x += zVector;
+        }
+        if (keyPresses.at(SDLK_d)) {
+            z += -xVector;
+            x -= zVector;
+        }
     }    
     
     while (SDL_PollEvent(&event)) {
@@ -164,22 +182,19 @@ void Game::handleEvents(float frameTime) {
                     break;
                 }                               
                 if (event.key.keysym.sym == SDLK_w) {
-                    keyPressed = true;
+                    keyPresses[SDLK_w] = true;
                     break;
                 }
                 if (event.key.keysym.sym == SDLK_s) {
-                    z -= zVector;
-                    x += xVector;
+                    keyPresses[SDLK_s] = true;
                     break;
                 }
                 if (event.key.keysym.sym == SDLK_a) {
-                    z -= -xVector;
-                    x += zVector;
+                    keyPresses[SDLK_a] = true;
                     break;
                 }
                 if (event.key.keysym.sym == SDLK_d) {
-                    z += -xVector;
-                    x -= zVector;
+                    keyPresses[SDLK_d] = true;
                     break;
                 }       
                 if (event.key.keysym.sym == SDLK_q) {
@@ -201,11 +216,11 @@ void Game::handleEvents(float frameTime) {
                 }
                 break;
             case SDL_KEYUP:                                               
-                if (event.key.keysym.sym == SDLK_w) {    
+                if (keyPresses.at(event.key.keysym.sym) == true) {    
                     acceleration = 0.0;
                     velocity = 4.0;
                     counter = 0;
-                    keyPressed = false;
+                    keyPresses[event.key.keysym.sym] = false;
                     break;
                 }    
             case SDL_MOUSEMOTION:
