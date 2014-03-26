@@ -10,10 +10,7 @@
 #include <stack>
 #include <cmath>
 #include <map>
-#include "Texture.h"
-#include "ImageLoader.h"
-#include "TgaImageLoader.h"
-#include "BmpImageLoader.h"
+#include "TextureFactory.h"
 #include "Level.h"
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -49,15 +46,13 @@ public:
 private:
 	std::string readFile(const char *filePath);
 	GLuint LoadShader(const char *vertex_path, const char *fragment_path);
-private:
-    
+private:    
     SDL_Window* g_pWindow;
-    SDL_Renderer *renderer;
     SDL_GLContext glContext;
     GLuint program;
     bool m_bRunning;
     GLenum mode;
-    Texture* tex;
+    TextureFactory* txFactory;
     
     float           aspect;
     double velocity, acceleration;
