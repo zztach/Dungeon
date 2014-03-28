@@ -34,7 +34,7 @@ void TextureFactory::loadTextures() {
         } else {
             std::cout << " Problem loading image" << (*it) << std::endl;
         }
-        delete texImage;
+        delete texImage;        
         delete imgLoader;
     }
 }

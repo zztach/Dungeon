@@ -9,17 +9,10 @@
 
 ImageLoaderFactory::ImageLoaderFactory() 
 {
-    
-}
-
-ImageLoaderFactory::ImageLoaderFactory(const ImageLoaderFactory& orig) 
-{
-    
 }
 
 ImageLoaderFactory::~ImageLoaderFactory() 
-{
-    
+{   
 }
 
 ImageLoader* ImageLoaderFactory::getImageLoader(string& imageType) const
@@ -31,6 +24,5 @@ ImageLoader* ImageLoaderFactory::getImageLoader(string& imageType) const
     } else {
         return NULL;
     }
-
 }
 

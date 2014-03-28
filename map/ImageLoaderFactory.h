@@ -15,11 +15,10 @@
 class ImageLoaderFactory {
 public:
     ImageLoaderFactory();
-    ImageLoaderFactory(const ImageLoaderFactory& orig);
     ImageLoader* getImageLoader(string& imageType) const;
     virtual ~ImageLoaderFactory();
 private:
-
+    
 };
 
 #endif	/* IMAGELOADERFACTORY_H */
