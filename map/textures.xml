@@ -1,0 +1,11 @@
+<Textures>
+    <description>Textures to be loaded</description>
+    <texture>
+        <id>mossy_wall</id>
+        <fileName>mossy_wall.tga</fileName>
+    </texture>
+    <texture>
+        <id>suflower</id>
+        <fileName>sunflower.tga</fileName>
+    </texture>
+</Textures>

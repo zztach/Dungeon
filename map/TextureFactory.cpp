@@ -21,25 +21,31 @@ TextureFactory::~TextureFactory() {
 void TextureFactory::loadTextures() {
     std::vector<string> textureNames;
     textureNames.push_back("mossy_wall.tga");
-    textureNames.push_back("sunflower.tga");
-
-    for (std::vector<string>::iterator it = textureNames.begin(); it != textureNames.end(); ++it) {
-        string type = (*it).substr((*it).find_last_of(".")).substr(1);        
+    pugi::xml_document doc;
+    pugi::xml_parse_result result = doc.load_file("textures.xml");
+    std::cout << "TEXTURES:" << result.description() << std::endl;
+    pugi::xpath_node_set nodes = doc.select_nodes("/Textures/texture");
+    for (pugi::xpath_node_set::const_iterator it = nodes.begin(); it != nodes.end(); ++it) {
+        pugi::xpath_node node = *it;
+        string textureID = node.node().child("id").child_value();
+        string textureFile = node.node().child("fileName").child_value();
+        
+        string type = (textureFile).substr(textureFile.find_last_of(".")).substr(1);
         ImageLoader* imgLoader = imgLoaderFactory->getImageLoader(type);
-        TextureImage* texImage = imgLoader->load(*it);
+        TextureImage* texImage = imgLoader->load(textureFile);
         if (texImage != NULL) {
             Texture* texture = new Texture(texImage);
             texture->load();
-            textures[(*it)] = texture; 
+            textures[textureID] = texture;
+            std::cout << "Successfully loaded texture : " << textureFile << std::endl;
         } else {
-            std::cout << " Problem loading image" << (*it) << std::endl;
+            std::cout << " Problem loading texture" << textureFile << std::endl;
         }
-        delete texImage;        
+        delete texImage;
         delete imgLoader;
     }
 }
 
-Texture* TextureFactory::getTexture(const string name) const
-{
+Texture* TextureFactory::getTexture(const string name) const {
     return textures.at(name);
 }

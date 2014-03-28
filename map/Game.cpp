@@ -87,7 +87,7 @@ void Game::render() {
 
     // set the texture
     glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, txFactory->getTexture("mossy_wall.tga")->getTexture());
+    glBindTexture(GL_TEXTURE_2D, txFactory->getTexture("mossy_wall")->getTexture());
     GLint programTex = glGetUniformLocation(program, "tex");
     glUniform1i(programTex, 0);
 
