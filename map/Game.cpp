@@ -1,6 +1,18 @@
 #include "Game.h"
 #include "TextRenderer.h"
 
+Game::Game() 
+{
+    velocity = 4.0f;
+    acceleration = 0.0f;
+    counter = 0;
+    keyPresses[SDLK_w] = false;
+    keyPresses[SDLK_a] = false;
+    keyPresses[SDLK_s] = false;
+    keyPresses[SDLK_d] = false;
+    fpsString = new char[100];
+}
+    
 bool Game::init(const char* title, const int xpos, const int ypos,
         const int width, const int height, const int flags) {
     // initialize SDL
@@ -43,7 +55,6 @@ bool Game::init(const char* title, const int xpos, const int ypos,
     mode = GL_FILL;
     level = new Level();
     particle = new Particle(1);
-    textRenderer = new TextRenderer(); 
     x = z = rotY = 0.0f;
     mv_matrix_initial = glm::mat4(1.0f);
 
@@ -54,12 +65,18 @@ bool Game::init(const char* title, const int xpos, const int ypos,
     ortho_matrix = glm::ortho(0.0f, (float)width, (float)height, 0.0f);
     txFactory = new TextureFactory();
     txFactory->loadTextures();
-
+    textRenderer = new TextRenderer(txFactory->getTexture("font")->getTexture());
+    timer = new Timer();
     m_bRunning = true; // everything inited successfully, start the main loop
     return true;
 }
 
-void Game::render(double timeElapsed) {
+void Game::frameStart()
+{
+    timer->tick();
+}
+
+void Game::render3D() {
     static const GLfloat gray[] = {0.6f, 0.6f, 0.6f, 1.0f};
     static const GLfloat one = 1.0f;
 
@@ -96,23 +113,30 @@ void Game::render(double timeElapsed) {
 
     glUseProgram(program);
     level->bindVAO();
-    level->render(program, timeElapsed);
+    level->render(program, timer->getTimeElapsed());
     
     glBindTexture(GL_TEXTURE_2D, txFactory->getTexture("font")->getTexture());
     particle->bindVAO();
-    particle->render(program, timeElapsed);
+    particle->render(program, timer->getTimeElapsed());
     glUniformMatrix4fv(proj_location, 1, GL_FALSE, glm::value_ptr(ortho_matrix));
     glUniformMatrix4fv(camera_location, 1, GL_FALSE, glm::value_ptr(glm::mat4(1.0f)));
-    //glBindTexture(GL_TEXTURE_2D, txFactory->getTexture("font")->getTexture());
-    textRenderer->bindVAO();
-    textRenderer->render(program, timeElapsed);
-    
+
     // object in static distance from viewer		
     /*modelviewStack.pop();
     glUniformMatrix4fv(mv_location, 1, GL_FALSE, glm::value_ptr(modelviewStack.top()));        		
     glUseProgram(program);
     level->render(program);*/
+}
 
+void Game::render2D() 
+{        
+    textRenderer->bindVAO();
+    sprintf(fpsString, "FPS: %d", timer->getAverageFPS());
+    textRenderer->render(program, 0, 0, fpsString);
+}
+
+void Game::frameEnd()
+{
     SDL_GL_SwapWindow(g_pWindow);
     SDL_GL_SetSwapInterval(0);
 }
@@ -122,6 +146,8 @@ void Game::clean() {
     glDeleteProgram(program);
     delete level;
     delete txFactory;
+    delete textRenderer;
+    delete[] fpsString;
     if (glContext) SDL_GL_DeleteContext(glContext);
     if (g_pWindow) SDL_DestroyWindow(g_pWindow);
 
@@ -129,14 +155,14 @@ void Game::clean() {
     SDL_Quit();
 }
 
-void Game::handleEvents(float frameTime) {
+void Game::handleEvents() {
     SDL_Event event;
     float yrotrad = (rotY / 180 * M_PI);
 
-    velocity += acceleration * frameTime;
+    velocity += acceleration * timer->getTimeElapsed();
     velocity = std::min(velocity, 8.0);
-    float zVector = float(cos(yrotrad)) * velocity * frameTime;
-    float xVector = float(sin(yrotrad)) * velocity * frameTime;
+    float zVector = float(cos(yrotrad)) * velocity * timer->getTimeElapsed();
+    float xVector = float(sin(yrotrad)) * velocity * timer->getTimeElapsed();
 
     SDL_PumpEvents();
     const Uint8* keystate = SDL_GetKeyboardState(NULL);

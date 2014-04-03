@@ -7,23 +7,12 @@ int main(int argc, char* argv[]) {
     g_game = new Game();
     g_game->init("Dungeon", 100, 100, 1360, 768, 0);
 
-    Uint64 lastTime = SDL_GetPerformanceCounter();
-    double timeScale = 1.0/SDL_GetPerformanceFrequency();
-    double timeElapsed;
-    Uint32 lastFpsTime = SDL_GetTicks();
-    int fpsCounter = 1;
     while (g_game->running()) {
-
-        if (SDL_GetTicks() - lastFpsTime > 1000) {
-            fpsCounter = 1;
-            lastFpsTime = SDL_GetTicks();
-        }
-        Uint64 currentTime = SDL_GetPerformanceCounter();
-        timeElapsed = (currentTime - lastTime) * timeScale;
-        lastTime = currentTime;       
-        g_game->handleEvents(timeElapsed);
-        g_game->render(timeElapsed);
-        fpsCounter++;
+        g_game->frameStart();
+        g_game->handleEvents();
+        g_game->render3D();
+        g_game->render2D();
+        g_game->frameEnd();
     }
     g_game->clean();
 

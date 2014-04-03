@@ -9,17 +9,19 @@
 #define	TEXTRENDERER_H
 
 #include "IDrawable.h"
+#include <string>
 
-class TextRenderer : public IDrawable {
+class TextRenderer {
 public:
-    TextRenderer();
-    virtual void bindVAO(); 
-    virtual void render(const GLuint program, const double timeElapsed);
+    TextRenderer(GLuint fontTexture);
+    void bindVAO(); 
+    void render(const GLuint program, GLint x, GLint y, std::string text);
     TextRenderer(const TextRenderer& orig);
     virtual ~TextRenderer();
 private:
     GLuint vao;
     GLuint buffer;
+    GLuint fontTexture;
     GLfloat* vertex_positions;
 };
 

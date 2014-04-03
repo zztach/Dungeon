@@ -11,7 +11,8 @@ const float fontSize = 26.0f;
 const float size = 16.0f;
 const int fontSpace = 14.0f;
 
-TextRenderer::TextRenderer() {
+TextRenderer::TextRenderer(GLuint fontTexture) {
+    this->fontTexture = fontTexture;
 }
 
 TextRenderer::TextRenderer(const TextRenderer& orig) {
@@ -57,7 +58,6 @@ void TextRenderer::bindVAO() {
         vertex_positions_2[offset+18] = cx;
         vertex_positions_2[offset+19] = 1.0f - cy;      
         
-//        glTranslated(fontSpace, 0, 0);
     }
      // load vertex positions into the buffer, input to vertex attributes 0,3
     glGenBuffers(1, &buffer);
@@ -74,23 +74,23 @@ void TextRenderer::bindVAO() {
  
     delete vertex_positions_2;    
 }
-void TextRenderer::render(const GLuint program, const double timeElapsed) {    
+void TextRenderer::render(const GLuint program, GLint x, GLint y, std::string text) {    
     glDisable(GL_CULL_FACE);    
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE);    
+    glBindTexture(GL_TEXTURE_2D, fontTexture);
+    
     GLuint mv_location = glGetUniformLocation(program, "mv_matrix");
     glBindVertexArray(vao);
     GLfloat colora[] = {1.0f, 0.0f, 0.0f, 1.0f};    
-    glm::mat4 mv_matrix = glm::translate(glm::mat4(1.0f), glm::vec3(0.0, 0.0, 0.0));
+    glm::mat4 mv_matrix = glm::translate(glm::mat4(1.0f), glm::vec3(float(x), float(y), 0.0));
     glUniformMatrix4fv(mv_location, 1, GL_FALSE, glm::value_ptr(mv_matrix));
     glVertexAttrib4fv(2, colora);
-    const char* text = "FPS";
     
-    for (int i=0; i<3; i++) {
-        glDrawArrays(GL_TRIANGLE_FAN, ((int)*text)*4 -32*4, 4);
+    for (int i=0; i<text.length(); i++) {
+        glDrawArrays(GL_TRIANGLE_FAN, (text.at(i))*4 -32*4, 4);
         glm::mat4 mv_matrix = glm::translate(glm::mat4(1.0f), glm::vec3(fontSpace*(i+1), 0.0, 0.0));
         glUniformMatrix4fv(mv_location, 1, GL_FALSE, glm::value_ptr(mv_matrix));
-        text++;
     }    
     glDisable(GL_CULL_FACE);
     glDisable(GL_BLEND);

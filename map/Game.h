@@ -8,9 +8,12 @@
 #include <vector>
 #include <algorithm>
 #include <stack>
+#include <cstdlib>
 #include <cmath>
 #include <map>
 #include "TextureFactory.h"
+#include "TextRenderer.h"
+#include "Timer.h"
 #include "Level.h"
 #include "Particle.h"
 #include <glm/glm.hpp>
@@ -23,26 +26,18 @@
 class Game
 {
 public: 
-	Game() {
-            velocity = 4.0f;
-            acceleration = 0.0f;
-            counter = 0;
-            keyPresses[SDLK_w] = false;
-            keyPresses[SDLK_a] = false;
-            keyPresses[SDLK_s] = false;
-            keyPresses[SDLK_d] = false;            
-        }
-	~Game() {
-
-        }
+	Game();
+	~Game();
+        void frameStart();
 	bool init(const char* title, const int xpos, const int ypos, 
                    const int width, const int height, const int flags);
-	void render(double timeElapsed);
-	void handleEvents(float deltaTime);
+	void render3D();
+        void render2D();
+	void handleEvents();
 	void clean();
 	// a function to access the private running variable
 	const bool running() { return m_bRunning; }
-
+        void frameEnd();
 private:
 	std::string readFile(const char *filePath);
 	GLuint LoadShader(const char *vertex_path, const char *fragment_path);
@@ -53,7 +48,9 @@ private:
     bool m_bRunning;
     GLenum mode;
     TextureFactory* txFactory;
-
+    TextRenderer* textRenderer;
+    Timer* timer;
+    char* fpsString;
     float           aspect;
     double velocity, acceleration;
     int counter;
@@ -61,7 +58,6 @@ private:
     glm::mat4       ortho_matrix;
     IDrawable*      level;
     IDrawable*      particle;
-    IDrawable*      textRenderer;
     float           x, z, rotY;
     glm::mat4       mv_matrix_initial;
     glm::mat4       mv_matrix_camera;
