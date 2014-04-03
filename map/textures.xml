@@ -5,7 +5,20 @@
         <fileName>mossy_wall.tga</fileName>
     </texture>
     <texture>
-        <id>suflower</id>
+        <id>sunflower</id>
         <fileName>sunflower.tga</fileName>
     </texture>
+    <texture>
+        <id>smoke</id>
+        <fileName>smoke.tga</fileName>
+    </texture>    
+    <texture>
+        <id>particle</id>
+        <fileName>particle.tga</fileName>
+    </texture>    
+    <texture>
+        <id>font</id>
+        <fileName>font.tga</fileName>
+    </texture>    
+
 </Textures>

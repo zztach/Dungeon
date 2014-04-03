@@ -201,7 +201,7 @@ void Level::bindVAO()
     glBindVertexArray(0);
 }
 
-void Level::render(const GLuint program) {
+void Level::render(const GLuint program, const double timeElapsed) {
     GLuint mv_location = glGetUniformLocation(program, "mv_matrix");
 
     glBindVertexArray(vao);

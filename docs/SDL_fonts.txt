@@ -1,0 +1,2 @@
+-> Install libsdl-ttf2.0 ussueing "sudo apt-get install libsdl-ttf2.0-0 libsdl-ttf2.0-dev"
+-> Update Linker with -lSDL2_ttf

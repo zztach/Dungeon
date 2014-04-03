@@ -1,4 +1,5 @@
 #include "Game.h"
+#include "TextRenderer.h"
 
 bool Game::init(const char* title, const int xpos, const int ypos,
         const int width, const int height, const int flags) {
@@ -18,7 +19,7 @@ bool Game::init(const char* title, const int xpos, const int ypos,
 
     } else {
         return 1; // sdl could not initialize
-    }
+    }    
     glewExperimental = GL_TRUE;
     GLenum err = glewInit();
     std::cout << glGetError() << std::endl;
@@ -41,6 +42,8 @@ bool Game::init(const char* title, const int xpos, const int ypos,
     glDepthFunc(GL_LEQUAL);
     mode = GL_FILL;
     level = new Level();
+    particle = new Particle(1);
+    textRenderer = new TextRenderer(); 
     x = z = rotY = 0.0f;
     mv_matrix_initial = glm::mat4(1.0f);
 
@@ -48,7 +51,7 @@ bool Game::init(const char* title, const int xpos, const int ypos,
     aspect = (float) width / (float) height;
 
     proj_matrix = glm::perspective(45.0f, aspect, 0.1f, 100.0f);
-
+    ortho_matrix = glm::ortho(0.0f, (float)width, (float)height, 0.0f);
     txFactory = new TextureFactory();
     txFactory->loadTextures();
 
@@ -56,7 +59,7 @@ bool Game::init(const char* title, const int xpos, const int ypos,
     return true;
 }
 
-void Game::render() {
+void Game::render(double timeElapsed) {
     static const GLfloat gray[] = {0.6f, 0.6f, 0.6f, 1.0f};
     static const GLfloat one = 1.0f;
 
@@ -93,8 +96,17 @@ void Game::render() {
 
     glUseProgram(program);
     level->bindVAO();
-    level->render(program);
-
+    level->render(program, timeElapsed);
+    
+    glBindTexture(GL_TEXTURE_2D, txFactory->getTexture("font")->getTexture());
+    particle->bindVAO();
+    particle->render(program, timeElapsed);
+    glUniformMatrix4fv(proj_location, 1, GL_FALSE, glm::value_ptr(ortho_matrix));
+    glUniformMatrix4fv(camera_location, 1, GL_FALSE, glm::value_ptr(glm::mat4(1.0f)));
+    //glBindTexture(GL_TEXTURE_2D, txFactory->getTexture("font")->getTexture());
+    textRenderer->bindVAO();
+    textRenderer->render(program, timeElapsed);
+    
     // object in static distance from viewer		
     /*modelviewStack.pop();
     glUniformMatrix4fv(mv_location, 1, GL_FALSE, glm::value_ptr(modelviewStack.top()));        		
@@ -102,7 +114,7 @@ void Game::render() {
     level->render(program);*/
 
     SDL_GL_SwapWindow(g_pWindow);
-    SDL_GL_SetSwapInterval(1);
+    SDL_GL_SetSwapInterval(0);
 }
 
 void Game::clean() {

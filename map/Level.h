@@ -29,7 +29,7 @@ public :
 	void init();
         // IDrawable        
         void bindVAO();
-	void render(const GLuint program);
+	void render(const GLuint program, const double timeElapsed);
 	
 protected: 
 	void createLevel(void);

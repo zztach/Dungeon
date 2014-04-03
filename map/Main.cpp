@@ -22,8 +22,7 @@ int main(int argc, char* argv[]) {
         timeElapsed = (currentTime - lastTime) * timeScale;
         lastTime = currentTime;       
         g_game->handleEvents(timeElapsed);
-        g_game->update();
-        g_game->render();
+        g_game->render(timeElapsed);
         fpsCounter++;
     }
     g_game->clean();
