@@ -15,7 +15,7 @@
 #include "TextRenderer.h"
 #include "Timer.h"
 #include "Level.h"
-#include "Particle.h"
+#include "Emitter.h"
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -57,7 +57,7 @@ private:
     glm::mat4       proj_matrix;
     glm::mat4       ortho_matrix;
     IDrawable*      level;
-    IDrawable*      particle;
+    Emitter*        emitter;
     float           x, z, rotY;
     glm::mat4       mv_matrix_initial;
     glm::mat4       mv_matrix_camera;

@@ -53,8 +53,7 @@ bool Game::init(const char* title, const int xpos, const int ypos,
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LEQUAL);
     mode = GL_FILL;
-    level = new Level();
-    particle = new Particle(1);
+    level = new Level();    
     x = z = rotY = 0.0f;
     mv_matrix_initial = glm::mat4(1.0f);
 
@@ -67,6 +66,10 @@ bool Game::init(const char* title, const int xpos, const int ypos,
     txFactory->loadTextures();
     textRenderer = new TextRenderer(txFactory->getTexture("font")->getTexture());
     timer = new Timer();
+    level->bindVAO();    
+    emitter = new Emitter(program);
+    emitter->setTexture(txFactory->getTexture("particle"));
+    textRenderer->bindVAO();
     m_bRunning = true; // everything inited successfully, start the main loop
     return true;
 }
@@ -77,7 +80,7 @@ void Game::frameStart()
 }
 
 void Game::render3D() {
-    static const GLfloat gray[] = {0.6f, 0.6f, 0.6f, 1.0f};
+    static const GLfloat gray[] = {0.6f, 0.6f, 0.9f, 1.0f};
     static const GLfloat one = 1.0f;
 
     glClearBufferfv(GL_COLOR, 0, gray);
@@ -112,25 +115,16 @@ void Game::render3D() {
     glUniform1i(programTex, 0);
 
     glUseProgram(program);
-    level->bindVAO();
+            
     level->render(program, timer->getTimeElapsed());
-    
-    glBindTexture(GL_TEXTURE_2D, txFactory->getTexture("font")->getTexture());
-    particle->bindVAO();
-    particle->render(program, timer->getTimeElapsed());
+
+    emitter->update(timer->getTimeElapsed(), rotY);
     glUniformMatrix4fv(proj_location, 1, GL_FALSE, glm::value_ptr(ortho_matrix));
     glUniformMatrix4fv(camera_location, 1, GL_FALSE, glm::value_ptr(glm::mat4(1.0f)));
-
-    // object in static distance from viewer		
-    /*modelviewStack.pop();
-    glUniformMatrix4fv(mv_location, 1, GL_FALSE, glm::value_ptr(modelviewStack.top()));        		
-    glUseProgram(program);
-    level->render(program);*/
 }
 
 void Game::render2D() 
-{        
-    textRenderer->bindVAO();
+{            
     sprintf(fpsString, "FPS: %d", timer->getAverageFPS());
     textRenderer->render(program, 0, 0, fpsString);
 }

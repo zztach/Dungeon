@@ -1,19 +1,17 @@
 #include "Particle.h"
 
-Particle::Particle(int id) {
+Particle::Particle(int id, float rotY) {
     this->id = id;
-    totalLife = 1.0f;
+    totalLife = 5.0f;
     life = 1.0f;
 
     color.x = 255;color.y=0;color.z=0;
-    alpha = 1.0f;
-    size = 10.0f;
+    alpha = 0.8f;
+    size = 0.1f;
 
     bounciness = 0.9f;
-
+    this->rotY = rotY;
     active = true;
-
-    lastTime = -1;
 }
         
 void Particle::bindVAO() 
@@ -43,24 +41,13 @@ void Particle::bindVAO()
 }
 
 void Particle::render(const GLuint program, const double timeElapsed) {
-    GLuint mv_location = glGetUniformLocation(program, "mv_matrix");
-
-    glBindVertexArray(vao);
-    GLfloat colora[] = {1.0f, 1.0f, 0.0f, 1.0f};
-    glm::mat4 mv_matrix = glm::translate(glm::mat4(1.0f), glm::vec3(0.0, 0.1, -30.0));
-    glUniformMatrix4fv(mv_location, 1, GL_FALSE, glm::value_ptr(mv_matrix));
-    glVertexAttrib4fv(2, colora);
-    
     
     if (active == false)
         return;
 
-    if (lastTime == -1)
-        lastTime = timeElapsed;
-
     // number of seconds since our last update
-    float change = (float) (timeElapsed - lastTime) / 10000.0f;
-
+//    float change = (float) (timeElapsed - lastTime) / 10000.0f;
+    float change = timeElapsed / 20.0f;
     velocity += acceleration * change;
     position += velocity * change;
 
@@ -75,19 +62,34 @@ void Particle::render(const GLuint program, const double timeElapsed) {
 
     const float fadeTime = 0.5f;
 
-    if (totalLife - life < fadeTime)
+    if (totalLife - life < fadeTime) {
         glColor4f(color.x, color.y, color.z, (totalLife - life) / fadeTime * alpha);
-    else if (life < 1.0f)
+        glVertexAttrib4fv(2, glm::value_ptr(glm::vec4(glm::vec3(color), (totalLife - life) / fadeTime * alpha)));
+    } else if (life < 1.0f) {
         glColor4f(color.x, color.y, color.z, life * alpha);
-    else
+        glVertexAttrib4fv(2, glm::value_ptr(glm::vec4(glm::vec3(color), life * alpha)));
+    } else {
         glColor4f(color.x, color.y, color.z, alpha);
+        glVertexAttrib4fv(2, glm::value_ptr(glm::vec4(glm::vec3(color), alpha)));
+    }
 
+       GLuint mv_location = glGetUniformLocation(program, "mv_matrix");
+
+    glBindVertexArray(vao);
+    GLfloat colora[] = {1.0f, 1.0f, 0.0f, 1.0f};
+//    glm::mat4 mv_matrix = glm::translate(glm::mat4(1.0f), glm::vec3(0.0, 0.1, -30.0));
+    //todo multiply by the inverse matrix of the camera , use stack of matrices
+    glm::mat4 mv_matrix = 
+                          glm::translate(glm::mat4(1.0f), 
+                          glm::vec3(position.x, position.y-1.2f, position.z -35.0f)) 
+            * glm::rotate(glm::mat4(1.0f), -rotY, glm::vec3(0.0f,1.0f, 0.0f));
+    glUniformMatrix4fv(mv_location, 1, GL_FALSE, glm::value_ptr(mv_matrix));
+    //glVertexAttrib4fv(2, colora);//glm::value_ptr(color)
+    // glVertexAttrib4fv(2, glm::value_ptr(color)   );
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
     life -= change * 17;
 
     if (life <= 0.0f) {
         active = false;
-    }
-
-    lastTime = timeElapsed;       
+    }   
 }

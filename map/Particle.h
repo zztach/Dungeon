@@ -13,13 +13,12 @@
 class Particle : public IDrawable {
 public:
 
-    Particle(int id);
+    Particle(int id, float rotY);
     void update(long time);
     // IDrawable        
     void bindVAO();
     void render(const GLuint program, const double timeElapsed);
 public:
-    long lastTime;
     int id;
 
     glm::vec3 color;
@@ -36,6 +35,8 @@ public:
 
     float bounciness;
     bool active;
+    
+    float rotY;
 private :
     GLuint vao;
     GLuint buffer;       
