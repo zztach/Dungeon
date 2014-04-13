@@ -4,11 +4,9 @@
 #include <iostream>
 #include <cstdlib>
 #include <string>
-#include <fstream>
 #include <vector>
 #include <algorithm>
 #include <stack>
-#include <cstdlib>
 #include <cmath>
 #include <map>
 #include "TextureFactory.h"
@@ -16,6 +14,9 @@
 #include "Timer.h"
 #include "Level.h"
 #include "Emitter.h"
+#include "ShaderLoader.h"
+#include "Camera.h"
+#include "ShaderUniform.h"
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -35,7 +36,6 @@ public:
         void render2D();
 	void handleEvents();
 	void clean();
-	// a function to access the private running variable
 	const bool running() { return m_bRunning; }
         void frameEnd();
 private:
@@ -50,19 +50,15 @@ private:
     TextureFactory* txFactory;
     TextRenderer* textRenderer;
     Timer* timer;
+    Camera* camera;
     char* fpsString;
-    float           aspect;
     double velocity, acceleration;
     int counter;
-    glm::mat4       proj_matrix;
-    glm::mat4       ortho_matrix;
     IDrawable*      level;
     Emitter*        emitter;
-    float           x, z, rotY;
-    glm::mat4       mv_matrix_initial;
-    glm::mat4       mv_matrix_camera;
-    glm::mat4       mv_rot_camera;
+    ShaderUniform* shaderUniform;
     std::map<char,bool> keyPresses;
+    std::list<char> supportedKeys;
 };
 
 #endif
