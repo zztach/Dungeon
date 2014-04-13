@@ -10,6 +10,7 @@ Game::Game()
     keyPresses[SDLK_a] = false;
     keyPresses[SDLK_s] = false;
     keyPresses[SDLK_d] = false;
+    keyPresses[SDLK_f] = false;
     fpsString = new char[100];
 }
     
@@ -115,11 +116,10 @@ void Game::render3D() {
     GLint programTex = glGetUniformLocation(program, "tex");
     glUniform1i(programTex, 0);
 
-    glUseProgram(program);
-            
+    glUseProgram(program);            
     level->render(program, timer->getTimeElapsed());
-
     emitter->update(timer->getTimeElapsed(), rotY);
+    
     glUniformMatrix4fv(proj_location, 1, GL_FALSE, glm::value_ptr(ortho_matrix));
     glUniformMatrix4fv(camera_location, 1, GL_FALSE, glm::value_ptr(glm::mat4(1.0f)));
 }
@@ -231,7 +231,7 @@ void Game::handleEvents() {
                 }
                 break;
             case SDL_KEYUP:
-                if (keyPresses.at(event.key.keysym.sym) == true) {
+                if (keyPresses.count(event.key.keysym.sym) && keyPresses.at(event.key.keysym.sym) == true) {
                     acceleration = 0.0;
                     velocity = 4.0;
                     counter = 0;
