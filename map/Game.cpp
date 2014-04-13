@@ -52,6 +52,7 @@ bool Game::init(const char* title, const int xpos, const int ypos,
 
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LEQUAL);
+    glDepthMask(GL_TRUE);    
     mode = GL_FILL;
     level = new Level();    
     x = z = rotY = 0.0f;
@@ -80,7 +81,7 @@ void Game::frameStart()
 }
 
 void Game::render3D() {
-    static const GLfloat gray[] = {0.6f, 0.6f, 0.9f, 1.0f};
+    static const GLfloat gray[] = {0.2f, 0.2f, 0.2f, 1.0f};
     static const GLfloat one = 1.0f;
 
     glClearBufferfv(GL_COLOR, 0, gray);

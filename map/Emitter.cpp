@@ -21,7 +21,7 @@ Emitter::Emitter(GLuint prog) {
     saturation = 0.5f;
     alpha = 0.8f;
 
-    spread = 2.0f;
+    spread = 3.0f;
     gravity = 5.0f;
     wind = glm::vec3(0.0, 0.0, 0.0);
     program = prog;
@@ -43,12 +43,11 @@ void Emitter::update(double time, float rotY) {
     for (int i = 0; i < numEmission; i++)
         addParticle(rotY);
 
-    // ALWAYS draw all particles
-    glDisable(GL_DEPTH_TEST);
+    // ALWAYS draw all particles, but do not write to depth buffer, 
+    // otherwise particles will always be drawn
+    glDepthMask(GL_FALSE); 
     glEnable(GL_BLEND);
-    glBlendFunc( GL_SRC_ALPHA, GL_ONE);
     glEnable(GL_TEXTURE_2D);
-//    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_BLEND);
     glBindTexture(GL_TEXTURE_2D, texture->getTexture());
 
     for (std::list<Particle*>::iterator it = particles.begin(); it != particles.end();) {
@@ -68,10 +67,10 @@ void Emitter::update(double time, float rotY) {
             ++it;
     }
 
-   // glDisable(GL_TEXTURE_2D);
+    glDisable(GL_TEXTURE_2D);
     glEnable(GL_DEPTH_TEST);
     glDisable(GL_BLEND);
-
+    glDepthMask(GL_TRUE);
 }
 
 void Emitter::setTexture(Texture *tex) {
