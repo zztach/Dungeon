@@ -18,10 +18,10 @@ uniform mat4 proj_matrix;
 uniform vec4 light_pos;
 
 // Light and material properties
-uniform vec3 diffuse_albedo = vec3(0.5, 0.5, 0.7);
+uniform vec3 diffuse_albedo = vec3(0.6, 0.6, 0.6);
 uniform vec3 specular_albedo = vec3(0.95);
 uniform float specular_power = 188.0;
-uniform vec4 ambient = vec4(0.6, 0.6, 0.6, 1.0);                                                                   
+uniform vec4 ambient = vec4(0.4, 0.4, 0.4, 1.0);                                                                   
                                                                    
 void main(void)                                                    
 {                                                                      
@@ -44,22 +44,22 @@ void main(void)
             //L = mat3(mv_matrix)*light_pos.xyz - P.xyz;
 
     // Calculate view vector (simply the negative of the view-space position)
-    //vec3 V = -P.xyz;
+    vec3 V = -P.xyz;
 
     // Normalize all three vectors
     N = normalize(N);
     L = normalize(L);
-    //V = normalize(V);
+    V = normalize(V);
 
     // Calculate R by reflecting -L around the plane defined by N
     vec3 R = reflect(-L, N);
 
     // Calculate the diffuse and specular contributions
     vec3 diffuse = max(dot(N, L), 0.0) * diffuse_albedo;
-    //vec3 specular = pow(max(dot(R, V), 0.0), specular_power) * specular_albedo;
+    vec3 specular = pow(max(dot(R, V), 0.0), specular_power) * specular_albedo;
 
     // Send the color output to the fragment shader
-    vs_out.color = color * (ambient + vec4(diffuse, 1.0f));// + vec4(specular, 1.0f));		
+    vs_out.color = color * (ambient + vec4(diffuse, 1.0f) + vec4(specular, 1.0f));		
 
     // Pass the texture coordinate to the fragment shader
     vs_out.fragTexCoord = vertTexCoord;

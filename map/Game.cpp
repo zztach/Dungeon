@@ -76,7 +76,7 @@ bool Game::init(const char* title, const int xpos, const int ypos,
     textRenderer->bindVAO();
 
     glUseProgram(program);            
-    m_bRunning = true; // everything inited successfully, start the main loop
+    m_bRunning = true; 
     return true;
 }
 
@@ -130,29 +130,27 @@ void Game::frameEnd()
 
 void Game::handleEvents() {
     SDL_Event event;
-    float yrotrad = (camera->getRotation() / 180 * M_PI);
 
     velocity += acceleration * timer->getTimeElapsed();
-    velocity = std::min(velocity, 8.0);
-    float zVector = float(cos(yrotrad)) * velocity * timer->getTimeElapsed();
-    float xVector = float(sin(yrotrad)) * velocity * timer->getTimeElapsed();
-
+    velocity = std::min(velocity, 8.0);    
+    float distance = velocity * timer->getTimeElapsed();
+    
     //continuous-response keys
     if (keyPresses.at(SDLK_w) || keyPresses.at(SDLK_a) || keyPresses.at(SDLK_s)
             || keyPresses.at(SDLK_d)) {
         counter++;
         acceleration += 0.05 * counter;
         if (keyPresses.at(SDLK_w)) {
-            camera->move(glm::vec3(-xVector, 0.0f, zVector));
+            camera->moveForward(distance);
         }
         if (keyPresses.at(SDLK_s)) {
-            camera->move(glm::vec3(xVector, 0.0f, -zVector));
+            camera->moveBackwards(distance);
         }
         if (keyPresses.at(SDLK_a)) {
-            camera->move(glm::vec3(zVector, 0.0f, xVector));
+            camera->strafeLeft(distance);
         }
         if (keyPresses.at(SDLK_d)) {
-            camera->move(glm::vec3(-zVector, 0.0f, -xVector));
+            camera->strafeRight(distance);
         }
     }
 

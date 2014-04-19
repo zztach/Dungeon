@@ -11,21 +11,33 @@ Camera::Camera(const int width, const int height) {
     float aspect = (float) width / (float) height;
     proj_matrix = glm::perspective(45.0f, aspect, 0.1f, 100.0f);
     position = glm::vec3(0.0f);
+    viewDirection = glm::vec3(0.0f, 0.0f, -1.0f);
+    strafeDirection = glm::vec3(0.0f, 0.0f, -1.0f);
     matrix_initial = glm::mat4(1.0f);
-    rotY = -135.0f;
+    rotY = 0.0f;
     ortho_matrix = glm::ortho(0.0f, (float)width, (float)height, 0.0f);
 }
 
-void Camera::setPosition(const glm::vec3& position)
+void Camera::moveForward(const float distance)
 {
+    position += viewDirection * distance;
+}
+
+void Camera::moveBackwards(const float distance)
+{
+    position += -viewDirection * distance;
+}
+
+void Camera::strafeRight(const float distance)
+{
+    position += strafeDirection * distance;
+}
+
+void Camera::strafeLeft(const float distance)
+{
+    position -=  strafeDirection * distance;
+}
     
-}
-
-void Camera::move(const glm::vec3& offset)
-{
-    position = position + offset;
-}
-
 void Camera::rotate(float yAngle)
 {
     // event.motion.rel*frameTime to limit speed of rotation                
@@ -34,6 +46,11 @@ void Camera::rotate(float yAngle)
         rotY -= 360;
     if (rotY < -360)
         rotY += 360;
+    
+    float temp = rotY / 180 * M_PI;
+    //float temp2 = (90.0-rotY) / 180 * M_PI;
+    viewDirection = glm::vec3(-sin(temp), 0.0f, cos(temp));    
+    strafeDirection = glm::vec3(-cos(temp), 0.0f, -sin(temp));
 }
 
 float Camera::getRotation() const 

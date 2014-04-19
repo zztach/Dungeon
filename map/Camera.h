@@ -17,15 +17,21 @@ class Camera {
 public:
     Camera(const int width, const int height);
     Camera(const Camera& orig);
-    void setPosition(const glm::vec3& position);
-    void move(const glm::vec3& offset);
+    
+    void moveForward(const float distance);
+    void moveBackwards(const float distance);
+    void strafeRight(const float distance);
+    void strafeLeft(const float distance);
     void rotate(float yAngle);
+    
     const glm::mat4 getMatrix();
     float getRotation() const;
     const glm::mat4 getProjection(bool is3D);
     virtual ~Camera();
 private:
     glm::vec3       position;
+    glm::vec3       viewDirection;
+    glm::vec3       strafeDirection;
     glm::mat4       matrix_initial;
     glm::mat4       mv_rot_camera;
     glm::mat4       proj_matrix;
