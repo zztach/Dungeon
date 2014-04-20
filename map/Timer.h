@@ -14,8 +14,8 @@ class Timer {
 public:
     Timer();
     void tick();
-    int getAverageFPS();
-    double getTimeElapsed(); 
+    const int getAverageFPS() const;
+    const double getTimeElapsed() const; 
     virtual ~Timer();
 private:
     Uint64 lastTime;

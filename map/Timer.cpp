@@ -17,7 +17,7 @@ Timer::Timer() {
 
 void Timer::tick()
 {
-    if (SDL_GetTicks() - lastFpsTime > 1000) {
+    if (SDL_GetTicks() - lastFpsTime >= 1000) {
         avgFps = fpsCounter;
         fpsCounter = 1;
         lastFpsTime = SDL_GetTicks();
@@ -28,11 +28,11 @@ void Timer::tick()
     fpsCounter++;
 }
 
-int Timer::getAverageFPS() {
+const int Timer::getAverageFPS() const {
     return avgFps;
 }
 
-double Timer::getTimeElapsed() 
+const double Timer::getTimeElapsed() const
 {
     return timeElapsed;
 }
