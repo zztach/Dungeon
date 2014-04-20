@@ -13,7 +13,13 @@ Particle::Particle(int id, float rotY) {
     this->rotY = rotY;
     active = true;
 }
-        
+  
+Particle::~Particle()
+{
+    glDeleteBuffers(1, &buffer);
+    glDeleteVertexArrays(1, &vao);
+}
+
 void Particle::bindVAO() 
 {
     glGenVertexArrays(1, &vao); // Create our Vertex Array Object  
@@ -63,13 +69,10 @@ void Particle::render(const GLuint program, const double timeElapsed) {
     const float fadeTime = 0.5f;
 
     if (totalLife - life < fadeTime) {
-        glColor4f(color.x, color.y, color.z, (totalLife - life) / fadeTime * alpha);
         glVertexAttrib4fv(2, glm::value_ptr(glm::vec4(glm::vec3(color), (totalLife - life) / fadeTime * alpha)));
     } else if (life < 1.0f) {
-        glColor4f(color.x, color.y, color.z, life * alpha);
         glVertexAttrib4fv(2, glm::value_ptr(glm::vec4(glm::vec3(color), life * alpha)));
     } else {
-        glColor4f(color.x, color.y, color.z, alpha);
         glVertexAttrib4fv(2, glm::value_ptr(glm::vec4(glm::vec3(color), alpha)));
     }
 
@@ -77,15 +80,9 @@ void Particle::render(const GLuint program, const double timeElapsed) {
 
     glBindVertexArray(vao);
     GLfloat colora[] = {1.0f, 1.0f, 0.0f, 1.0f};
-//    glm::mat4 mv_matrix = glm::translate(glm::mat4(1.0f), glm::vec3(0.0, 0.1, -30.0));
-    //todo multiply by the inverse matrix of the camera , use stack of matrices
-    glm::mat4 mv_matrix = 
-                          glm::translate(glm::mat4(1.0f), 
-                          glm::vec3(position.x, position.y-1.2f, position.z -35.0f)) 
-            * glm::rotate(glm::mat4(1.0f), -rotY, glm::vec3(0.0f,1.0f, 0.0f));
+    glm::mat4 mv_matrix = glm::translate(glm::mat4(1.0f), glm::vec3(position.x, position.y-1.2f, position.z -35.0f)) 
+                          * glm::rotate(glm::mat4(1.0f), -rotY, glm::vec3(0.0f,1.0f, 0.0f));
     glUniformMatrix4fv(mv_location, 1, GL_FALSE, glm::value_ptr(mv_matrix));
-    //glVertexAttrib4fv(2, colora);//glm::value_ptr(color)
-    // glVertexAttrib4fv(2, glm::value_ptr(color)   );
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
     life -= change * 17;
 

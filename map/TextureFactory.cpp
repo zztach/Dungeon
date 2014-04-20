@@ -15,6 +15,10 @@ TextureFactory::TextureFactory(const TextureFactory& orig) {
 }
 
 TextureFactory::~TextureFactory() {
+    std::map<std::string, Texture*>::iterator iter;    
+    for (iter = textures.begin(); iter != textures.end(); iter++) {
+        delete iter->second;
+    }
     delete imgLoaderFactory;
 }
 

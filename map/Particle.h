@@ -14,6 +14,7 @@ class Particle : public IDrawable {
 public:
 
     Particle(int id, float rotY);
+    ~Particle();
     void update(long time);
     // IDrawable        
     void bindVAO();

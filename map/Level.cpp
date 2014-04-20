@@ -34,6 +34,7 @@ Level::~Level() {
     }
     delete [] level;
     glDeleteBuffers(1, &buffer);
+    glDeleteBuffers(1, &normals_buffer);
     glDeleteVertexArrays(1, &vao);
 }
 
