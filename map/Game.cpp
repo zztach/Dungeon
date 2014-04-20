@@ -62,18 +62,21 @@ bool Game::init(const char* title, const int xpos, const int ypos,
     glDepthMask(GL_TRUE);  
     glViewport(0, 0, width, height);
     mode = GL_FILL;
-    
-    timer = new Timer();
-    camera = new Camera(width, height);    
-    level = new Level();    
+       
     txFactory = new TextureFactory();
     txFactory->loadTextures();
+    timer = new Timer();
+    camera = new Camera(width, height);    
+    level = new Level(txFactory->getTexture("mossy_wall")); 
     textRenderer = new TextRenderer(txFactory->getTexture("font")->getTexture());
     emitter = new Emitter(program);
     emitter->setTexture(txFactory->getTexture("particle"));
     
     level->bindVAO();        
     textRenderer->bindVAO();
+
+    glActiveTexture(GL_TEXTURE0);
+    glUniform1i(shaderUniform->get("tex"), 0);
 
     glUseProgram(program);            
     m_bRunning = true; 
@@ -94,21 +97,14 @@ void Game::render3D() {
 
     // store the "initial camera" matrix
     stack<glm::mat4> modelviewStack;
-//    modelviewStack.push(mv_matrix_camera);       
     glUniformMatrix4fv(shaderUniform->get("camera_matrix"), 1, GL_FALSE, glm::value_ptr(camera->getMatrix()));
 
     // set the projection matrix
-    glUniformMatrix4fv(shaderUniform->get("proj_matrix"), 1, GL_FALSE, glm::value_ptr(camera->getProjection(true)));
+    glUniformMatrix4fv(shaderUniform->get("proj_matrix"), 1, GL_FALSE, glm::value_ptr(camera->getPerpsectiveProjection()));
 
-    // w=0.0 equals directional light (sunlight), while w=1.0 equals positional light
-    // set the light matrix
+    // w=0.0 equals directional light (sunlight), while w=1.0 equals positional light    
     glm::vec4 light = glm::vec4(25.0, 20.0, 15.0, 0.0f);
     glUniform4fv(shaderUniform->get("light_pos"), 1, glm::value_ptr(light));
-
-    // set the texture
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, txFactory->getTexture("mossy_wall")->getTexture());
-    glUniform1i(shaderUniform->get("tex"), 0);
     
     level->render(program, timer->getTimeElapsed());
     emitter->update(timer->getTimeElapsed(), camera->getRotation());   
@@ -116,7 +112,7 @@ void Game::render3D() {
 
 void Game::render2D() 
 {            
-    glUniformMatrix4fv(shaderUniform->get("proj_matrix"), 1, GL_FALSE, glm::value_ptr(camera->getProjection(false)));
+    glUniformMatrix4fv(shaderUniform->get("proj_matrix"), 1, GL_FALSE, glm::value_ptr(camera->getOrthoProjection()));
     glUniformMatrix4fv(shaderUniform->get("camera_matrix"), 1, GL_FALSE, glm::value_ptr(glm::mat4(1.0f)));
     sprintf(fpsString, "FPS: %d", timer->getAverageFPS());
     textRenderer->render(program, 0, 0, fpsString);
@@ -179,8 +175,11 @@ void Game::handleEvents() {
                     keyPresses[event.key.keysym.sym] = false;
                     break;
                 }
-            case SDL_MOUSEMOTION:                
-                camera->rotate(event.motion.xrel / 5.0);
+            case SDL_MOUSEMOTION:
+                if (event.motion.xrel > 100 || event.motion.xrel < -100)
+                        camera->rotate(0.0f);
+                else
+                        camera->rotate(event.motion.xrel / 5.0);
                 break;
             default:
                 break;

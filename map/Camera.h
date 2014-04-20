@@ -26,7 +26,8 @@ public:
     
     const glm::mat4 getMatrix();
     float getRotation() const;
-    const glm::mat4 getProjection(bool is3D);
+    const glm::mat4 getPerpsectiveProjection() const;
+    const glm::mat4 getOrthoProjection() const;
     virtual ~Camera();
 private:
     glm::vec3       position;

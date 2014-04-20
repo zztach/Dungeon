@@ -11,6 +11,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include "IDrawable.h"
+#include "Texture.h"
 
 
 using namespace std;
@@ -23,7 +24,7 @@ enum
 class Level : public IDrawable
 {
 public :
-	Level();
+	Level(Texture* tex);
 	~Level();	
 	void update(void);			
 	void init();
@@ -39,6 +40,7 @@ private :
 	int height;             // # of lines in map.txt		
 	char** level;
 	vector<string> mapLines;
+        Texture* texture;
 	GLuint buffer;
         GLuint vao;
 	GLuint normals_buffer;

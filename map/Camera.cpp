@@ -12,7 +12,7 @@ Camera::Camera(const int width, const int height) {
     proj_matrix = glm::perspective(45.0f, aspect, 0.1f, 100.0f);
     position = glm::vec3(0.0f);
     viewDirection = glm::vec3(0.0f, 0.0f, -1.0f);
-    strafeDirection = glm::vec3(0.0f, 0.0f, -1.0f);
+    strafeDirection = glm::vec3(1.0f, 0.0f, 0.0f);
     matrix_initial = glm::mat4(1.0f);
     rotY = 0.0f;
     ortho_matrix = glm::ortho(0.0f, (float)width, (float)height, 0.0f);
@@ -65,11 +65,15 @@ const glm::mat4 Camera::getMatrix()
     return mv_rot_camera * mv_matrix_camera;
 }
    
-const glm::mat4 Camera::getProjection(bool is3D)
+const glm::mat4 Camera::getPerpsectiveProjection() const
 {
-    return is3D ? proj_matrix : ortho_matrix;
+    return proj_matrix;
 }
-    
+
+const glm::mat4 Camera::getOrthoProjection() const
+{
+    return ortho_matrix;
+}
     
 Camera::Camera(const Camera& orig) {
 }

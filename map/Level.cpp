@@ -1,6 +1,6 @@
 #include "Level.h"
 
-Level::Level() {
+Level::Level(Texture* tex) {
     std::string line;
     ifstream mapFile;
     mapFile.open("map.txt");
@@ -23,7 +23,7 @@ Level::Level() {
     }
 
     srand(time(NULL));
-
+    texture = tex;
     createLevel();
     //init();
 }
@@ -202,7 +202,8 @@ void Level::bindVAO()
 }
 
 void Level::render(const GLuint program, const double timeElapsed) {
-    GLuint mv_location = glGetUniformLocation(program, "mv_matrix");
+    GLuint mv_location = glGetUniformLocation(program, "mv_matrix");    
+    glBindTexture(GL_TEXTURE_2D, texture->getTexture());
 
     glBindVertexArray(vao);
     // iterating the lines of map.txt
@@ -222,8 +223,8 @@ void Level::render(const GLuint program, const double timeElapsed) {
     }
 
     // generate floor
-    for (int i = -height * 4; i < height * 4; i++) {
-        for (int j = -width * 4; j < width * 4; j++) {
+    for (int i = -height; i < height; i++) {
+        for (int j = -width; j < width; j++) {
             GLfloat color[] = {0.9f, 0.9f, 0.9f, 0.0f};
             glm::mat4 mv_matrix = glm::translate(glm::mat4(1.0f), glm::vec3(-(float) width * 2.5f / 2.0f + (float) j * 2.5f, -2.5f, -34.0f - (float) height * 2.5f / 2.0f - (float) i * 2.5f));
             glUniformMatrix4fv(mv_location, 1, GL_FALSE, glm::value_ptr(mv_matrix));
