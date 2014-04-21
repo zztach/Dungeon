@@ -6,6 +6,7 @@
  */
 
 #include "TextRenderer.h"
+#include "ShaderUniform.h"
 
 const float fontSize = 26.0f;
 const float size = 16.0f;
@@ -79,10 +80,9 @@ void TextRenderer::bindVAO() {
 void TextRenderer::render(const GLuint program, GLint x, GLint y, std::string text) {    
     glDisable(GL_CULL_FACE);    
     glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE);    
     glBindTexture(GL_TEXTURE_2D, fontTexture);
     
-    GLuint mv_location = glGetUniformLocation(program, "mv_matrix");
+    GLuint mv_location = ShaderUniform::getInstance(program)->get("mv_matrix");
     glBindVertexArray(vao);
     GLfloat colora[] = {1.0f, 0.0f, 0.0f, 1.0f};    
     glm::mat4 mv_matrix = glm::translate(glm::mat4(1.0f), glm::vec3(float(x), float(y), 0.0));
@@ -94,7 +94,6 @@ void TextRenderer::render(const GLuint program, GLint x, GLint y, std::string te
         glm::mat4 mv_matrix = glm::translate(glm::mat4(1.0f), glm::vec3(fontSpace*(i+1), 0.0, 0.0));
         glUniformMatrix4fv(mv_location, 1, GL_FALSE, glm::value_ptr(mv_matrix));
     }    
-    glDisable(GL_CULL_FACE);
     glDisable(GL_BLEND);
 }
 

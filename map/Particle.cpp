@@ -76,7 +76,7 @@ void Particle::render(const GLuint program, const double timeElapsed) {
         glVertexAttrib4fv(2, glm::value_ptr(glm::vec4(glm::vec3(color), alpha)));
     }
 
-       GLuint mv_location = glGetUniformLocation(program, "mv_matrix");
+    GLuint mv_location = ShaderUniform::getInstance(program)->get("mv_matrix");
 
     glBindVertexArray(vao);
     GLfloat colora[] = {1.0f, 1.0f, 0.0f, 1.0f};

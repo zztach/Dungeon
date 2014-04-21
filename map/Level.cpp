@@ -203,7 +203,7 @@ void Level::bindVAO()
 }
 
 void Level::render(const GLuint program, const double timeElapsed) {
-    GLuint mv_location = glGetUniformLocation(program, "mv_matrix");    
+    GLuint mv_location = ShaderUniform::getInstance(program)->get("mv_matrix");    
     glBindTexture(GL_TEXTURE_2D, texture->getTexture());
 
     glBindVertexArray(vao);

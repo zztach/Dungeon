@@ -49,7 +49,7 @@ bool Game::init(const char* title, const int xpos, const int ypos,
     fprintf(stdout, "Status: Using GLEW %s\n", glewGetString(GLEW_VERSION));
 
     program = ShaderLoader::load("vertex_shader.vs", "fragment_shader.fg");     
-    shaderUniform = new ShaderUniform(program);
+    shaderUniform = ShaderUniform::getInstance(program);
     
     printf("OpenGL %s, GLSL %s\n", glGetString(GL_VERSION), glGetString(GL_SHADING_LANGUAGE_VERSION));
 
@@ -60,6 +60,8 @@ bool Game::init(const char* title, const int xpos, const int ypos,
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LEQUAL);
     glDepthMask(GL_TRUE);  
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE);  
     glViewport(0, 0, width, height);
     mode = GL_FILL;
        

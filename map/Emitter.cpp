@@ -47,7 +47,6 @@ void Emitter::update(double time, float rotY) {
     // otherwise particles will always be drawn
     glDepthMask(GL_FALSE); 
     glEnable(GL_BLEND);
-    glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, texture->getTexture());
 
     for (std::list<Particle*>::iterator it = particles.begin(); it != particles.end();) {
@@ -67,7 +66,6 @@ void Emitter::update(double time, float rotY) {
             ++it;
     }
 
-    glDisable(GL_TEXTURE_2D);
     glEnable(GL_DEPTH_TEST);
     glDisable(GL_BLEND);
     glDepthMask(GL_TRUE);

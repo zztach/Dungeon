@@ -9,6 +9,7 @@
 #define	PARTICLE_H
 
 #include "IDrawable.h"
+#include "ShaderUniform.h"
 
 class Particle : public IDrawable {
 public:
@@ -41,6 +42,7 @@ public:
 private :
     GLuint vao;
     GLuint buffer;       
+    ShaderUniform* uniform;
 };
 #endif	/* PARTICLE_H */
 

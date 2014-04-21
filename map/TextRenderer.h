@@ -9,6 +9,7 @@
 #define	TEXTRENDERER_H
 
 #include "IDrawable.h"
+#include "ShaderUniform.h"
 #include <string>
 
 class TextRenderer {
