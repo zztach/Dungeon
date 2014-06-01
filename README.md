@@ -1,34 +1,42 @@
 This is an experimental project in an effort to apply basic design principles and OpenGL.
-The core idea revolves around a first person labyrinth/dungeon game similar to "Legends of Grimrock".
+The core idea revolves around a first person labyrinth/dungeon game similar to "Legends of Grimrock".<br>
 The whole project started after playing Grimrock, which reminded me how huge of a dungeon-crawling R.P.Gs fan I am.
 
 Core Features
--> Camera
+<ul>
+<li>Camera</li>
    Player can move/strafe using the WASD keys and rotate his view with the mouse
--> Image loading
+<li>Image loading</li>
    Ability to load .BPM/.TGA image files
--> Textures
-   Load texture objects at startup using .xml configuration file.
+<li>Textures</li>
+   Load texture objects at startup using .xml configuration file<br>
+</ul>
 
-3D effects\n
--> Particle engine\n
-   Basic particle engine (used to simulate a fire effect)\n\n
+3D effects
+<ul>
+<li>Particle engine</li>
+   Basic particle engine (used to simulate a fire effect)
+</ul>
 
 2D effects
--> 2D text
+<ul>
+<li>2D text</li>
    Display text on screen
--> 2D Controls
+<li>2D Controls</li>
    Primitive display of 2D controls like listbox
+</ul>
 
-SETUP LINUX/NETBEANS
+SETUP LINUX/NETBEANS<br>
 TODO
 
-SETUP WINDOWS/VS2012
+SETUP WINDOWS/VS2012<br>
 TODO
 
 LIBRARIES USED
--> OpenGL 4.2 core profile
--> SDL2 : window/keyboard/mouse management
--> glm  : math operations
--> glew : OpenGL extentions
--> pugixml : handle xml files
+<ul>
+<li>OpenGL 4.2 core profile</li>
+<li>SDL2 : window/keyboard/mouse management</li>
+<li>glm  : math operations</li>
+<li>glew : OpenGL extentions</li>
+<li>pugixml : handle xml files</li>
+</ul>
