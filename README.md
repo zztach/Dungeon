@@ -2,7 +2,7 @@ This is an experimental project in an effort to apply basic design principles an
 The core idea revolves around a first person labyrinth/dungeon game similar to "Legends of Grimrock".<br>
 The whole project started after playing Grimrock, which reminded me how huge of a dungeon-crawling R.P.Gs fan I am.
 
-Core Features
+<b>Core Features</b>
 <ul>
 <li>Camera</li>
    Player can move/strafe using the WASD keys and rotate his view with the mouse
@@ -12,13 +12,13 @@ Core Features
    Load texture objects at startup using .xml configuration file<br>
 </ul>
 
-3D effects
+<b>3D effects</b>
 <ul>
 <li>Particle engine</li>
    Basic particle engine (used to simulate a fire effect)
 </ul>
 
-2D effects
+<b>2D effects</b>
 <ul>
 <li>2D text</li>
    Display text on screen
@@ -26,13 +26,13 @@ Core Features
    Primitive display of 2D controls like listbox
 </ul>
 
-SETUP LINUX/NETBEANS<br>
+<b>SETUP LINUX/NETBEANS</b><br>
 TODO
 
-SETUP WINDOWS/VS2012<br>
+<b>SETUP WINDOWS/VS2012</b><br>
 TODO
 
-LIBRARIES USED
+<b>LIBRARIES USED</b>
 <ul>
 <li>OpenGL 4.2 core profile</li>
 <li>SDL2 : window/keyboard/mouse management</li>
