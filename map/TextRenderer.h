@@ -17,7 +17,6 @@ public:
     TextRenderer(GLuint fontTexture);
     void bindVAO(); 
     void render(const GLuint program, GLint x, GLint y, std::string text);
-    TextRenderer(const TextRenderer& orig);
     virtual ~TextRenderer();
 private:
     GLuint vao;

@@ -11,9 +11,11 @@ in VS_OUT
                                                                   
 void main(void)                                                   
 {  
-// Write incoming color to the framebuffer                                                               
-   //color = fs_in.color;                                              
-   color = texture(tex, fs_in.fragTexCoord) * fs_in.color; 
+// Write incoming color to the framebuffer   
+//   if (tex == 0)                                                            
+//     color = fs_in.color;                                              
+//   else
+     color = texture(tex, fs_in.fragTexCoord) * fs_in.color; 
    //color = texelFetch(tex, ivec2(fs_in.fragTexCoord), 0); 
    //color = texture(tex, gl_FragCoord.xy / textureSize(tex, 0));  
    //color = texture(tex, gl_FragCoord.xy / 256);

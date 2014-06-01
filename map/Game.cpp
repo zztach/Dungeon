@@ -7,12 +7,15 @@ Game::Game()
     acceleration = 0.0f;
     counter = 0;
     fpsString = new char[100];
+    controlled = NULL;
+    inventoryOn = false;
     
     supportedKeys.push_back(SDLK_w);
     supportedKeys.push_back(SDLK_a);
     supportedKeys.push_back(SDLK_s);
     supportedKeys.push_back(SDLK_d);
     supportedKeys.push_back(SDLK_f);
+    supportedKeys.push_back(SDLK_TAB);
     for(std::list<char>::iterator iter = supportedKeys.begin(); iter != supportedKeys.end(); iter++) 
     {
         keyPresses[*iter] = false;
@@ -76,7 +79,8 @@ bool Game::init(const char* title, const int xpos, const int ypos,
     
     level->bindVAO();        
     textRenderer->bindVAO();
-
+    control = new ListBox(5,15,150,300);
+    control->bindVAO();
     glActiveTexture(GL_TEXTURE0);
     glUniform1i(shaderUniform->get("tex"), 0);
 
@@ -113,11 +117,15 @@ void Game::render3D() {
 }
 
 void Game::render2D() 
-{            
+{       
     glUniformMatrix4fv(shaderUniform->get("proj_matrix"), 1, GL_FALSE, glm::value_ptr(camera->getOrthoProjection()));
     glUniformMatrix4fv(shaderUniform->get("camera_matrix"), 1, GL_FALSE, glm::value_ptr(glm::mat4(1.0f)));
     sprintf(fpsString, "FPS: %d", timer->getAverageFPS());
-    textRenderer->render(program, 0, 0, fpsString);
+    textRenderer->render(program, 0, 0, fpsString);        
+    if (inventoryOn) {
+        control->update(mouseState);
+        control->render(program, timer->getTimeElapsed());
+    }    
 }
 
 void Game::frameEnd()
@@ -152,6 +160,12 @@ void Game::handleEvents() {
         }
     }
 
+    SDL_GetMouseState(&mouseState.x, &mouseState.y);
+    
+    mouseState.leftButtonDown = SDL_GetMouseState(NULL, NULL) & SDL_BUTTON(1);
+    mouseState.middleButtonDown = SDL_GetMouseState(NULL, NULL) & SDL_BUTTON(2);
+    mouseState.rightButtonDown = SDL_GetMouseState(NULL, NULL) & SDL_BUTTON(3);
+    
     while (SDL_PollEvent(&event)) {
         switch (event.type) {
             case SDL_QUIT:
@@ -167,6 +181,10 @@ void Game::handleEvents() {
                     glPolygonMode(GL_FRONT_AND_BACK, mode);
                     break;
                 }
+                if (event.key.keysym.sym == SDLK_TAB) {
+                    inventoryOn = inventoryOn ? false : true;
+                    break;
+                }
                 keyPresses[event.key.keysym.sym] = true;
                 break;
             case SDL_KEYUP:
@@ -176,7 +194,7 @@ void Game::handleEvents() {
                     counter = 0;
                     keyPresses[event.key.keysym.sym] = false;
                     break;
-                }
+                }                
             case SDL_MOUSEMOTION:
                 if (event.motion.xrel > 100 || event.motion.xrel < -100)
                         camera->rotate(0.0f);
@@ -188,7 +206,7 @@ void Game::handleEvents() {
         }
     }
     // allows the mouse events to be processed even when cursor is out of the game window
-    SDL_SetRelativeMouseMode(SDL_TRUE);
+    //SDL_SetRelativeMouseMode(SDL_TRUE);
 }
 
 void Game::clean() {
@@ -200,6 +218,8 @@ void Game::clean() {
     delete[] fpsString;
     delete timer;
     delete emitter;
+    delete controlled;
+    delete control;
     if (glContext) SDL_GL_DeleteContext(glContext);
     if (g_pWindow) SDL_DestroyWindow(g_pWindow);
 

@@ -16,9 +16,6 @@ TextRenderer::TextRenderer(GLuint fontTexture) {
     this->fontTexture = fontTexture;
 }
 
-TextRenderer::TextRenderer(const TextRenderer& orig) {
-}
-
 TextRenderer::~TextRenderer() {
     glDeleteBuffers(1, &buffer);
     glDeleteVertexArrays(1, &vao);
