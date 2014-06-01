@@ -10,9 +10,9 @@ Core Features
 -> Textures
    Load texture objects at startup using .xml configuration file.
 
-3D effects
--> Particle engine
-   Basic particle engine (used to simulate a fire effect)
+3D effects\n
+-> Particle engine\n
+   Basic particle engine (used to simulate a fire effect)\n\n
 
 2D effects
 -> 2D text
