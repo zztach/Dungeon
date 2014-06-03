@@ -11,7 +11,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include "IDrawable.h"
-#include "ShaderUniform.h"
+#include "utils/ShaderUniform.h"
 #include "Texture.h"
 
 

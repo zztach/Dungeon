@@ -9,7 +9,7 @@
 #define	PARTICLE_H
 
 #include "IDrawable.h"
-#include "ShaderUniform.h"
+#include "utils/ShaderUniform.h"
 
 class Particle : public IDrawable {
 public:

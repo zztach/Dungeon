@@ -2,23 +2,23 @@
     <description>Textures to be loaded</description>
     <texture>
         <id>mossy_wall</id>
-        <fileName>mossy_wall.tga</fileName>
+        <fileName>resources/textures/mossy_wall.tga</fileName>
     </texture>
     <texture>
         <id>sunflower</id>
-        <fileName>sunflower.tga</fileName>
+        <fileName>resources/textures/sunflower.tga</fileName>
     </texture>
     <texture>
         <id>smoke</id>
-        <fileName>smoke.tga</fileName>
+        <fileName>resources/textures/smoke.tga</fileName>
     </texture>    
     <texture>
         <id>particle</id>
-        <fileName>particle.tga</fileName>
+        <fileName>resources/textures/particle.tga</fileName>
     </texture>    
     <texture>
         <id>font</id>
-        <fileName>font.tga</fileName>
+        <fileName>resources/textures/font.tga</fileName>
     </texture>    
 
 </Textures>

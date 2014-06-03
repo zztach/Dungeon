@@ -6,7 +6,7 @@
  */
 
 #include "TextRenderer.h"
-#include "ShaderUniform.h"
+#include "utils/ShaderUniform.h"
 
 const float fontSize = 26.0f;
 const float size = 16.0f;

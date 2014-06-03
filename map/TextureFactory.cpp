@@ -23,10 +23,9 @@ TextureFactory::~TextureFactory() {
 }
 
 void TextureFactory::loadTextures() {
-    std::vector<string> textureNames;
-    textureNames.push_back("mossy_wall.tga");
+    std::vector<string> textureNames;    
     pugi::xml_document doc;
-    pugi::xml_parse_result result = doc.load_file("textures.xml");
+    pugi::xml_parse_result result = doc.load_file("resources/textures/textures.xml");
     std::cout << "TEXTURES:" << result.description() << std::endl;
     pugi::xpath_node_set nodes = doc.select_nodes("/Textures/texture");
     for (pugi::xpath_node_set::const_iterator it = nodes.begin(); it != nodes.end(); ++it) {

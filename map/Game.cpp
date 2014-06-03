@@ -51,7 +51,7 @@ bool Game::init(const char* title, const int xpos, const int ypos,
 
     fprintf(stdout, "Status: Using GLEW %s\n", glewGetString(GLEW_VERSION));
 
-    program = ShaderLoader::load("vertex_shader.vs", "fragment_shader.fg");     
+    program = ShaderLoader::load("resources/shaders/vertex_shader.vs", "resources/shaders/fragment_shader.fg");     
     shaderUniform = ShaderUniform::getInstance(program);
     
     printf("OpenGL %s, GLSL %s\n", glGetString(GL_VERSION), glGetString(GL_SHADING_LANGUAGE_VERSION));
@@ -206,7 +206,7 @@ void Game::handleEvents() {
         }
     }
     // allows the mouse events to be processed even when cursor is out of the game window
-    //SDL_SetRelativeMouseMode(SDL_TRUE);
+    SDL_SetRelativeMouseMode(SDL_TRUE);
 }
 
 void Game::clean() {

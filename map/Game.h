@@ -11,12 +11,12 @@
 #include <map>
 #include "TextureFactory.h"
 #include "TextRenderer.h"
-#include "Timer.h"
+#include "utils/Timer.h"
 #include "Level.h"
 #include "Emitter.h"
-#include "ShaderLoader.h"
+#include "utils/ShaderLoader.h"
 #include "Camera.h"
-#include "ShaderUniform.h"
+#include "utils/ShaderUniform.h"
 #include "controls/ListBox.h"
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>

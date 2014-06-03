@@ -3,7 +3,7 @@
 Level::Level(Texture* tex) {
     std::string line;
     ifstream mapFile;
-    mapFile.open("map.txt");
+    mapFile.open("resources/map.txt");
 
     int rowNumber = 0;
     while (!mapFile.eof()) {

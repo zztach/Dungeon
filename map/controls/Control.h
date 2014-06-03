@@ -11,7 +11,7 @@
 #include <list>
 #include <string>
 #include "../IDrawable.h"
-#include "../ShaderUniform.h"
+#include "../utils/ShaderUniform.h"
 #include "../TextRenderer.h"
 
 using std::list;
