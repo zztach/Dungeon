@@ -8,7 +8,7 @@
 #ifndef TEXTURE_H
 #define	TEXTURE_H
 #include "TextureImage.h"
-#include "utils/pugixml.hpp"
+#include "../../utils/pugixml.hpp"
 #include <iostream>
 #include <SDL.h>
 #include <glew.h>

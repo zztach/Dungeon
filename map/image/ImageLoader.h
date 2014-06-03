@@ -12,7 +12,7 @@
 #include <fstream>
 #include <string>
 #include <glew.h>
-#include "../TextureImage.h"
+#include "../rendering/textures/TextureImage.h"
 
 using std::string;
 using std::ifstream;

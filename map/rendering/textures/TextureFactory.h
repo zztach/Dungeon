@@ -8,7 +8,7 @@
 #ifndef TEXTUREFACTORY_H
 #define	TEXTUREFACTORY_H
 
-#include "image/ImageLoaderFactory.h"
+#include "../../image/ImageLoaderFactory.h"
 #include "Texture.h"
 #include <vector>
 #include <map>

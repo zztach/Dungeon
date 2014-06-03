@@ -8,8 +8,8 @@
 #ifndef PARTICLE_H
 #define	PARTICLE_H
 
-#include "IDrawable.h"
-#include "utils/ShaderUniform.h"
+#include "../IDrawable.h"
+#include "../../utils/ShaderUniform.h"
 
 class Particle : public IDrawable {
 public:

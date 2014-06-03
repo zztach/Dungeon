@@ -10,9 +10,9 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include "IDrawable.h"
-#include "utils/ShaderUniform.h"
-#include "Texture.h"
+#include "../rendering/IDrawable.h"
+#include "../utils/ShaderUniform.h"
+#include "../rendering/textures/Texture.h"
 
 
 using namespace std;

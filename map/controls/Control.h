@@ -10,9 +10,9 @@
 
 #include <list>
 #include <string>
-#include "../IDrawable.h"
+#include "../rendering/IDrawable.h"
 #include "../utils/ShaderUniform.h"
-#include "../TextRenderer.h"
+#include "../rendering/TextRenderer.h"
 
 using std::list;
 using std::string;
