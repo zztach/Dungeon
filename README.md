@@ -1,6 +1,7 @@
 This is an experimental project in an effort to apply basic design principles and OpenGL.
 The core idea revolves around a first person labyrinth/dungeon game similar to "Legends of Grimrock".<br>
-The whole project started after playing Grimrock, which reminded me how huge of a dungeon-crawling R.P.Gs fan I am.
+The whole project started after playing Grimrock, which reminded me how huge of a dungeon-crawling R.P.Gs fan I am.<br>
+Sample documentation (work in progress) is available at http://zztach.github.io/Dungeon/index.html
 
 <b>Core Features</b>
 <ul>
