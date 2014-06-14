@@ -24,7 +24,10 @@
 #include <SDL.h>
 #include <glew.h>
 #include <SDL_opengl.h>
-
+/**
+ * This is the heart of the system. Responsible for dealing with user input, 
+ * rendering (2D/3D) and all game-related actions. 
+ */
 class Game {
 public:
     Game();

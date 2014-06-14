@@ -14,6 +14,9 @@
 #include <glew.h>
 #include <SDL_opengl.h>
 
+/**
+ * This is a sample documentation
+ */
 class Texture
 {
 public:
