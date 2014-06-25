@@ -10,6 +10,10 @@
 
 #include <glew.h>
 
+/**
+ * Wrapper class of all Texture related data required from OpenGL in order to 
+ * generate a Texture object
+ */
 class TextureImage
 {
 public:

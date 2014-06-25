@@ -15,18 +15,24 @@
 #include <SDL_opengl.h>
 
 /**
- * This is a sample documentation
+ * Responsible for loading OpenGL textures out of TextureImage objects. 
  */
 class Texture
 {
 public:
     Texture(TextureImage* imgLoader);
     ~Texture();
+    /**
+     * Generates and binds an OpenGL texture based on the information provided inside TextureImage.
+     * Inside this function the texture identifier is generated
+     */
     void load();
     GLuint getTexture() const;
     
 private:
+    /* the object containing all the texture information */    
     TextureImage* textureImage;
+    /* the texture identifier returned by OpenGL*/
     GLuint texture;
 };
 
