@@ -5,7 +5,7 @@
  * Created on April 21, 2014, 8:48 PM
  */
 
-#include <GL/glew.h>
+#include <glew.h>
 
 #include "ListBox.h"
 

@@ -7,9 +7,9 @@
 #include <list>
 #include <time.h>
 #include <glew.h>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
+#include <glm.hpp>
+#include <gtc/matrix_transform.hpp>
+#include <gtc/type_ptr.hpp>
 #include "../rendering/IDrawable.h"
 #include "../utils/ShaderUniform.h"
 #include "../rendering/textures/Texture.h"

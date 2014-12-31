@@ -1,3 +1,4 @@
+#define GLM_FORCE_RADIANS
 #include "engine/Game.h"
 /**
  @file
@@ -6,7 +7,7 @@
  */
 int main(int argc, char* argv[]) {    
     Game* g_game = new Game();
-    g_game->init("Dungeon", 100, 100, 1360, 768, 0);
+    g_game->init("Dungeon", 0);
 
     while (g_game->running()) {
         g_game->frameStart();

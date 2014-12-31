@@ -22,11 +22,29 @@ Game::Game()
     }
 }
     
-bool Game::init(const char* title, const int xpos, const int ypos,
-        const int width, const int height, const int flags) {
+bool Game::init(const char* title, const int flags) {
+    int width,height;
     // initialize SDL
     if (SDL_Init(SDL_INIT_EVERYTHING) >= 0) {
         SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+        
+        // Declare display mode structure to be filled in.
+        SDL_DisplayMode current;
+
+        // Get current display mode of all displays.
+        for(int i = 0; i < SDL_GetNumVideoDisplays(); ++i){
+            int should_be_zero = SDL_GetCurrentDisplayMode(i, &current);
+            if(should_be_zero != 0)
+            // In case of error...
+                SDL_Log("Could not get display mode for video display #%d: %s", i, SDL_GetError());
+            else
+            // On success, print the current display mode.
+                SDL_Log("Display #%d: current display mode is %dx%dpx @ %dhz. \n", i, current.w, current.h, current.refresh_rate);
+            width = current.w;
+            height = current.h;
+        }
+
+        
         // if succeeded create our window
         g_pWindow = SDL_CreateWindow("Dungeon",
                 SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
@@ -51,7 +69,7 @@ bool Game::init(const char* title, const int xpos, const int ypos,
 
     fprintf(stdout, "Status: Using GLEW %s\n", glewGetString(GLEW_VERSION));
 
-    program = ShaderLoader::load("resources/shaders/vertex_shader.vs", "resources/shaders/fragment_shader.fg");     
+    program = ShaderLoader::load("shaders/vertex_shader.vs", "shaders/fragment_shader.fg");     
     shaderUniform = ShaderUniform::getInstance(program);
     
     printf("OpenGL %s, GLSL %s\n", glGetString(GL_VERSION), glGetString(GL_SHADING_LANGUAGE_VERSION));
@@ -73,6 +91,7 @@ bool Game::init(const char* title, const int xpos, const int ypos,
     timer = new Timer();
     camera = new Camera(width, height);    
     level = new Level(txFactory->getTexture("mossy_wall")); 
+        std::cout << " ALL OK" << std::endl;
     textRenderer = new TextRenderer(txFactory->getTexture("font")->getTexture());
     emitter = new Emitter(program);
     emitter->setTexture(txFactory->getTexture("particle"));

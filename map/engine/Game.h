@@ -18,9 +18,9 @@
 #include "Camera.h"
 #include "../utils/ShaderUniform.h"
 #include "../controls/ListBox.h"
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
+#include <glm.hpp>
+#include <gtc/matrix_transform.hpp>
+#include <gtc/type_ptr.hpp>
 #include <SDL.h>
 #include <glew.h>
 #include <SDL_opengl.h>
@@ -33,8 +33,7 @@ public:
     Game();
     ~Game();
     void frameStart();
-    bool init(const char* title, const int xpos, const int ypos,
-            const int width, const int height, const int flags);
+    bool init(const char* title, const int flags);
     void render3D();
     void render2D();
     void handleEvents();
