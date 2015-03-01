@@ -127,7 +127,7 @@ void Game::render3D() {
     glUniformMatrix4fv(shaderUniform->get("proj_matrix"), 1, GL_FALSE, glm::value_ptr(camera->getPerpsectiveProjection()));
 
     // w=0.0 equals directional light (sunlight), while w=1.0 equals positional light    
-    glm::vec4 light = glm::vec4(25.0, 20.0, 15.0, 0.0f);
+    glm::vec4 light = glm::vec4(-25.0, 20.0, 15.0, 0.0f);
     glUniform4fv(shaderUniform->get("light_pos"), 1, glm::value_ptr(light));
     
     level->render(program, timer->getInGameFrameDuration());
@@ -160,8 +160,9 @@ void Game::handleEvents() {
     float distance = velocity * timer->getInGameFrameDuration();
     
     //continuous-response keys
-    if (keyPresses.at(SDLK_w) || keyPresses.at(SDLK_a) || keyPresses.at(SDLK_s)
-            || keyPresses.at(SDLK_d)) {
+    if (keyPresses.at(SDLK_w) || keyPresses.at(SDLK_a) || 
+        keyPresses.at(SDLK_s) || keyPresses.at(SDLK_d)) 
+    {
         counter++;
         acceleration += 0.05 * counter;
         if (keyPresses.at(SDLK_w)) {
@@ -177,7 +178,7 @@ void Game::handleEvents() {
             camera->strafeRight(distance);
         }
     }
-
+        
     SDL_GetMouseState(&mouseState.x, &mouseState.y);
     
     mouseState.leftButtonDown = SDL_GetMouseState(NULL, NULL) & SDL_BUTTON(1);
@@ -214,10 +215,12 @@ void Game::handleEvents() {
                     break;
                 }                
             case SDL_MOUSEMOTION:
-                if (event.motion.xrel > 100 || event.motion.xrel < -100)
-                        camera->rotate(0.0f);
+                // xrel refers to the mouse movements in the x axis. Mouse moves in x,y directions in 
+                // a 2D coordinate system. 
+                if (event.motion.xrel > 100 || event.motion.xrel < -100)                    
+                    camera->rotate(0.0f);
                 else
-                        camera->rotate(event.motion.xrel / 5.0);
+                    camera->rotate(event.motion.xrel / 5.0);
                 break;
             default:
                 break;

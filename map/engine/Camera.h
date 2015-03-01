@@ -23,7 +23,7 @@ public:
     void strafeRight(const float distance);
     void strafeLeft(const float distance);
     void rotate(float yAngle);
-    
+    glm::vec3 getPosition() const;
     const glm::mat4 getMatrix();
     float getRotation() const;
     const glm::mat4 getPerpsectiveProjection() const;
