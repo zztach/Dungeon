@@ -27,12 +27,12 @@ GLuint ShaderLoader::load(const char *vertex_path, const char *fragment_path) {
     std::cout << "Compiling vertex shader." << std::endl;
     glShaderSource(vertShader, 1, &vertShaderSrc, NULL);
     glCompileShader(vertShader);
-    std::cout << "yeah" << glGetError() << std::endl;
+   // std::cout << "yeah" << glGetError() << std::endl;
 
     // Check vertex shader
     glGetShaderiv(vertShader, GL_COMPILE_STATUS, &result);
     glGetShaderiv(vertShader, GL_INFO_LOG_LENGTH, &logLength);
-    std::cout << "yeah" << glGetError() << std::endl;
+    //std::cout << "yeah" << glGetError() << std::endl;
     if (logLength > 0) {
         std::vector<char> vertShaderError(logLength);
         glGetShaderInfoLog(vertShader, logLength, NULL, &vertShaderError[0]);

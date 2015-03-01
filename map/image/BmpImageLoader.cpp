@@ -19,17 +19,17 @@ TextureImage* BmpImageLoader::load(string filename) {
     FILE * file = fopen(filename.c_str(), "rb");
     if (!file) {
         printf("Image could not be opened\n");
-        return 0;
+        return NULL;
     }
 
     if (fread(header, 1, 54, file) != 54) { // If not 54 bytes read : problem
         printf("Not a correct BMP file\n");
-        return false;
+        return NULL;
     }
 
     if (header[0] != 'B' || header[1] != 'M') {
         printf("Not a correct BMP file\n");
-        return 0;
+        return NULL;
     }
     // Read ints from the byte array
     dataPos = *(int*) &(header[0x0A]);

@@ -91,7 +91,6 @@ bool Game::init(const char* title, const int flags) {
     timer = new Timer();
     camera = new Camera(width, height);    
     level = new Level(txFactory->getTexture("mossy_wall")); 
-        std::cout << " ALL OK" << std::endl;
     textRenderer = new TextRenderer(txFactory->getTexture("font")->getTexture());
     emitter = new Emitter(program);
     emitter->setTexture(txFactory->getTexture("particle"));
@@ -131,8 +130,8 @@ void Game::render3D() {
     glm::vec4 light = glm::vec4(25.0, 20.0, 15.0, 0.0f);
     glUniform4fv(shaderUniform->get("light_pos"), 1, glm::value_ptr(light));
     
-    level->render(program, timer->getTimeElapsed());
-    emitter->update(timer->getTimeElapsed(), camera->getRotation());   
+    level->render(program, timer->getInGameFrameTime());
+    emitter->update(timer->getInGameFrameTime(), camera->getRotation());   
 }
 
 void Game::render2D() 
@@ -143,7 +142,7 @@ void Game::render2D()
     textRenderer->render(program, 0, 0, fpsString);        
     if (inventoryOn) {
         control->update(mouseState);
-        control->render(program, timer->getTimeElapsed());
+        control->render(program, timer->getInGameFrameTime());
     }    
 }
 
@@ -156,9 +155,9 @@ void Game::frameEnd()
 void Game::handleEvents() {
     SDL_Event event;
 
-    velocity += acceleration * timer->getTimeElapsed();
+    velocity += acceleration * timer->getInGameFrameTime();
     velocity = std::min(velocity, 8.0);    
-    float distance = velocity * timer->getTimeElapsed();
+    float distance = velocity * timer->getInGameFrameTime();
     
     //continuous-response keys
     if (keyPresses.at(SDLK_w) || keyPresses.at(SDLK_a) || keyPresses.at(SDLK_s)

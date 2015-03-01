@@ -26,7 +26,7 @@ private:
     }
   
 public:
-    GLuint get(std::string name) {
+    GLuint get(std::string name) const {
         return uniforms.at(name);
     }
 

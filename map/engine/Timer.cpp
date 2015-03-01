@@ -8,33 +8,37 @@
 #include "Timer.h"
 
 Timer::Timer() {
-    lastTime = SDL_GetPerformanceCounter();
+    // current counter value, meaningful only in relation to other counter values
+    counter = SDL_GetPerformanceCounter();
+    // platform-specific counter per second
     timeScale = 1.0/SDL_GetPerformanceFrequency();    
-    Uint32 lastFpsTime = SDL_GetTicks();
-    fpsCounter = 1;    
-    avgFps = 0;
+    // # of msec since SDL has been initialized
+    lastFpsTime = SDL_GetTicks();
+    frames = 1;    
+    fps = 0;
 }
 
 void Timer::tick()
 {
+    frames++;
+    // every second
     if (SDL_GetTicks() - lastFpsTime >= 1000) {
-        avgFps = fpsCounter;
-        fpsCounter = 1;
+        fps = frames;
+        frames = 1;
         lastFpsTime = SDL_GetTicks();
     }
     Uint64 currentTime = SDL_GetPerformanceCounter();
-    timeElapsed = (currentTime - lastTime) * timeScale;
-    lastTime = currentTime;       
-    fpsCounter++;
+    inGameFrameTime = (currentTime - counter) * timeScale;
+    counter = currentTime;       
 }
 
 const int Timer::getAverageFPS() const {
-    return avgFps;
+    return fps;
 }
 
-const double Timer::getTimeElapsed() const
-{
-    return timeElapsed;
+const double Timer::getInGameFrameTime() const
+{    
+    return inGameFrameTime;
 }
 
 Timer::~Timer() {
