@@ -28,17 +28,17 @@ void Timer::tick()
         lastFpsTime = SDL_GetTicks();
     }
     Uint64 currentTime = SDL_GetPerformanceCounter();
-    inGameFrameTime = (currentTime - counter) * timeScale;
+    inGameFrameDuration = (currentTime - counter) * timeScale;
     counter = currentTime;       
 }
 
-const int Timer::getAverageFPS() const {
+const int Timer::getFPS() const {
     return fps;
 }
 
-const double Timer::getInGameFrameTime() const
+const double Timer::getInGameFrameDuration() const
 {    
-    return inGameFrameTime;
+    return inGameFrameDuration;
 }
 
 Timer::~Timer() {

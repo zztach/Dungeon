@@ -19,12 +19,18 @@ class Timer {
 public:
     Timer();
     void tick();
-    const int getAverageFPS() const;
+    
+    /**
+     * Calculates and returns the # of frames per second
+     * @return the number of frames per second
+     */
+    const int getFPS() const;
+    
     /**
      * Controls the speed of the game. Lowering its value slows down the game, while increasing it speeds it up.
      * @return the duration of each frame in msec
      */
-    const double getInGameFrameTime() const; 
+    const double getInGameFrameDuration() const; 
     virtual ~Timer();
 private:
     // counter
@@ -34,7 +40,7 @@ private:
     Uint32 lastFpsTime;    
     int frames;
     int fps;
-    double inGameFrameTime;
+    double inGameFrameDuration;
 };
 
 #endif	/* TIMER_H */

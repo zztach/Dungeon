@@ -130,19 +130,19 @@ void Game::render3D() {
     glm::vec4 light = glm::vec4(25.0, 20.0, 15.0, 0.0f);
     glUniform4fv(shaderUniform->get("light_pos"), 1, glm::value_ptr(light));
     
-    level->render(program, timer->getInGameFrameTime());
-    emitter->update(timer->getInGameFrameTime(), camera->getRotation());   
+    level->render(program, timer->getInGameFrameDuration());
+    emitter->update(timer->getInGameFrameDuration(), camera->getRotation());   
 }
 
 void Game::render2D() 
 {       
     glUniformMatrix4fv(shaderUniform->get("proj_matrix"), 1, GL_FALSE, glm::value_ptr(camera->getOrthoProjection()));
     glUniformMatrix4fv(shaderUniform->get("camera_matrix"), 1, GL_FALSE, glm::value_ptr(glm::mat4(1.0f)));
-    sprintf(fpsString, "FPS: %d", timer->getAverageFPS());
+    sprintf(fpsString, "FPS: %d", timer->getFPS());
     textRenderer->render(program, 0, 0, fpsString);        
     if (inventoryOn) {
         control->update(mouseState);
-        control->render(program, timer->getInGameFrameTime());
+        control->render(program, timer->getInGameFrameDuration());
     }    
 }
 
@@ -155,9 +155,9 @@ void Game::frameEnd()
 void Game::handleEvents() {
     SDL_Event event;
 
-    velocity += acceleration * timer->getInGameFrameTime();
+    velocity += acceleration * timer->getInGameFrameDuration();
     velocity = std::min(velocity, 8.0);    
-    float distance = velocity * timer->getInGameFrameTime();
+    float distance = velocity * timer->getInGameFrameDuration();
     
     //continuous-response keys
     if (keyPresses.at(SDLK_w) || keyPresses.at(SDLK_a) || keyPresses.at(SDLK_s)
