@@ -15,7 +15,7 @@ int main(int argc, char* argv[]) {
         g_game->render2D();
         g_game->frameEnd();
     }
-    g_game->clean();
 
+    delete g_game;
     return 0;
 }

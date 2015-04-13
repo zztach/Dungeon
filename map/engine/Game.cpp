@@ -165,7 +165,7 @@ void Game::handleEvents()
 }
 
 
-void Game::clean() {
+Game::~Game() {
     std::cout << "cleaning game\n";
     glDeleteProgram(program);
     delete level;

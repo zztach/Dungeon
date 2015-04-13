@@ -39,7 +39,6 @@ public:
     void render3D();
     void render2D();
     void handleEvents();
-    void clean();
     const bool running() { return m_bRunning;}
     void frameEnd();
 private:
