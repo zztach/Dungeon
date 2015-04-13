@@ -23,7 +23,8 @@ struct MouseState
     int rightButtonDown;
     int middleButtonDown;
     
-    int x,y;
+    int x,y, xrel, yrel;
+    bool mouseMovement;
     
     MouseState()
     {
@@ -33,6 +34,9 @@ struct MouseState
         
         x = 0;
         y = 0;
+        xrel = 0;
+        yrel = 0;
+        mouseMovement = false;
     }
 };
 

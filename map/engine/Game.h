@@ -18,6 +18,8 @@
 #include "Camera.h"
 #include "../utils/ShaderUniform.h"
 #include "../controls/ListBox.h"
+#include "../inputhander/InputHandler.h"
+#include "../inputhander/InputState.h"
 #include <glm.hpp>
 #include <gtc/matrix_transform.hpp>
 #include <gtc/type_ptr.hpp>
@@ -53,19 +55,17 @@ private:
     Timer* timer;
     Camera* camera;
     char* fpsString;
-    double velocity, acceleration;
     int counter;
     IDrawable*      level;
     Emitter*        emitter;
     ShaderUniform* shaderUniform;
-    std::map<char,bool> keyPresses;
-    std::list<char> supportedKeys;
     // 2D controls    
     TextRenderer* textRenderer;
     MouseState mouseState;
     Control* controlled;
     ListBox* control;
     bool inventoryOn;
+    InputHandler* inputHandler;
 };
 
 #endif

@@ -3,23 +3,11 @@
 
 Game::Game() 
 {
-    velocity = 4.0f;
-    acceleration = 0.0f;
     counter = 0;
     fpsString = new char[100];
     controlled = NULL;
-    inventoryOn = false;
-    
-    supportedKeys.push_back(SDLK_w);
-    supportedKeys.push_back(SDLK_a);
-    supportedKeys.push_back(SDLK_s);
-    supportedKeys.push_back(SDLK_d);
-    supportedKeys.push_back(SDLK_f);
-    supportedKeys.push_back(SDLK_TAB);
-    for(std::list<char>::iterator iter = supportedKeys.begin(); iter != supportedKeys.end(); iter++) 
-    {
-        keyPresses[*iter] = false;
-    }
+    inventoryOn = false;    
+    inputHandler = new InputHandler();
 }
     
 bool Game::init(const char* title, const int flags) {
@@ -152,83 +140,30 @@ void Game::frameEnd()
     SDL_GL_SetSwapInterval(0);
 }
 
-void Game::handleEvents() {
-    SDL_Event event;
-
-    velocity += acceleration * timer->getInGameFrameDuration();
-    velocity = std::min(velocity, 8.0);    
-    float distance = velocity * timer->getInGameFrameDuration();
+void Game::handleEvents() 
+{
+    InputState* state = inputHandler->handleInput();
+    MouseState mouseState = state->getMouseState();
+    map<char,KeyState*> keyState = state->getKeyboardState();
     
-    //continuous-response keys
-    if (keyPresses.at(SDLK_w) || keyPresses.at(SDLK_a) || 
-        keyPresses.at(SDLK_s) || keyPresses.at(SDLK_d)) 
-    {
-        counter++;
-        acceleration += 0.05 * counter;
-        if (keyPresses.at(SDLK_w)) {
-            camera->moveForward(distance);
-        }
-        if (keyPresses.at(SDLK_s)) {
-            camera->moveBackwards(distance);
-        }
-        if (keyPresses.at(SDLK_a)) {
-            camera->strafeLeft(distance);
-        }
-        if (keyPresses.at(SDLK_d)) {
-            camera->strafeRight(distance);
-        }
-    }
+    camera->process(keyState, mouseState, timer->getInGameFrameDuration());
         
-    SDL_GetMouseState(&mouseState.x, &mouseState.y);
-    
-    mouseState.leftButtonDown = SDL_GetMouseState(NULL, NULL) & SDL_BUTTON(1);
-    mouseState.middleButtonDown = SDL_GetMouseState(NULL, NULL) & SDL_BUTTON(2);
-    mouseState.rightButtonDown = SDL_GetMouseState(NULL, NULL) & SDL_BUTTON(3);
-    
-    while (SDL_PollEvent(&event)) {
-        switch (event.type) {
-            case SDL_QUIT:
-                m_bRunning = false;
-                break;
-            case SDL_KEYDOWN:
-                if (event.key.keysym.sym == SDLK_ESCAPE) {
-                    m_bRunning = false;
-                    break;
-                }                
-                if (event.key.keysym.sym == SDLK_f) {
-                    mode = (mode == GL_LINE) ? GL_FILL : GL_LINE;
-                    glPolygonMode(GL_FRONT_AND_BACK, mode);
-                    break;
-                }
-                if (event.key.keysym.sym == SDLK_TAB) {
-                    inventoryOn = inventoryOn ? false : true;
-                    break;
-                }
-                keyPresses[event.key.keysym.sym] = true;
-                break;
-            case SDL_KEYUP:
-                if (keyPresses.count(event.key.keysym.sym) && keyPresses.at(event.key.keysym.sym) == true) {
-                    acceleration = 0.0;
-                    velocity = 4.0;
-                    counter = 0;
-                    keyPresses[event.key.keysym.sym] = false;
-                    break;
-                }                
-            case SDL_MOUSEMOTION:
-                // xrel refers to the mouse movements in the x axis. Mouse moves in x,y directions in 
-                // a 2D coordinate system. 
-                if (event.motion.xrel > 100 || event.motion.xrel < -100)                    
-                    camera->rotate(0.0f);
-                else
-                    camera->rotate(event.motion.xrel / 5.0);
-                break;
-            default:
-                break;
-        }
+    if (keyState[SDLK_f]->pressed && !keyState[SDLK_f]->consumed) {
+        mode = (mode == GL_LINE) ? GL_FILL : GL_LINE;
+        glPolygonMode(GL_FRONT_AND_BACK, mode);
+        keyState[SDLK_f]->consumed = true;
     }
-    // allows the mouse events to be processed even when cursor is out of the game window
-    SDL_SetRelativeMouseMode(SDL_TRUE);
+    
+    if (keyState[SDLK_TAB]->pressed && !keyState[SDLK_TAB]->consumed) {
+        inventoryOn = inventoryOn ? false : true;        
+        keyState[SDLK_TAB]->consumed = true;
+    }
+
+    if (keyState[SDLK_ESCAPE]->pressed) {
+        m_bRunning = false;        
+    }         
 }
+
 
 void Game::clean() {
     std::cout << "cleaning game\n";

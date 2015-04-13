@@ -63,6 +63,41 @@ float Camera::getRotation() const
     return rotY;
 }
 
+void Camera::process(map<char,KeyState*> keysPressed, MouseState& mouseState, double frameTime)
+{
+    double velocity = 8.0;    
+    float distance = velocity * frameTime;
+    
+    //continuous-response keys
+    if (keysPressed[SDLK_w] || 
+         keysPressed[SDLK_a] || 
+         keysPressed[SDLK_s] || 
+         keysPressed[SDLK_d]) 
+    {
+        if (keysPressed[SDLK_w]->pressed) {
+            this->moveForward(distance);
+        }
+        if (keysPressed[SDLK_s]->pressed) {
+            this->moveBackwards(distance);
+        }
+        if (keysPressed[SDLK_a]->pressed) {
+            this->strafeLeft(distance);
+        }
+        if (keysPressed[SDLK_d]->pressed) {
+            this->strafeRight(distance);
+        }
+    }
+
+    // xrel refers to the mouse movements in the x axis. Mouse moves in x,y directions in 
+    // a 2D coordinate system. 
+    if (mouseState.mouseMovement) {
+        if (mouseState.xrel > 100 || mouseState.xrel < -100)
+            this->rotate(0.0f);
+        else if (mouseState.xrel != 0)
+            this->rotate(mouseState.xrel / 5.0);
+    }        
+}
+
 const glm::mat4 Camera::getMatrix()
 {
     glm::mat4 mv_rot_camera = glm::rotate(matrix_initial, rotY, glm::vec3(0.0f, 1.0f, 0.0f));

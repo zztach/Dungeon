@@ -9,11 +9,13 @@
 #define	CAMERA_H
 
 #include <iostream>
+#include <SDL.h>
 #include <glm.hpp>
 #include <gtc/matrix_transform.hpp>
 #include <gtc/type_ptr.hpp>
+#include "../inputhander/InputProcessor.h"
 
-class Camera {
+class Camera : public InputProcessor {
 public:
     Camera(const int width, const int height);
     Camera(const Camera& orig);
@@ -26,6 +28,7 @@ public:
     glm::vec3 getPosition() const;
     const glm::mat4 getMatrix();
     float getRotation() const;
+    void process(map<char,KeyState*> keys, MouseState& mouseState, double frameTime);
     const glm::mat4 getPerpsectiveProjection() const;
     const glm::mat4 getOrthoProjection() const;
     virtual ~Camera();
