@@ -52,7 +52,7 @@ set(SOURCE_FILES src/controls/Control.cpp
         src/Main.cpp)
 
 find_package(SDL2 REQUIRED)
-set(OPENGL64_LIB /opt/amdgpu-pro/lib/x86_64-linux-gnu/libGL.so)
+set(OPENGL64_LIB /usr/lib/x86_64-linux-gnu/libGL.so)
 set(SDL2_LIB /usr/lib/x86_64-linux-gnu/libSDL2.so )
 set(GLEW_LIB /usr/lib64/libGLEW.so.1.11 )
 link_directories(${OPENGL64_LIB} ${SDL2_LIB} ${GLEW_LIB})
