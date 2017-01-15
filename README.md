@@ -22,22 +22,16 @@ Sample documentation (work in progress) is available at http://zztach.github.io/
 <b>2D effects</b>
 <ul>
 <li>2D text</li>
-   Display text on screen
+   Display text on screen (e.g FPS Counter)
 <li>2D Controls</li>
    Primitive display of 2D controls like listbox
 </ul>
-
-<b>SETUP LINUX/NETBEANS</b><br>
-TODO
-
-<b>SETUP WINDOWS/VS2012</b><br>
-TODO
 
 <b>LIBRARIES USED</b>
 <ul>
 <li>OpenGL 4.2 core profile</li>
 <li>SDL2 : window/keyboard/mouse management</li>
-<li>glm  : math operations</li>
-<li>glew : OpenGL extentions</li>
+<li>glm-0.9.4.6 : math operations</li>
+<li>glew-1.11.0 : OpenGL extentions</li>
 <li>pugixml : handle xml files</li>
 </ul>
