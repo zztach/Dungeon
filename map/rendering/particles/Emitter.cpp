@@ -39,7 +39,7 @@ void Emitter::update(double time, float rotY) {
     if (texture == NULL)     
         return;
 
-    int numEmission = time * 50.0f * emissionRate;
+    int numEmission = (int)(0.2f * emissionRate);
     for (int i = 0; i < numEmission; i++)
         addParticle(rotY);
 
