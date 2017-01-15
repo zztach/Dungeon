@@ -1,3 +1,4 @@
+#include <SDL_video.h>
 #include "Game.h"
 #include "../rendering/TextRenderer.h"
 
@@ -17,19 +18,23 @@ bool Game::init(const char* title, const int flags) {
         SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
         
         // Declare display mode structure to be filled in.
-        SDL_DisplayMode current;
+        SDL_DisplayMode modeInUse;
 
         // Get current display mode of all displays.
         for(int i = 0; i < SDL_GetNumVideoDisplays(); ++i){
-            int should_be_zero = SDL_GetCurrentDisplayMode(i, &current);
-            if(should_be_zero != 0)
-            // In case of error...
+            SDL_DisplayMode current;
+            int errorCode = SDL_GetCurrentDisplayMode(i, &current);
+
+            if(errorCode != 0)
                 SDL_Log("Could not get display mode for video display #%d: %s", i, SDL_GetError());
             else
-            // On success, print the current display mode.
                 SDL_Log("Display #%d: current display mode is %dx%dpx @ %dhz. \n", i, current.w, current.h, current.refresh_rate);
-            width = current.w;
-            height = current.h;
+
+            if (modeInUse.w == 0 || current.w > modeInUse.w) {
+                modeInUse = current;
+                width = current.w;
+                height = current.h;
+            }
         }
 
         
@@ -49,7 +54,6 @@ bool Game::init(const char* title, const int flags) {
     }    
     glewExperimental = GL_TRUE;
     GLenum err = glewInit();
-    std::cout << glGetError() << std::endl;
     if (GLEW_OK != err) {
         /* Problem: glewInit failed, something is seriously wrong. */
         fprintf(stderr, "Error: %s\n", glewGetErrorString(err));
