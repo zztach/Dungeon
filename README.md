@@ -10,9 +10,9 @@ Sample documentation (work in progress) is available at http://zztach.github.io/
 <li>Install CMake</li>
 <i>sudo apt-get install cmake</i>
 <li>Install GLEW under /opt</li>
-<i>sudo wget https://sourceforge.net/projects/glew/files/glew/1.11.0/glew-1.11.0.tgz; tar -xvzf glew-1.11.0.tgz -C opt/;rm -f glew-1.11.0.tgz</i>
+<i>sudo wget https://sourceforge.net/projects/glew/files/glew/1.11.0/glew-1.11.0.tgz; tar -xvzf glew-1.11.0.tgz -C /opt;rm -f glew-1.11.0.tgz</i>
 <li>Install glm under /opt</li>
-<i>sudo wget https://github.com/g-truc/glm/releases/download/0.9.4.6/glm-0.9.4.6.zip; unzip glm-0.9.4.6.zip -d opt/;rm -f glm-0.9.4.6.zip</i>
+<i>sudo wget https://github.com/g-truc/glm/releases/download/0.9.4.6/glm-0.9.4.6.zip; unzip glm-0.9.4.6.zip -d /opt;rm -f glm-0.9.4.6.zip</i>
 <li>Compile Code</li>
 <i>Go to root project directory and execute cmake .</i>
 <li>Run Executable</li>
