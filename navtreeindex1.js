@@ -1,0 +1,27 @@
+var NAVTREEINDEX1 =
+{
+"struct_key_state.html":[0,0,12],
+"struct_key_state.html#a58a41710d0b4407897d4ca5f253bb14a":[0,0,12,2],
+"struct_key_state.html#a5b25b2bd1d69234ac0b7a742f658b2c1":[0,0,12,1],
+"struct_key_state.html#a5b61f62182242285f86b60312a73b2b2":[0,0,12,0],
+"struct_mouse_state.html":[0,0,15],
+"struct_mouse_state.html#a03d16d8606d7ac18f339376bf0c5b33c":[0,0,15,3],
+"struct_mouse_state.html#a6b4f511089560b97fd1a61b7fa546779":[0,0,15,5],
+"struct_mouse_state.html#a719b0ed8abb21007b60fc7c29b903faa":[0,0,15,2],
+"struct_mouse_state.html#a7ad63ec0532f29c9e65c2a9ee43e3337":[0,0,15,4],
+"struct_mouse_state.html#a91234159a071979be5e8d3505719ffe6":[0,0,15,1],
+"struct_mouse_state.html#aa4eb6af864f7688f7f3c3c346282fd43":[0,0,15,0],
+"struct_mouse_state.html#ab7b0d0d4fc35e6579f56073dc2d7bade":[0,0,15,8],
+"struct_mouse_state.html#ac8b9b5ebebda67fc486611e4163f0e07":[0,0,15,6],
+"struct_mouse_state.html#af36784f67fabdede3753c3304fdb4f4d":[0,0,15,7],
+"struct_t_g_a___header.html":[0,0,23],
+"struct_t_g_a___header.html#a21214a11d758d5ca2e856609102622cf":[0,0,23,6],
+"struct_t_g_a___header.html#a2723cee539631c10a2c0dea4155452e1":[0,0,23,7],
+"struct_t_g_a___header.html#a5282702eccb968eb3491683f2ff960bb":[0,0,23,3],
+"struct_t_g_a___header.html#a536d3824f8ba97839a07c7b225a25b6d":[0,0,23,1],
+"struct_t_g_a___header.html#a58ac3efc3c559f7de66cd3b122dc5c92":[0,0,23,8],
+"struct_t_g_a___header.html#a5a44d9fb48e2d325f9624aca651eef29":[0,0,23,4],
+"struct_t_g_a___header.html#a6b12b3396d279a0e9fd9196a496db78e":[0,0,23,2],
+"struct_t_g_a___header.html#a75296d5f0f585120699a16fbcae9531f":[0,0,23,5],
+"struct_t_g_a___header.html#ac682a765e0a63c0078063f6cc3d94412":[0,0,23,0]
+};

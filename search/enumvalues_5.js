@@ -1,0 +1,21 @@
+var searchData=
+[
+  ['node_5fcdata',['node_cdata',['../namespacepugi.html#a137e94a038e4ab0ada6477cf7f6153a9adf13d60a4dfd047be0700e1711aeb1ea',1,'pugi']]],
+  ['node_5fcomment',['node_comment',['../namespacepugi.html#a137e94a038e4ab0ada6477cf7f6153a9a445fef674a66777dfd28dbd6bab14fed',1,'pugi']]],
+  ['node_5fdeclaration',['node_declaration',['../namespacepugi.html#a137e94a038e4ab0ada6477cf7f6153a9aad8024cc4a4afbc68c871f3826a00616',1,'pugi']]],
+  ['node_5fdoctype',['node_doctype',['../namespacepugi.html#a137e94a038e4ab0ada6477cf7f6153a9a9504586a29b181817607cc7ec231c9d4',1,'pugi']]],
+  ['node_5fdocument',['node_document',['../namespacepugi.html#a137e94a038e4ab0ada6477cf7f6153a9aab42ba83cf941f7297325eade205bf80',1,'pugi']]],
+  ['node_5felement',['node_element',['../namespacepugi.html#a137e94a038e4ab0ada6477cf7f6153a9a6d223e3a0d8ce8e4ee6f4a2697b8bcd1',1,'pugi']]],
+  ['node_5fnull',['node_null',['../namespacepugi.html#a137e94a038e4ab0ada6477cf7f6153a9ad58c55e810076e076318cc2268191b1f',1,'pugi']]],
+  ['node_5fpcdata',['node_pcdata',['../namespacepugi.html#a137e94a038e4ab0ada6477cf7f6153a9a5c0042693a8b8b6b54c191b4403fca21',1,'pugi']]],
+  ['node_5fpi',['node_pi',['../namespacepugi.html#a137e94a038e4ab0ada6477cf7f6153a9acd772b12b3d5442b9771151f45134440',1,'pugi']]],
+  ['nodetest_5fall',['nodetest_all',['../pugixml_8cpp.html#ab268b4264276130baeb17ab629015275a414f38524d511536350bcc69fea49ef9',1,'pugixml.cpp']]],
+  ['nodetest_5fall_5fin_5fnamespace',['nodetest_all_in_namespace',['../pugixml_8cpp.html#ab268b4264276130baeb17ab629015275a92953acde5a4d8f8ab80fa3082dfa8af',1,'pugixml.cpp']]],
+  ['nodetest_5fname',['nodetest_name',['../pugixml_8cpp.html#ab268b4264276130baeb17ab629015275a48897ee9908e5282657f6499c23b5caf',1,'pugixml.cpp']]],
+  ['nodetest_5fnone',['nodetest_none',['../pugixml_8cpp.html#ab268b4264276130baeb17ab629015275a6c7184af99feffae4eb898b764e93649',1,'pugixml.cpp']]],
+  ['nodetest_5fpi',['nodetest_pi',['../pugixml_8cpp.html#ab268b4264276130baeb17ab629015275a96311576befbea6bcdb8c7b098ab7031',1,'pugixml.cpp']]],
+  ['nodetest_5ftype_5fcomment',['nodetest_type_comment',['../pugixml_8cpp.html#ab268b4264276130baeb17ab629015275aad06f521ae05b1d06d3d23ca7c1381e6',1,'pugixml.cpp']]],
+  ['nodetest_5ftype_5fnode',['nodetest_type_node',['../pugixml_8cpp.html#ab268b4264276130baeb17ab629015275aef6cad334993e832458e028decb18c85',1,'pugixml.cpp']]],
+  ['nodetest_5ftype_5fpi',['nodetest_type_pi',['../pugixml_8cpp.html#ab268b4264276130baeb17ab629015275aff02fd24afbb268bc0c40cb45ea9e0f6',1,'pugixml.cpp']]],
+  ['nodetest_5ftype_5ftext',['nodetest_type_text',['../pugixml_8cpp.html#ab268b4264276130baeb17ab629015275a86e4bcba2f6202e9fd8001c33b92800b',1,'pugixml.cpp']]]
+];
