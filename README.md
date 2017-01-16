@@ -11,7 +11,9 @@ Sample documentation (work in progress) is available at http://zztach.github.io/
 <i>sudo apt-get install cmake</i>
 <li>Install GLEW under /opt</li>
 <i>sudo wget https://sourceforge.net/projects/glew/files/glew/1.11.0/glew-1.11.0.tgz; tar -xvzf glew-1.11.0.tgz -C /opt;rm -f glew-1.11.0.tgz</i><br>
-<i>cd /opt/glew-1.11.0; sudo make install</i> to get the libGLEW lib deployed
+<i>cd /opt/glew-1.11.0; sudo make install</i> to get the libGLEW lib deployed<br><br>
+If you get an error similar to <i>"error while loading shared libraries: libGLEW.so.1.11: cannot open shared object file: No such file or directory"</i>
+during try running <i>"export LD_LIBRARY_PATH=/usr/lib64"</i>
 <li>Install glm under /opt</li>
 <i>sudo wget https://github.com/g-truc/glm/releases/download/0.9.4.6/glm-0.9.4.6.zip; unzip glm-0.9.4.6.zip -d /opt;rm -f glm-0.9.4.6.zip</i>
 <li>Compile Code</li>
