@@ -39,16 +39,16 @@ void Emitter::update(double time, float rotY) {
     if (texture == NULL)     
         return;
 
-    int numEmission = (int)(0.2f * emissionRate);
-    for (int i = 0; i < numEmission; i++)
-        addParticle(rotY);
-
     // ALWAYS draw all particles, but do not write to depth buffer, 
     // otherwise particles will always be drawn
     glDepthMask(GL_FALSE); 
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE);  
     glBindTexture(GL_TEXTURE_2D, texture->getTexture());
+
+    int numEmission = (int)(0.2f * emissionRate);
+    for (int i = 0; i < numEmission; i++)
+        addParticle(rotY);
 
     for (std::list<Particle*>::iterator it = particles.begin(); it != particles.end();) {
         Particle *particle = (*it);
@@ -60,7 +60,7 @@ void Emitter::update(double time, float rotY) {
 
         particle->render(program, time);
 
-        if (particle->active == false) {
+        if (!particle->active) {
             delete particle;
             it = particles.erase(it);
         } else

@@ -61,7 +61,7 @@ bool Game::init(const char* title, const int flags) {
 
     fprintf(stdout, "Status: Using GLEW %s\n", glewGetString(GLEW_VERSION));
 
-    program = ShaderLoader::load("shaders/vertex_shader.vs", "shaders/fragment_shader.fg");     
+    program = ShaderLoader::load("shaders/vertex_shader.vert", "shaders/fragment_shader.frag");
     shaderUniform = ShaderUniform::getInstance(program);
     
     printf("OpenGL %s, GLSL %s\n", glGetString(GL_VERSION), glGetString(GL_SHADING_LANGUAGE_VERSION));

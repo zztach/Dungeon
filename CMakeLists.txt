@@ -68,6 +68,6 @@ configure_file(src/resources/textures/smoke.tga ${CMAKE_BINARY_DIR}/cmake-build-
 configure_file(src/resources/textures/stone_wall.bmp ${CMAKE_BINARY_DIR}/cmake-build-debug/textures/stone_wall.bmp COPYONLY)
 configure_file(src/resources/textures/sunflower.tga ${CMAKE_BINARY_DIR}/cmake-build-debug/textures/sunflower.tga COPYONLY)
 configure_file(src/resources/textures/textures.xml ${CMAKE_BINARY_DIR}/cmake-build-debug/textures/textures.xml COPYONLY)
-configure_file(src/resources/shaders/vertex_shader.vs ${CMAKE_BINARY_DIR}/cmake-build-debug/shaders/vertex_shader.vs COPYONLY)
-configure_file(src/resources/shaders/fragment_shader.fg ${CMAKE_BINARY_DIR}/cmake-build-debug/shaders/fragment_shader.fg COPYONLY)
+configure_file(src/resources/shaders/vertex_shader.vert ${CMAKE_BINARY_DIR}/cmake-build-debug/shaders/vertex_shader.vert COPYONLY)
+configure_file(src/resources/shaders/fragment_shader.frag ${CMAKE_BINARY_DIR}/cmake-build-debug/shaders/fragment_shader.frag COPYONLY)
 configure_file(src/resources/map.txt ${CMAKE_BINARY_DIR}/cmake-build-debug/map.txt COPYONLY)
