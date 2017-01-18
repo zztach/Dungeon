@@ -17,7 +17,7 @@ during try running <i>"export LD_LIBRARY_PATH=/usr/lib64"</i>
 <li>Install glm under /opt</li>
 <i>sudo wget https://github.com/g-truc/glm/releases/download/0.9.4.6/glm-0.9.4.6.zip; unzip glm-0.9.4.6.zip -d /opt;rm -f glm-0.9.4.6.zip</i>
 <li>Compile Code</li>
-<i>Go to root project directory and execute cmake .</i>
+<i>Go to root project directory and execute "cmake --build . --target Dungeon -- -j 6"</i>
 <li>Run Executable</li>
 <i>cmake-build-debug/Dungeon</i>
 </ul>
