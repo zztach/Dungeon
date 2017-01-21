@@ -1,1 +1,8 @@
+### OpenGL Tutorials ###
 http://ogldev.atspace.co.uk/index.html
+http://www.tomdalling.com/blog/category/modern-opengl/
+
+### Discussions about replacing VBOs with VAOs ###
+http://www.openglsuperbible.com/2013/12/09/vertex-array-performance/
+http://stackoverflow.com/questions/5970087/understanding-vertex-array-objects-glgenvertexarrays
+http://stackoverflow.com/questions/8923174/opengl-vao-best-practices

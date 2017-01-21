@@ -34,9 +34,7 @@ Emitter::~Emitter() {
 }
 
 void Emitter::update(double time, float rotY) {
-    static float interval = 0;
-
-    if (texture == NULL)     
+    if (texture == NULL)
         return;
 
     // ALWAYS draw all particles, but do not write to depth buffer, 

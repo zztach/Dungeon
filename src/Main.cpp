@@ -1,11 +1,12 @@
 #include "engine/Game.h"
+
 /**
  @file
  * The entry point of Dungeon. Only the game loop is defined here. An instace of
  * the Game class is created and handles the actions inside the game loop 
  */
-int main(int argc, char* argv[]) {    
-    Game* g_game = new Game();
+int main(int argc, char *argv[]) {
+    Game *g_game = new Game();
     g_game->init("Dungeon", 0);
 
     while (g_game->running()) {

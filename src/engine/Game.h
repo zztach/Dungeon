@@ -41,9 +41,6 @@ public:
     void handleEvents();
     const bool running() { return m_bRunning;}
     void frameEnd();
-private:
-    std::string readFile(const char *filePath);
-    GLuint LoadShader(const char *vertex_path, const char *fragment_path);
 private:    
     SDL_Window* g_pWindow;
     SDL_GLContext glContext;

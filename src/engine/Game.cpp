@@ -2,33 +2,35 @@
 #include "Game.h"
 #include "../rendering/TextRenderer.h"
 
-Game::Game() 
-{
+Game::Game() {
     counter = 0;
     fpsString = new char[100];
     controlled = NULL;
-    inventoryOn = false;    
+    inventoryOn = false;
     inputHandler = new InputHandler();
 }
-    
-bool Game::init(const char* title, const int flags) {
-    int width,height;
+
+bool Game::init(const char *title, const int flags) {
+    int width = 1024;
+    int height = 768;
+
     // initialize SDL
     if (SDL_Init(SDL_INIT_EVERYTHING) >= 0) {
         SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-        
+
         // Declare display mode structure to be filled in.
         SDL_DisplayMode modeInUse;
 
         // Get current display mode of all displays.
-        for(int i = 0; i < SDL_GetNumVideoDisplays(); ++i){
+        for (int i = 0; i < SDL_GetNumVideoDisplays(); ++i) {
             SDL_DisplayMode current;
             int errorCode = SDL_GetCurrentDisplayMode(i, &current);
 
-            if(errorCode != 0)
+            if (errorCode != 0)
                 SDL_Log("Could not get display mode for video display #%d: %s", i, SDL_GetError());
             else
-                SDL_Log("Display #%d: current display mode is %dx%dpx @ %dhz. \n", i, current.w, current.h, current.refresh_rate);
+                SDL_Log("Display #%d: current display mode is %dx%dpx @ %dhz. \n", i, current.w, current.h,
+                        current.refresh_rate);
 
             if (modeInUse.w == 0 || current.w > modeInUse.w) {
                 modeInUse = current;
@@ -37,12 +39,12 @@ bool Game::init(const char* title, const int flags) {
             }
         }
 
-        
+
         // if succeeded create our window
         g_pWindow = SDL_CreateWindow("Dungeon",
-                SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-                width, height,
-                SDL_WINDOW_OPENGL | SDL_WINDOW_FULLSCREEN_DESKTOP);
+                                     SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+                                     width, height,
+                                     SDL_WINDOW_OPENGL | SDL_WINDOW_FULLSCREEN_DESKTOP);
 
         // Create an OpenGL context associated with the window.
         glContext = SDL_GL_CreateContext(g_pWindow);
@@ -51,7 +53,7 @@ bool Game::init(const char* title, const int flags) {
 
     } else {
         return 1; // sdl could not initialize
-    }    
+    }
     glewExperimental = GL_TRUE;
     GLenum err = glewInit();
     if (GLEW_OK != err) {
@@ -63,7 +65,7 @@ bool Game::init(const char* title, const int flags) {
 
     program = ShaderLoader::load("shaders/vertex_shader.vert", "shaders/fragment_shader.frag");
     shaderUniform = ShaderUniform::getInstance(program);
-    
+
     printf("OpenGL %s, GLSL %s\n", glGetString(GL_VERSION), glGetString(GL_SHADING_LANGUAGE_VERSION));
 
     glEnable(GL_CULL_FACE);
@@ -72,35 +74,34 @@ bool Game::init(const char* title, const int flags) {
 
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LEQUAL);
-    glDepthMask(GL_TRUE);  
+    glDepthMask(GL_TRUE);
     glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE);  
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE);
     glViewport(0, 0, width, height);
     mode = GL_FILL;
-       
+
     txFactory = new TextureFactory();
     txFactory->loadTextures();
     timer = new Timer();
-    camera = new Camera(width, height);    
-    level = new Level(txFactory->getTexture("mossy_wall")); 
+    camera = new Camera(width, height);
+    level = new Level(txFactory->getTexture("mossy_wall"));
     textRenderer = new TextRenderer(txFactory->getTexture("font")->getTexture());
     emitter = new Emitter(program);
     emitter->setTexture(txFactory->getTexture("particle"));
-    
-    level->bindVAO();        
+
+    level->bindVAO();
     textRenderer->bindVAO();
-    control = new ListBox(5,15,150,300);
+    control = new ListBox(5, 15, 150, 300);
     control->bindVAO();
     glActiveTexture(GL_TEXTURE0);
     glUniform1i(shaderUniform->get("tex"), 0);
 
-    glUseProgram(program);            
-    m_bRunning = true; 
+    glUseProgram(program);
+    m_bRunning = true;
     return true;
 }
 
-void Game::frameStart()
-{
+void Game::frameStart() {
     timer->tick();
 }
 
@@ -116,56 +117,54 @@ void Game::render3D() {
     glUniformMatrix4fv(shaderUniform->get("camera_matrix"), 1, GL_FALSE, glm::value_ptr(camera->getMatrix()));
 
     // set the projection matrix
-    glUniformMatrix4fv(shaderUniform->get("proj_matrix"), 1, GL_FALSE, glm::value_ptr(camera->getPerpsectiveProjection()));
+    glUniformMatrix4fv(shaderUniform->get("proj_matrix"), 1, GL_FALSE,
+                       glm::value_ptr(camera->getPerpsectiveProjection()));
 
     // w=0.0 equals directional light (sunlight), while w=1.0 equals positional light    
     glm::vec4 light = glm::vec4(-25.0, 20.0, 15.0, 0.0f);
     glUniform4fv(shaderUniform->get("light_pos"), 1, glm::value_ptr(light));
-    
+
     level->render(program, timer->getInGameFrameDuration());
-    emitter->update(timer->getInGameFrameDuration(), camera->getRotation());   
+    emitter->update(timer->getInGameFrameDuration(), camera->getRotation());
 }
 
-void Game::render2D() 
-{       
+void Game::render2D() {
     glUniformMatrix4fv(shaderUniform->get("proj_matrix"), 1, GL_FALSE, glm::value_ptr(camera->getOrthoProjection()));
     glUniformMatrix4fv(shaderUniform->get("camera_matrix"), 1, GL_FALSE, glm::value_ptr(glm::mat4(1.0f)));
     sprintf(fpsString, "FPS: %d", timer->getFPS());
-    textRenderer->render(program, 0, 0, fpsString);        
+    textRenderer->render(program, 0, 0, fpsString);
     if (inventoryOn) {
         control->update(mouseState);
         control->render(program, timer->getInGameFrameDuration());
-    }    
+    }
 }
 
-void Game::frameEnd()
-{
+void Game::frameEnd() {
     SDL_GL_SwapWindow(g_pWindow);
     SDL_GL_SetSwapInterval(0);
 }
 
-void Game::handleEvents() 
-{
-    InputState* state = inputHandler->handleInput();
+void Game::handleEvents() {
+    InputState *state = inputHandler->handleInput();
     MouseState mouseState = state->getMouseState();
-    map<char,KeyState*> keyState = state->getKeyboardState();
-    
+    map<char, KeyState *> keyState = state->getKeyboardState();
+
     camera->process(keyState, mouseState, timer->getInGameFrameDuration());
-        
+
     if (keyState[SDLK_f]->pressed && !keyState[SDLK_f]->consumed) {
         mode = (mode == GL_LINE) ? GL_FILL : GL_LINE;
         glPolygonMode(GL_FRONT_AND_BACK, mode);
         keyState[SDLK_f]->consumed = true;
     }
-    
+
     if (keyState[SDLK_TAB]->pressed && !keyState[SDLK_TAB]->consumed) {
-        inventoryOn = inventoryOn ? false : true;        
+        inventoryOn = !inventoryOn;
         keyState[SDLK_TAB]->consumed = true;
     }
 
     if (keyState[SDLK_ESCAPE]->pressed) {
-        m_bRunning = false;        
-    }         
+        m_bRunning = false;
+    }
 }
 
 

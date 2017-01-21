@@ -48,18 +48,14 @@ void Particle::bindVAO()
 
 void Particle::render(const GLuint program, const double timeElapsed) {
     
-    if (active == false)
+    if (!active)
         return;
 
     // number of seconds since our last update
 //    float change = (float) (timeElapsed - lastTime) / 10000.0f;
-    float change = timeElapsed / 20.0f;
+    float change = (float)timeElapsed / 20.0f;
     velocity += acceleration * change;
     position += velocity * change;
-
-    float x = position.x;
-    float y = position.y;
-    float z = position.z;
 
     if (position.y < 0.0f) {
         velocity.y = velocity.y * - bounciness;
@@ -79,7 +75,6 @@ void Particle::render(const GLuint program, const double timeElapsed) {
     GLuint mv_location = ShaderUniform::getInstance(program)->get("mv_matrix");
 
     glBindVertexArray(vao);
-    GLfloat colora[] = {1.0f, 1.0f, 0.0f, 1.0f};
     glm::mat4 mv_matrix = glm::translate(glm::mat4(1.0f), glm::vec3(position.x, position.y-1.2f, position.z -35.0f)) 
                           * glm::rotate(glm::mat4(1.0f), -rotY, glm::vec3(0.0f,1.0f, 0.0f));
     glUniformMatrix4fv(mv_location, 1, GL_FALSE, glm::value_ptr(mv_matrix));
