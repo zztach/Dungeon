@@ -20,7 +20,9 @@ public:
     ~ShaderLoader();
 private:
     ShaderLoader();
-    ShaderLoader(const ShaderLoader& orig);    
+    ShaderLoader(const ShaderLoader& orig);
+
+    static void compile(GLuint shaderId, const char *&shaderSrc, GLint &result, int &logLength);
 };
 
 #endif	/* SHADERLOADER_H */

@@ -26,7 +26,6 @@ uniform vec4 ambient = vec4(0.4, 0.4, 0.4, 1.0);
 void main(void)                                                    
 {                                                                      
     // Calculate coordinate in view-space
-    // add mv_rot_camera just left of position to rotate cubes individually
     vec4 P = camera_matrix * mv_matrix * position;
 
     // Calculate normal in view-space. For further explanation check
@@ -66,5 +65,5 @@ void main(void)
 
     // Calculate the clip-space position of each vertex
     // adding here the transformations we get steady light    
-    gl_Position = proj_matrix *  P;
+    gl_Position = proj_matrix * P;
 }                                                                  

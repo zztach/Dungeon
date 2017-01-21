@@ -112,11 +112,7 @@ void Game::render3D() {
     glClearBufferfv(GL_COLOR, 0, gray);
     glClearBufferfv(GL_DEPTH, 0, &one);
 
-    // store the "initial camera" matrix
-    stack<glm::mat4> modelviewStack;
     glUniformMatrix4fv(shaderUniform->get("camera_matrix"), 1, GL_FALSE, glm::value_ptr(camera->getMatrix()));
-
-    // set the projection matrix
     glUniformMatrix4fv(shaderUniform->get("proj_matrix"), 1, GL_FALSE,
                        glm::value_ptr(camera->getPerpsectiveProjection()));
 
