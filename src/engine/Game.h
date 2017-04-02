@@ -62,6 +62,11 @@ private:
     ListBox* control;
     bool inventoryOn;
     InputHandler* inputHandler;
+
+    void initSDL(int &width, int &height);
+    void initOpenGL(int width, int height) const;
+    void initShaders();
+    void initGameResources(int width, int height);
 };
 
 #endif
