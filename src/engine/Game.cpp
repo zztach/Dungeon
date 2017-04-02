@@ -70,15 +70,25 @@ void Game::initOpenGL(int width, int height) const {
         fprintf(stderr, "Error: %s\n", glewGetErrorString(err));
     }
     fprintf(stdout, "Status: Using GLEW %s\n", glewGetString(GLEW_VERSION));
+
+    /* CULLING : Enable culling of back-facing triangles. Front-facing triangles have CW winding order. Culling takes
+       CULLING : place after the vertex shader stage and before sending pixels down the pipeline for rasterization */
     glEnable(GL_CULL_FACE);
     glCullFace(GL_BACK);
     glFrontFace(GL_CW);
 
+    /* DEPTH_TEST : Reads the depth value of a fragment (z-coordinate) from the depth buffer at the current's fragment
+       DEPTH_TEST : coordinate and compares it to the generated depth value of the fragment currently being processed
+       DEPTH_TEST : Those who have lessOrEqual Z values pass the test and are written to the depth buffer */
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LEQUAL);
     glDepthMask(GL_TRUE);
+
+    /* BLENDING : Determines final color by combining "source*GL_SRC_ALPHA" and "dest*GL_ONE" using a "blend equation"*/
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+
+    /* VIEWPORT : Transforms the normalized device coordinates to window ones */
     glViewport(0, 0, width, height);
 }
 
