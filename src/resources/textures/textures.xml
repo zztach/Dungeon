@@ -20,5 +20,9 @@
         <id>font</id>
         <fileName>textures/font.tga</fileName>
     </texture>
+    <texture>
+        <id>crate</id>
+        <fileName>textures/crate.tga</fileName>
+    </texture>
 
 </Textures>
