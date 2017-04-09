@@ -20,6 +20,7 @@
 #include "../controls/ListBox.h"
 #include "../inputhander/InputHandler.h"
 #include "../inputhander/InputState.h"
+#include "../model/Mesh.h"
 #include <glm.hpp>
 #include <gtc/matrix_transform.hpp>
 #include <gtc/type_ptr.hpp>
@@ -54,6 +55,7 @@ private:
     int counter;
     IDrawable*      level;
     Emitter*        emitter;
+    Mesh* mesh;
     ShaderUniform* shaderUniform;
     // 2D controls    
     TextRenderer* textRenderer;

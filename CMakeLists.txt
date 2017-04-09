@@ -49,6 +49,8 @@ set(SOURCE_FILES src/controls/Control.cpp
         src/utils/ShaderLoader.cpp
         src/utils/ShaderLoader.h
         src/utils/ShaderUniform.h
+        src/model/Mesh.cpp
+        src/model/Mesh.h
         src/Main.cpp)
 
 find_package(SDL2 REQUIRED)

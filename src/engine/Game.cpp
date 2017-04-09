@@ -1,6 +1,7 @@
 #include <SDL_video.h>
 #include "Game.h"
 #include "../rendering/TextRenderer.h"
+#include "../model/Mesh.h"
 
 Game::Game() {
     counter = 0;
@@ -117,6 +118,9 @@ void Game::initGameResources(int width, int height) {
 
     control = new ListBox(5, 15, 150, 300);
     control->bindVAO();
+
+    mesh = new Mesh();
+    mesh->load("models/crate.obj");
 }
 
 void Game::frameStart() {
@@ -193,6 +197,7 @@ Game::~Game() {
     delete emitter;
     delete controlled;
     delete control;
+    delete mesh;
     if (glContext) SDL_GL_DeleteContext(glContext);
     if (g_pWindow) SDL_DestroyWindow(g_pWindow);
 
