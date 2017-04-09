@@ -61,8 +61,8 @@ void Mesh::load(const std::string &fileName) {
                 textureIdx[i] = indices[1];
                 normalIdx[i] = indices[2];
 
-                glm::vec3 pos = verticesList[vertexIdx[i]];
-                glm::vec2 tex = uvList[textureIdx[i]];
+                glm::vec3 pos = verticesList[vertexIdx[i] -1];
+                glm::vec2 tex = uvList[textureIdx[i] -1];
                 glm::vec3 normal;
 
                 Vertex vertex = Vertex(pos, tex, normal);
