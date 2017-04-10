@@ -75,7 +75,7 @@ void Particle::render(const GLuint program, const double timeElapsed) {
     GLuint mv_location = ShaderUniform::getInstance(program)->get("mv_matrix");
 
     glBindVertexArray(vao);
-    glm::mat4 mv_matrix = glm::translate(glm::mat4(1.0f), glm::vec3(position.x, position.y-1.2f, position.z -35.0f)) 
+    glm::mat4 mv_matrix = glm::translate(glm::mat4(1.0f), glm::vec3(position.x, position.y -1.0f, position.z -35.0f))
                           * glm::rotate(glm::mat4(1.0f), -rotY, glm::vec3(0.0f,1.0f, 0.0f));
     glUniformMatrix4fv(mv_location, 1, GL_FALSE, glm::value_ptr(mv_matrix));
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);

@@ -20,7 +20,7 @@ Mesh::~Mesh() {
 
 }
 
-void Mesh::load(const std::string &fileName) {
+vector<Vertex> Mesh::load(const std::string &fileName) {
     ifstream objFile(fileName);
     vector<glm::vec3> verticesList;
     vector<glm::vec2> uvList;
@@ -61,11 +61,11 @@ void Mesh::load(const std::string &fileName) {
                 textureIdx[i] = indices[1];
                 normalIdx[i] = indices[2];
 
-                glm::vec3 pos = verticesList[vertexIdx[i] -1];
-                glm::vec2 tex = uvList[textureIdx[i] -1];
+                glm::vec3 pos = verticesList[vertexIdx[i] - 1];
+                glm::vec2 tex = uvList[textureIdx[i] - 1];
                 glm::vec3 normal;
 
-                Vertex vertex = Vertex(pos, tex, normal);
+                Vertex vertex = Vertex(pos, tex);
                 vertices.push_back(vertex);
             }
         }
@@ -74,6 +74,7 @@ void Mesh::load(const std::string &fileName) {
 
     cout << vertices.size() << endl;
     objFile.close();
+    return vertices;
 }
 
 vector<int> Mesh::readTriplet(string &triplet) {
@@ -88,5 +89,4 @@ vector<int> Mesh::readTriplet(string &triplet) {
     return indices;
 }
 
-Vertex::Vertex(const glm::vec3 &pos, const glm::vec2 &tex, const glm::vec3 &normal) : pos(pos), tex(tex),
-                                                                                      normal(normal) {}
+Vertex::Vertex(const glm::vec3 &pos, const glm::vec2 &tex) : pos(pos), tex(tex) {}

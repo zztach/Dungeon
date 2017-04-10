@@ -14,16 +14,17 @@ using namespace std;
 struct Vertex {
     glm::vec3 pos;
     glm::vec2 tex;
-    glm::vec3 normal;
+//    glm::vec3 normal;
 
-    Vertex(const glm::vec3 &pos, const glm::vec2 &tex, const glm::vec3 &normal);
+//    Vertex(const glm::vec3 &pos, const glm::vec2 &tex, const glm::vec3 &normal);
+    Vertex(const glm::vec3 &pos, const glm::vec2 &tex);
 };
 
 class Mesh {
 public:
     Mesh();
     virtual ~Mesh();
-    void load(const std::string& fileName);
+    vector<Vertex> load(const std::string& fileName);
 
 private:
     static const string VERTEX_HEADER;

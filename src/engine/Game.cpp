@@ -118,9 +118,6 @@ void Game::initGameResources(int width, int height) {
 
     control = new ListBox(5, 15, 150, 300);
     control->bindVAO();
-
-    mesh = new Mesh();
-    mesh->load("models/crate.obj");
 }
 
 void Game::frameStart() {
@@ -128,7 +125,7 @@ void Game::frameStart() {
 }
 
 void Game::render3D() {
-    static const GLfloat gray[] = {0.2f, 0.2f, 0.2f, 1.0f};
+    static const GLfloat gray[] = {0.5f, 0.5f, 0.5f, 1.0f};
     static const GLfloat one = 1.0f;
 
     glClearBufferfv(GL_COLOR, 0, gray);

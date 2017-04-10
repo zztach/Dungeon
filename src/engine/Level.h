@@ -13,38 +13,43 @@
 #include "../rendering/IDrawable.h"
 #include "../utils/ShaderUniform.h"
 #include "../rendering/textures/Texture.h"
+#include "../model/Mesh.h"
 
 
 using namespace std;
-enum 
-{
-	TILE_EMPTY,
-	TILE_WALL
+enum {
+    TILE_EMPTY,
+    TILE_WALL
 };
 
-class Level : public IDrawable
-{
+class Level : public IDrawable {
 public :
-	Level(Texture* tex);
-	~Level();	
-	void update(void);			
-	void init();
-        // IDrawable        
-        void bindVAO();
-	void render(const GLuint program, const double timeElapsed);
-	
-protected: 
-	void createLevel(void);
+    Level(Texture *pTexture);
+
+    ~Level();
+
+    void update(void);
+
+    void init();
+
+    // IDrawable
+    void bindVAO();
+
+    void render(const GLuint program, const double timeElapsed);
+
+protected:
+    void createLevel(void);
 
 private :
-	int width;              // # of columns in map.txt
-	int height;             // # of lines in map.txt		
-	char** level;
-	vector<string> mapLines;
-        Texture* texture;
-	GLuint buffer;
-        GLuint vao;
-	GLuint normals_buffer;
+    int width;              // # of columns in map.txt
+    int height;             // # of lines in map.txt
+    char **level;
+    vector<string> mapLines;
+    Texture *texture;
+    Mesh *mesh;
+    GLuint buffer;
+    GLuint vao;
+    GLuint normals_buffer;
 };
 
 #endif

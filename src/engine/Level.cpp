@@ -24,8 +24,8 @@ Level::Level(Texture *tex) {
 
     srand(time(NULL));
     texture = tex;
+    this->mesh = new Mesh();
     createLevel();
-    //init();
 }
 
 Level::~Level() {
@@ -33,6 +33,7 @@ Level::~Level() {
         delete[] level[i];
     }
     delete[] level;
+    delete mesh;
     glDeleteBuffers(1, &buffer);
     glDeleteBuffers(1, &normals_buffer);
     glDeleteVertexArrays(1, &vao);
@@ -55,140 +56,30 @@ void Level::createLevel(void) {
 }
 
 void Level::init() {
-    static const GLfloat vertex_positions[] = {
-            // back face
-            -5 * 0.25f, 5 * 0.25f, -5 * 0.25f, 0.0f, 0.0f,
-            -5 * 0.25f, -5 * 0.25f, -5 * 0.25f, 0.0f, 1.0f,
-            5 * 0.25f, -5 * 0.25f, -5 * 0.25f, 1.0f, 1.0f,
-
-            5 * 0.25f, -5 * 0.25f, -5 * 0.25f, 0.0f, 0.0f,
-            5 * 0.25f, 5 * 0.25f, -5 * 0.25f, 0.0f, 1.0f,
-            -5 * 0.25f, 5 * 0.25f, -5 * 0.25f, 1.0f, 1.0f,
-
-            // right face
-            5 * 0.25f, -5 * 0.25f, -5 * 0.25f, 0.0f, 1.0f,
-            5 * 0.25f, -5 * 0.25f, 5 * 0.25f, 0.0f, 0.0f,
-            5 * 0.25f, 5 * 0.25f, -5 * 0.25f, 1.0f, 1.0f,
-
-            5 * 0.25f, -5 * 0.25f, 5 * 0.25f, 0.0f, 0.0f,
-            5 * 0.25f, 5 * 0.25f, 5 * 0.25f, 0.0f, 1.0f,
-            5 * 0.25f, 5 * 0.25f, -5 * 0.25f, 1.0f, 1.0f,
-
-            // front face
-            // bottom triangle
-            5 * 0.25f, -5 * 0.25f, 5 * 0.25f, 0.0f, 1.0f,
-            -5 * 0.25f, -5 * 0.25f, 5 * 0.25f, 0.0f, 0.0f,
-            5 * 0.25f, 5 * 0.25f, 5 * 0.25f, 1.0f, 1.0f,
-
-            // upper triangle
-            -5 * 0.25f, -5 * 0.25f, 5 * 0.25f, 0.0f, 0.0f,
-            -5 * 0.25f, 5 * 0.25f, 5 * 0.25f, 0.0f, 1.0f,
-            5 * 0.25f, 5 * 0.25f, 5 * 0.25f, 1.0f, 1.0f,
-
-            // left face
-            -5 * 0.25f, -5 * 0.25f, 5 * 0.25f, 0.0f, 1.0f,
-            -5 * 0.25f, -5 * 0.25f, -5 * 0.25f, 0.0f, 0.0f,
-            -5 * 0.25f, 5 * 0.25f, 5 * 0.25f, 1.0f, 1.0f,
-
-            -5 * 0.25f, -5 * 0.25f, -5 * 0.25f, 0.0f, 0.0f,
-            -5 * 0.25f, 5 * 0.25f, -5 * 0.25f, 0.0f, 1.0f,
-            -5 * 0.25f, 5 * 0.25f, 5 * 0.25f, 1.0f, 1.0f,
-
-            // bottom face
-            -5 * 0.25f, -5 * 0.25f, 5 * 0.25f, 1.0f, 0.0f,
-            5 * 0.25f, -5 * 0.25f, 5 * 0.25f, 0.0f, 0.0f,
-            5 * 0.25f, -5 * 0.25f, -5 * 0.25f, 0.0f, 1.0f,
-
-            5 * 0.25f, -5 * 0.25f, -5 * 0.25f, 0.0f, 0.0f,
-            -5 * 0.25f, -5 * 0.25f, -5 * 0.25f, 0.0f, 1.0f,
-            -5 * 0.25f, -5 * 0.25f, 5 * 0.25f, 1.0f, 1.0f,
-
-            // up face
-            -5 * 0.25f, 5 * 0.25f, -5 * 0.25f, 1.0f, 0.0f,
-            5 * 0.25f, 5 * 0.25f, -5 * 0.25f, 0.0f, 0.0f,
-            5 * 0.25f, 5 * 0.25f, 5 * 0.25f, 0.0f, 1.0f,
-
-            5 * 0.25f, 5 * 0.25f, 5 * 0.25f, 0.0f, 0.0f,
-            -5 * 0.25f, 5 * 0.25f, 5 * 0.25f, 0.0f, 1.0f,
-            -5 * 0.25f, 5 * 0.25f, -5 * 0.25f, 1.0f, 1.0f,
-    };
-
-    static const GLfloat vertex_normals[] = {
-            // back face
-            0.0f, 0.0f, -1.0f,
-            0.0f, 0.0f, -1.0f,
-            0.0f, 0.0f, -1.0f,
-
-            0.0f, 0.0f, -1.0f,
-            0.0f, 0.0f, -1.0f,
-            0.0f, 0.0f, -1.0f,
-
-            // right face
-            1.0f, 0.0f, 0.0f,
-            1.0f, 0.0f, 0.0f,
-            1.0f, 0.0f, 0.0f,
-
-            1.0f, 0.0f, 0.0f,
-            1.0f, 0.0f, 0.0f,
-            1.0f, 0.0f, 0.0f,
-
-            // front face
-            0.0f, 0.0f, 1.0f,
-            0.0f, 0.0f, 1.0f,
-            0.0f, 0.0f, 1.0f,
-
-            0.0f, 0.0f, 1.0f,
-            0.0f, 0.0f, 1.0f,
-            0.0f, 0.0f, 1.0f,
-
-            // left face
-            -1.0f, 0.0f, 0.0f,
-            -1.0f, 0.0f, 0.0f,
-            -1.0f, 0.0f, 0.0f,
-
-            -1.0f, 0.0f, 0.0f,
-            -1.0f, 0.0f, 0.0f,
-            -1.0f, 0.0f, 0.0f,
-
-            // bottom face
-            0.0f, -1.0f, 0.0f,
-            0.0f, -1.0f, 0.0f,
-            0.0f, -1.0f, 0.0f,
-
-            0.0f, -1.0f, 0.0f,
-            0.0f, -1.0f, 0.0f,
-            0.0f, -1.0f, 0.0f,
-
-            // up face
-            0.0f, 1.0f, 0.0f,
-            0.0f, 1.0f, 0.0f,
-            0.0f, 1.0f, 0.0f,
-
-            0.0f, 1.0f, 0.0f,
-            0.0f, 1.0f, 0.0f,
-            0.0f, 1.0f, 0.0f,
-    };
+    vector<Vertex> vertex_positions = mesh->load("models/crate.obj");
 
     // load vertex positions into the buffer, input to vertex attributes 0,3
     glGenBuffers(1, &buffer);
     glBindBuffer(GL_ARRAY_BUFFER, buffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertex_positions), vertex_positions, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, vertex_positions.size() * sizeof(Vertex), &vertex_positions[0], GL_STATIC_DRAW);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), NULL);
     glEnableVertexAttribArray(0);
+
+    // load vertex normals into another buffer, input to vertex attribute 2
+//    glGenBuffers(1, &normals_buffer);
+//    glBindBuffer(GL_ARRAY_BUFFER, normals_buffer);
+//    glBufferData(GL_ARRAY_BUFFER, sizeof(vertex_normals), vertex_normals, GL_STATIC_DRAW);
+//    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, NULL);
+//    glEnableVertexAttribArray(1);
 
     glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (const GLvoid *) (3 * sizeof(GLfloat)));
     glEnableVertexAttribArray(3);
 
-    // load vertex normals into another buffer, input to vertex attribute 2
-    glGenBuffers(1, &normals_buffer);
-    glBindBuffer(GL_ARRAY_BUFFER, normals_buffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertex_normals), vertex_normals, GL_STATIC_DRAW);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, NULL);
-    glEnableVertexAttribArray(1);
+
 }
 
 void Level::bindVAO() {
-    glGenVertexArrays(1, &vao); // Create our Vertex Array Object  
+    glGenVertexArrays(1, &vao); // Create our Vertex Array Object
     glBindVertexArray(vao); // Bind our Vertex Array Object so we can use it  
 
     init();
@@ -209,9 +100,9 @@ void Level::render(const GLuint program, const double timeElapsed) {
                 GLfloat color[] = {1.0f, 1.0f, 0.0f, 1.0f};
                 //                                                                   map_width_center + currect_cube_x,           0  ,            map_height_center - current_cube_y                       
                 glm::mat4 mv_matrix = glm::translate(glm::mat4(1.0f),
-                                                     glm::vec3(-(float) width * 2.5f / 2.0f + (float) j * 2.5f, 0.0f,
-                                                               -34.0f - (float) height * 2.5f / 2.0f -
-                                                               (float) i * 2.5f));
+                                                     glm::vec3(-(float) width * 2.0f / 2.0f + (float) j * 2.0f, 0.0f,
+                                                               -34.0f - (float) height * 2.0f / 2.0f -
+                                                               (float) i * 2.0f));
                 // rotate as first matrix operation rotates each cube around its axis. Interesting for effect
                 glUniformMatrix4fv(mv_location, 1, GL_FALSE, glm::value_ptr(mv_matrix));
                 glVertexAttrib4fv(2, color);
@@ -225,11 +116,11 @@ void Level::render(const GLuint program, const double timeElapsed) {
         for (int j = -width; j < width; j++) {
             GLfloat color[] = {0.9f, 0.9f, 0.9f, 0.0f};
             glm::mat4 mv_matrix = glm::translate(glm::mat4(1.0f),
-                                                 glm::vec3(-(float) width * 2.5f / 2.0f + (float) j * 2.5f, -2.5f,
-                                                           -34.0f - (float) height * 2.5f / 2.0f - (float) i * 2.5f));
+                                                 glm::vec3(-(float) width * 2.0f / 2.0f + (float) j * 2.0f, -2.0f,
+                                                           -34.0f - (float) height * 2.0f / 2.0f - (float) i * 2.0f));
             glUniformMatrix4fv(mv_location, 1, GL_FALSE, glm::value_ptr(mv_matrix));
             glVertexAttrib4fv(2, color);
-            glDrawArrays(GL_TRIANGLES, 30, 6);
+            glDrawArrays(GL_TRIANGLES, 18, 6);
         }
     }
 }
