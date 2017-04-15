@@ -50,7 +50,7 @@ void Camera::rotate(float yAngle)
     if (rotY < -360)
         rotY += 360;
     
-    float temp = rotY / 180 * M_PI;    
+    double temp = rotY / 180.0f * M_PI;
     // rotY rotates around the Y-axis. Right-rotation gives us positive values in rotY, left-rotation
     // gives negatives. The positive angles start from -Z and go to +X, this explains that 
     // sin(temp) gives us X-axis values and cos(temp) Z-axis values
@@ -65,8 +65,8 @@ float Camera::getRotation() const
 
 void Camera::process(map<char,KeyState*> keysPressed, MouseState& mouseState, double frameTime)
 {
-    double velocity = 8.0;    
-    float distance = velocity * frameTime;
+//    float velocity = 625.0f;
+    float distance = 2.0f;//velocity * frameTime;
     
     //continuous-response keys
     if (keysPressed[SDLK_w] || 
@@ -76,15 +76,19 @@ void Camera::process(map<char,KeyState*> keysPressed, MouseState& mouseState, do
     {
         if (keysPressed[SDLK_w]->pressed) {
             this->moveForward(distance);
+            keysPressed[SDLK_w]->pressed = false;
         }
         if (keysPressed[SDLK_s]->pressed) {
             this->moveBackwards(distance);
+            keysPressed[SDLK_s]->pressed = false;
         }
         if (keysPressed[SDLK_a]->pressed) {
             this->strafeLeft(distance);
+            keysPressed[SDLK_a]->pressed = false;
         }
         if (keysPressed[SDLK_d]->pressed) {
             this->strafeRight(distance);
+            keysPressed[SDLK_d]->pressed = false;
         }
     }
 

@@ -92,7 +92,7 @@ void Level::render(const GLuint program, const double timeElapsed) {
 
     // generate walls
     float cube_side_length = 2.0f;
-    float initial_distance = -25.0f;
+    float initial_distance = -24.0f;
 
     for (int i = 0; i < height; i++) {
         for (int j = 0; j < width; j++) {

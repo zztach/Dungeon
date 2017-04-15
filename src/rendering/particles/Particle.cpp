@@ -77,7 +77,7 @@ void Particle::render(const GLuint program, const double timeElapsed) {
     glBindVertexArray(vao);
     float x_offset = 8.0f;
     float y_offset = 1.0f;
-    float z_offset = 33.0f;
+    float z_offset = 32.0f;
     glm::mat4 mv_matrix = glm::translate(glm::mat4(1.0f), glm::vec3(-x_offset + position.x,
                                                                     position.y - y_offset,
                                                                     position.z - z_offset))
