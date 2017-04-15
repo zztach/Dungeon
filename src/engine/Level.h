@@ -50,6 +50,10 @@ private :
     GLuint buffer;
     GLuint vao;
     GLuint normals_buffer;
+
+    float getXOffset(float cube_side_length, int j) const;
+
+    float getZOffset(float cube_side_length, float initial_distance, int i) const;
 };
 
 #endif

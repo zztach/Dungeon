@@ -89,17 +89,19 @@ void Level::render(const GLuint program, const double timeElapsed) {
     glBindTexture(GL_TEXTURE_2D, texture->getTexture());
 
     glBindVertexArray(vao);
-    // iterating the lines of map.txt
+
+    // generate walls
+    float cube_side_length = 2.0f;
+    float initial_distance = -25.0f;
+
     for (int i = 0; i < height; i++) {
-        // iterating the columns of map.txt
         for (int j = 0; j < width; j++) {
             if (level[i][j] == TILE_WALL) {
                 GLfloat color[] = {1.0f, 1.0f, 0.0f, 1.0f};
-                //                                                                   map_width_center + currect_cube_x,           0  ,            map_height_center - current_cube_y                       
-                glm::mat4 mv_matrix = glm::translate(glm::mat4(1.0f),
-                                                     glm::vec3(-(float) width * 2.0f / 2.0f + (float) j * 2.0f, 0.0f,
-                                                               -34.0f - (float) height * 2.0f / 2.0f -
-                                                               (float) i * 2.0f));
+                //  map_width_center + current_cube_x,  0,  map_height_center - current_cube_y
+                float x = getXOffset(cube_side_length, j);
+                float z = getZOffset(cube_side_length, initial_distance, i);
+                glm::mat4 mv_matrix = glm::translate(glm::mat4(1.0f), glm::vec3(x, 0.0f, z));
                 // rotate as first matrix operation rotates each cube around its axis. Interesting for effect
                 glUniformMatrix4fv(mv_location, 1, GL_FALSE, glm::value_ptr(mv_matrix));
                 glVertexAttrib4fv(3, color);
@@ -109,15 +111,31 @@ void Level::render(const GLuint program, const double timeElapsed) {
     }
 
     // generate floor
-    for (int i = -height; i < height; i++) {
-        for (int j = -width; j < width; j++) {
+    for (int i = -1; i < height + 1; i++) {
+        for (int j = -1; j < width + 1; j++) {
             GLfloat color[] = {0.9f, 0.9f, 0.9f, 0.0f};
-            glm::mat4 mv_matrix = glm::translate(glm::mat4(1.0f),
-                                                 glm::vec3(-(float) width * 2.0f / 2.0f + (float) j * 2.0f, -2.0f,
-                                                           -34.0f - (float) height * 2.0f / 2.0f - (float) i * 2.0f));
+            float x = getXOffset(cube_side_length, j);
+            float y = 0.0f;
+            float z = getZOffset(cube_side_length, initial_distance, i);
+
+            glm::mat4 mv_matrix = glm::translate(glm::mat4(1.0f), glm::vec3(x, y, z));
+            glUniformMatrix4fv(mv_location, 1, GL_FALSE, glm::value_ptr(mv_matrix));
+            glVertexAttrib4fv(3, color);
+            glDrawArrays(GL_TRIANGLES, 18, 6);
+
+            y = -2.0f;
+            mv_matrix = glm::translate(glm::mat4(1.0f), glm::vec3(x, y, z));
             glUniformMatrix4fv(mv_location, 1, GL_FALSE, glm::value_ptr(mv_matrix));
             glVertexAttrib4fv(3, color);
             glDrawArrays(GL_TRIANGLES, 18, 6);
         }
     }
+}
+
+float Level::getXOffset(float cube_side_length, int j) const {
+    return -(float) width * cube_side_length / cube_side_length + (float) j * cube_side_length;
+}
+
+float Level::getZOffset(float cube_side_length, float initial_distance, int i) const {
+    return initial_distance - (float) height * cube_side_length / cube_side_length - (float) i * cube_side_length;
 }

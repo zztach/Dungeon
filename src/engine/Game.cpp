@@ -136,7 +136,7 @@ void Game::render3D() {
                        glm::value_ptr(camera->getPerpsectiveProjection()));
 
     // w=0.0 equals directional light (sunlight), while w=1.0 equals positional light    
-    glm::vec4 light = glm::vec4(-25.0, 20.0, 15.0, 0.0f);
+    glm::vec4 light = glm::vec4(0.0, 20.0, 15.0, 0.0f);
     glUniform4fv(shaderUniform->get("light_pos"), 1, glm::value_ptr(light));
 
     level->render(program, timer->getInGameFrameDuration());
