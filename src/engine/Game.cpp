@@ -107,7 +107,7 @@ void Game::initGameResources(int width, int height) {
     timer = new Timer();
     camera = new Camera(width, height);
 
-    level = new Level(txFactory->getTexture("mossy_wall"));
+    level = new Level(txFactory->getTexture("crate"));
     level->bindVAO();
 
     textRenderer = new TextRenderer(txFactory->getTexture("font")->getTexture());

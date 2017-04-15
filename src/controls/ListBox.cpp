@@ -77,8 +77,8 @@ bool ListBox::update(MouseState& state)
 }
 
 void ListBox::bindVAO() {
-    glGenVertexArrays(1, &vao); // Create our Vertex Array Object  
-    glBindVertexArray(vao); // Bind our Vertex Array Object so we can use it  
+    glGenVertexArrays(1, &vao); // Create our Vertex Array Object
+    glBindVertexArray(vao); // Bind our Vertex Array Object so we can use it
 
     static const GLint vertex_positions[] = {
         posX + width,   posY,
@@ -111,14 +111,14 @@ void ListBox::render(const GLuint program, const double timeElapsed)
     //if (inside) 
     //{
         GLfloat colora[] = {1.0f, 0.6f, 0.6f, 0.3f};
-        glVertexAttrib4fv(2, colora);
+        glVertexAttrib4fv(3, colora);
         glLineWidth(3.0f);
         std::cout << " INSIDE HERE L";
     //} 
 //    else 
 //    {
 //        GLfloat colora[] = {1.0f, 0.2f, 0.7f, 0.5f};
-//        glVertexAttrib4fv(2, colora);
+//        glVertexAttrib4fv(3, colora);
 //        glLineWidth(1.0f);
 //        std::cout << " INSIDE HERE 2";
 //    }    

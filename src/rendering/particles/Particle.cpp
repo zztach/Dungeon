@@ -22,8 +22,8 @@ Particle::~Particle()
 
 void Particle::bindVAO() 
 {
-    glGenVertexArrays(1, &vao); // Create our Vertex Array Object  
-    glBindVertexArray(vao); // Bind our Vertex Array Object so we can use it  
+    glGenVertexArrays(1, &vao); // Create our Vertex Array Object
+    glBindVertexArray(vao); // Bind our Vertex Array Object so we can use it
 
     static const GLfloat vertex_positions[] = {
         // CW order to get it in front
@@ -40,8 +40,8 @@ void Particle::bindVAO()
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5*sizeof(GLfloat), NULL);
     glEnableVertexAttribArray(0);
 
-    glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, 5*sizeof(GLfloat), (const GLvoid*)(3 * sizeof(GLfloat)));
-    glEnableVertexAttribArray(3);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5*sizeof(GLfloat), (const GLvoid*)(3 * sizeof(GLfloat)));
+    glEnableVertexAttribArray(1);
     
     glBindVertexArray(0);
 }
@@ -65,11 +65,11 @@ void Particle::render(const GLuint program, const double timeElapsed) {
     const float fadeTime = 0.5f;
 
     if (totalLife - life < fadeTime) {
-        glVertexAttrib4fv(2, glm::value_ptr(glm::vec4(glm::vec3(color), (totalLife - life) / fadeTime * alpha)));
+        glVertexAttrib4fv(3, glm::value_ptr(glm::vec4(glm::vec3(color), (totalLife - life) / fadeTime * alpha)));
     } else if (life < 1.0f) {
-        glVertexAttrib4fv(2, glm::value_ptr(glm::vec4(glm::vec3(color), life * alpha)));
+        glVertexAttrib4fv(3, glm::value_ptr(glm::vec4(glm::vec3(color), life * alpha)));
     } else {
-        glVertexAttrib4fv(2, glm::value_ptr(glm::vec4(glm::vec3(color), alpha)));
+        glVertexAttrib4fv(3, glm::value_ptr(glm::vec4(glm::vec3(color), alpha)));
     }
 
     GLuint mv_location = ShaderUniform::getInstance(program)->get("mv_matrix");

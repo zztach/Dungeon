@@ -23,8 +23,8 @@ TextRenderer::~TextRenderer() {
 
 
 void TextRenderer::bindVAO() {
-    glGenVertexArrays(1, &vao); // Create our Vertex Array Object  
-    glBindVertexArray(vao); // Bind our Vertex Array Object so we can use it  
+    glGenVertexArrays(1, &vao); // Create our Vertex Array Object
+    glBindVertexArray(vao); // Bind our Vertex Array Object so we can use it
     //each letter utilizes 16 positions on the array    
 
     GLfloat *vertex_positions_2 = new GLfloat[256 * 20];
@@ -67,8 +67,8 @@ void TextRenderer::bindVAO() {
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), NULL);
     glEnableVertexAttribArray(0);
 
-    glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (const GLvoid *) (3 * sizeof(GLfloat)));
-    glEnableVertexAttribArray(3);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (const GLvoid *) (3 * sizeof(GLfloat)));
+    glEnableVertexAttribArray(1);
 
     glBindVertexArray(0);
 
@@ -85,7 +85,7 @@ void TextRenderer::render(const GLuint program, GLint x, GLint y, std::string te
     GLfloat color[] = {1.0f, 0.0f, 0.0f, 1.0f};
     glm::mat4 mv_matrix = glm::translate(glm::mat4(1.0f), glm::vec3(float(x), float(y), 0.0));
     glUniformMatrix4fv(mv_location, 1, GL_FALSE, glm::value_ptr(mv_matrix));
-    glVertexAttrib4fv(2, color);
+    glVertexAttrib4fv(3, color);
 
     for (unsigned int i = 0; i < text.length(); i++) {
         glDrawArrays(GL_TRIANGLE_FAN, (text.at(i)) * 4 - 32 * 4, 4);

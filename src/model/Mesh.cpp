@@ -23,6 +23,7 @@ Mesh::~Mesh() {
 vector<Vertex> Mesh::load(const std::string &fileName) {
     ifstream objFile(fileName);
     vector<glm::vec3> verticesList;
+    vector<glm::vec3> normalsList;
     vector<glm::vec2> uvList;
     vector<Vertex> vertices;
 
@@ -44,10 +45,13 @@ vector<Vertex> Mesh::load(const std::string &fileName) {
             uvs >> uvPair.t;
             uvList.push_back(uvPair);
         } else if (line.substr(0, 2) == NORMAL_HEADER) {
-
+            istringstream normals(line.substr(NORMAL_HEADER.size()));
+            glm::vec3 normal;
+            normals >> normal.x;
+            normals >> normal.y;
+            normals >> normal.z;
+            normalsList.push_back(normal);
         } else if (line.substr(0, 2) == FACE_HEADER) {
-            cout << line << endl;
-
             int vertexIdx[3];
             int textureIdx[3];
             int normalIdx[3];
@@ -63,9 +67,9 @@ vector<Vertex> Mesh::load(const std::string &fileName) {
 
                 glm::vec3 pos = verticesList[vertexIdx[i] - 1];
                 glm::vec2 tex = uvList[textureIdx[i] - 1];
-                glm::vec3 normal;
+                glm::vec3 normal = normalsList[normalIdx[i] - 1];
 
-                Vertex vertex = Vertex(pos, tex);
+                Vertex vertex = Vertex(pos, tex, normal);
                 vertices.push_back(vertex);
             }
         }
@@ -89,4 +93,5 @@ vector<int> Mesh::readTriplet(string &triplet) {
     return indices;
 }
 
-Vertex::Vertex(const glm::vec3 &pos, const glm::vec2 &tex) : pos(pos), tex(tex) {}
+Vertex::Vertex(const glm::vec3 &pos, const glm::vec2 &tex, const glm::vec3 &normal)
+        : pos(pos), tex(tex), normal(normal) {}
