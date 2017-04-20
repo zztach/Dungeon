@@ -101,7 +101,7 @@ void Level::render(const GLuint program, const double timeElapsed) {
                 //  map_width_center + current_cube_x,  0,  map_height_center - current_cube_y
                 float x = getXOffset(cube_side_length, j);
                 float z = getZOffset(cube_side_length, initial_distance, i);
-                glm::mat4 mv_matrix = glm::translate(glm::mat4(1.0f), glm::vec3(x, 0.0f, z));
+                glm::mat4 mv_matrix = glm::translate(glm::mat4(1.0f), glm::vec3(x, 0.1f, z));
                 // rotate as first matrix operation rotates each cube around its axis. Interesting for effect
                 glUniformMatrix4fv(mv_location, 1, GL_FALSE, glm::value_ptr(mv_matrix));
                 glVertexAttrib4fv(3, color);

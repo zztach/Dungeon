@@ -13,6 +13,8 @@ InputHandler::InputHandler() {
     keysPressed[SDLK_s] = new KeyState(false, false);
     keysPressed[SDLK_d] = new KeyState(false, false);
     keysPressed[SDLK_f] = new KeyState(false, false);
+    keysPressed[SDLK_q] = new KeyState(false, false);
+    keysPressed[SDLK_e] = new KeyState(false, false);
     keysPressed[SDLK_TAB] = new KeyState(false, false);
     keysPressed[SDLK_ESCAPE] = new KeyState(false, false);
 }
