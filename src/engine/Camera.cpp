@@ -90,16 +90,15 @@ void Camera::process(map<char,KeyState*> keysPressed, MouseState& mouseState, do
             this->strafeRight(distance);
             keysPressed[SDLK_d]->pressed = false;
         }
+        if (keysPressed[SDLK_q]->pressed) {
+            this->rotate(-90.0f);
+            keysPressed[SDLK_q]->pressed = false;
+        }
+        if (keysPressed[SDLK_e]->pressed) {
+            this->rotate(90.0f);
+            keysPressed[SDLK_e]->pressed = false;
+        }
     }
-
-    // xrel refers to the mouse movements in the x axis. Mouse moves in x,y directions in 
-    // a 2D coordinate system. 
-    if (mouseState.mouseMovement) {
-        if (mouseState.xrel > 100 || mouseState.xrel < -100)
-            this->rotate(0.0f);
-        else if (mouseState.xrel != 0)
-            this->rotate(mouseState.xrel / 5.0);
-    }        
 }
 
 const glm::mat4 Camera::getMatrix()
