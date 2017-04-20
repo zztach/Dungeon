@@ -9,7 +9,7 @@
 
 Camera::Camera(const int width, const int height) {
     float aspect = (float) width / (float) height;
-    proj_matrix = glm::perspective(45.0f, aspect, 0.1f, 100.0f);
+    proj_matrix = glm::perspective(90.0f, aspect, 0.2f, 30.0f);
     position = glm::vec3(0.0f);
     // openGL is right-handed, -z goes into the screen
     viewDirection = glm::vec3(0.0f, 0.0f, -1.0f);
