@@ -28,7 +28,7 @@ Emitter::Emitter(GLuint prog) {
 }
 
 Emitter::~Emitter() {
-    for (std::list<Particle*>::iterator it = particles.begin(); it != particles.end(); it++) {
+    for (auto it = particles.begin(); it != particles.end(); it++) {
         delete (*it);
     }
 }
@@ -48,7 +48,7 @@ void Emitter::update(double time, float rotY) {
     for (int i = 0; i < numEmission; i++)
         addParticle(rotY);
 
-    for (std::list<Particle*>::iterator it = particles.begin(); it != particles.end();) {
+    for (auto it = particles.begin(); it != particles.end();) {
         Particle *particle = (*it);
         particle->acceleration.y = -gravity;
         particle->acceleration += wind;
@@ -75,7 +75,7 @@ void Emitter::setTexture(Texture *tex) {
 }
 
 void Emitter::addParticle(float rotY) {
-    Particle *particle = new Particle((int) particles.size(), rotY);
+    auto *particle = new Particle((int) particles.size(), rotY);
     particle->bindVAO();
     float r = frand() * saturation + (1 - saturation);
     float g = frand() * saturation + (1 - saturation);
