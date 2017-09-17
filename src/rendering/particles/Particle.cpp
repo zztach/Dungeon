@@ -42,8 +42,6 @@ void Particle::bindVAO()
 
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5*sizeof(GLfloat), (const GLvoid*)(3 * sizeof(GLfloat)));
     glEnableVertexAttribArray(1);
-    
-    glBindVertexArray(0);
 }
 
 void Particle::render(const GLuint program, const double timeElapsed) {
@@ -74,7 +72,6 @@ void Particle::render(const GLuint program, const double timeElapsed) {
 
     GLuint mv_location = ShaderUniform::getInstance(program)->get("mv_matrix");
 
-    glBindVertexArray(vao);
     float x_offset = 8.0f;
     float y_offset = 1.0f;
     float z_offset = 32.0f;
