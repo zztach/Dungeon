@@ -8,7 +8,7 @@
 #include "Emitter.h"
 
 Emitter::Emitter(GLuint prog) {
-    texture = NULL;
+    texture = nullptr;
     emissionRate = 5.0f;
     emissionRadius = 0.2f;
 
@@ -28,13 +28,13 @@ Emitter::Emitter(GLuint prog) {
 }
 
 Emitter::~Emitter() {
-    for (auto it = particles.begin(); it != particles.end(); it++) {
-        delete (*it);
+    for (auto &particle : particles) {
+        delete particle;
     }
 }
 
 void Emitter::update(double time, float rotY) {
-    if (texture == NULL)
+    if (texture == nullptr)
         return;
 
     // ALWAYS draw all particles, but do not write to depth buffer, 
@@ -44,7 +44,7 @@ void Emitter::update(double time, float rotY) {
     glBlendFunc(GL_SRC_ALPHA, GL_ONE);  
     glBindTexture(GL_TEXTURE_2D, texture->getTexture());
 
-    int numEmission = (int)(0.2f * emissionRate);
+    auto numEmission = (int)(0.2f * emissionRate);
     for (int i = 0; i < numEmission; i++)
         addParticle(rotY);
 
