@@ -46,15 +46,34 @@ void Emitter::update(double time, float rotY) {
 
     auto numEmission = (int)(0.2f * emissionRate);
     for (int i = 0; i < numEmission; i++)
-        addParticle(rotY);
+        addParticle(rotY, time);
 
     for (auto it = particles.begin(); it != particles.end();) {
         Particle *particle = (*it);
+
         particle->acceleration.y = -gravity;
         particle->acceleration += wind;
         particle->alpha = alpha;
         particle->rotation = rotation;
         particle->rotY = rotY;
+
+        float change = (float)time / 20.0f;
+        particle->velocity += particle->acceleration * change;
+        particle->position += particle->velocity * change;
+
+        if (particle->position.y < 0.0f) {
+            particle->velocity.y = particle->velocity.y * - particle->bounciness;
+            particle->position.y = 0.0f;
+        }
+        float x_offset = 8.0f;
+        float y_offset = 1.0f;
+        float z_offset = 32.0f;
+        glm::mat4 mv_matrix = glm::translate(glm::mat4(1.0f), glm::vec3(-x_offset + particle->position.x,
+                                                                        particle->position.y - y_offset,
+                                                                        particle->position.z - z_offset))
+                              * glm::rotate(glm::mat4(1.0f), -rotY, glm::vec3(0.0f,1.0f, 0.0f));
+
+        particle->setMvMatrix(mv_matrix);
 
         particle->render(program, time);
 
@@ -74,7 +93,7 @@ void Emitter::setTexture(Texture *tex) {
     texture = tex;
 }
 
-void Emitter::addParticle(float rotY) {
+void Emitter::addParticle(float rotY, double time) {
     auto *particle = new Particle((int) particles.size(), rotY);
     particle->bindVAO();
     float r = frand() * saturation + (1 - saturation);

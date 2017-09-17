@@ -23,7 +23,7 @@ public:
     void update(double time, float rotY);
     void setTexture(Texture *texture);
 protected :
-    void addParticle(float rotY);
+    void addParticle(float rotY, double time);
     float frand(float start = 0, float end = 0);
 private:
 	std::list<Particle*> particles;

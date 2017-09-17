@@ -51,16 +51,8 @@ void Particle::render(const GLuint program, const double timeElapsed) {
 
     // number of seconds since our last update
 //    float change = (float) (timeElapsed - lastTime) / 10000.0f;
-    float change = (float)timeElapsed / 20.0f;
-    velocity += acceleration * change;
-    position += velocity * change;
-
-    if (position.y < 0.0f) {
-        velocity.y = velocity.y * - bounciness;
-        position.y = 0.0f;
-    }
-
     const float fadeTime = 0.5f;
+
 
     if (totalLife - life < fadeTime) {
         glVertexAttrib4fv(3, glm::value_ptr(glm::vec4(glm::vec3(color), (totalLife - life) / fadeTime * alpha)));
@@ -71,19 +63,18 @@ void Particle::render(const GLuint program, const double timeElapsed) {
     }
 
     GLuint mv_location = ShaderUniform::getInstance(program)->get("mv_matrix");
-
-    float x_offset = 8.0f;
-    float y_offset = 1.0f;
-    float z_offset = 32.0f;
-    glm::mat4 mv_matrix = glm::translate(glm::mat4(1.0f), glm::vec3(-x_offset + position.x,
-                                                                    position.y - y_offset,
-                                                                    position.z - z_offset))
-                          * glm::rotate(glm::mat4(1.0f), -rotY, glm::vec3(0.0f,1.0f, 0.0f));
     glUniformMatrix4fv(mv_location, 1, GL_FALSE, glm::value_ptr(mv_matrix));
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+
+    float change = (float)timeElapsed/ 20.0f;
     life -= change * 17;
 
     if (life <= 0.0f) {
         active = false;
-    }   
+    }
+}
+
+void Particle::setMvMatrix(glm::mat4 x4) {
+    mv_matrix = x4;
+
 }

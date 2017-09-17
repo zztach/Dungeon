@@ -20,6 +20,9 @@ public:
     // IDrawable        
     void bindVAO();
     void render(const GLuint program, const double timeElapsed);
+
+    void setMvMatrix(glm::mat4 x4);
+
 public:
     int id;
 
@@ -43,6 +46,7 @@ private :
     GLuint vao;
     GLuint buffer;       
     ShaderUniform* uniform;
+    glm::mat4 mv_matrix;
 };
 #endif	/* PARTICLE_H */
 
