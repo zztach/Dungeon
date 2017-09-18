@@ -34,6 +34,10 @@ Emitter::~Emitter() {
 }
 
 void Emitter::update(double time, float rotY) {
+    GLint vertexUVID = glGetAttribLocation(program, "proj_matrix");
+    if(vertexUVID < 0)
+        std::cout << "vertexUVID not found ..." << std::endl;
+
     if (texture == nullptr)
         return;
 
@@ -48,7 +52,7 @@ void Emitter::update(double time, float rotY) {
     for (int i = 0; i < numEmission; i++)
         addParticle(rotY, time);
 
-    glm::mat4* particle_matrices = new glm::mat4[particles.size()];
+    auto* particle_matrices = new glm::mat4[particles.size()];
 
     int counter = 0;
     for (auto it = particles.begin(); it != particles.end();) {
@@ -93,6 +97,60 @@ void Emitter::update(double time, float rotY) {
     }
 
     //todo rendeing code goes here
+
+    static const GLfloat vertex_positions[] = {
+            // CW order to get it in front
+            -size, -size, 0, 0, 0,
+            -size, size, 0, 0, 1,
+            size, -size, 0, 1, 0,
+            size, size, 0, 1, 1,
+    };
+
+    // load vertex positions into the buffer, input to vertex attributes 0,3
+    unsigned int buffer0;
+    glGenBuffers(1, &buffer0);
+    glBindBuffer(GL_ARRAY_BUFFER, buffer0);
+    glBufferData(GL_ARRAY_BUFFER, sizeof (vertex_positions), vertex_positions, GL_STATIC_DRAW);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5*sizeof(GLfloat), NULL);
+    glEnableVertexAttribArray(0);
+
+    // vertex Buffer Object
+    unsigned int buffer;
+    glGenBuffers(1, &buffer);
+    glBindBuffer(GL_ARRAY_BUFFER, buffer);
+    glBufferData(GL_ARRAY_BUFFER, particles.size() * sizeof(glm::mat4), &particle_matrices[0], GL_STATIC_DRAW);
+
+    for(auto& particle : particles)
+    {
+        unsigned int VAO = particle->vao;
+
+        glBindVertexArray(VAO);
+        // vertex Attributes
+        GLsizei vec4Size = sizeof(glm::vec4);
+        glEnableVertexAttribArray(4);
+        glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, 4 * vec4Size, (void*)0);
+        glEnableVertexAttribArray(5);
+        glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, 4 * vec4Size, (void*)(vec4Size));
+        glEnableVertexAttribArray(6);
+        glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, 4 * vec4Size, (void*)(2 * vec4Size));
+        glEnableVertexAttribArray(7);
+        glVertexAttribPointer(7, 4, GL_FLOAT, GL_FALSE, 4 * vec4Size, (void*)(3 * vec4Size));
+
+        glVertexAttribDivisor(4, 1);
+        glVertexAttribDivisor(5, 1);
+        glVertexAttribDivisor(6, 1);
+        glVertexAttribDivisor(7, 1);
+
+        glBindVertexArray(0);
+    }
+
+
+    for(auto& particle : particles)
+    {
+        glBindVertexArray(particle->vao);
+        glDrawElementsInstanced(GL_TRIANGLE_STRIP, 4, GL_UNSIGNED_INT, 0, particles.size());
+//        std::cout << "GL ERROR : " << glGetError() << std::endl;
+    }
 
     glEnable(GL_DEPTH_TEST);
     glDisable(GL_BLEND);

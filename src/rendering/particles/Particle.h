@@ -42,8 +42,10 @@ public:
     bool active;
     
     float rotY;
-private :
     GLuint vao;
+
+private :
+
     GLuint buffer;       
     ShaderUniform* uniform;
     glm::mat4 mv_matrix;

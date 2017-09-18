@@ -114,7 +114,7 @@ void Game::initGameResources(int width, int height) {
     textRenderer = new TextRenderer(txFactory->getTexture("font")->getTexture());
     textRenderer->bindVAO();
 
-    emitter = new Emitter(program);
+    emitter = new Emitter(particle_shader);
     emitter->setTexture(txFactory->getTexture("particle"));
 
     control = new ListBox(5, 15, 150, 300);
@@ -143,7 +143,13 @@ void Game::render3D() {
     level->render(program, timer->getInGameFrameDuration());
 
     glUseProgram(particle_shader);
+
+    glUniformMatrix4fv(glGetUniformLocation(particle_shader, "camera_matrix"), 1, GL_FALSE, glm::value_ptr(camera->getMatrix()));
+    glUniformMatrix4fv(glGetUniformLocation(particle_shader, "proj_matrix"), 1, GL_FALSE, glm::value_ptr(camera->getPerpsectiveProjection()));
+
     emitter->update(timer->getInGameFrameDuration(), camera->getRotation());
+
+
     glUseProgram(program);
 }
 
