@@ -92,6 +92,8 @@ void Emitter::update(double time, float rotY) {
             ++it;
     }
 
+    //todo rendeing code goes here
+
     glEnable(GL_DEPTH_TEST);
     glDisable(GL_BLEND);
     glDepthMask(GL_TRUE);

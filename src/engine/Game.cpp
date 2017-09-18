@@ -94,9 +94,10 @@ void Game::initOpenGL(int width, int height) const {
 }
 
 void Game::initShaders() {
+    particle_shader = ShaderLoader::load("shaders/particle_vertex_shader.vert", "shaders/fragment_shader.frag");
     program = ShaderLoader::load("shaders/vertex_shader.vert", "shaders/fragment_shader.frag");
-    shaderUniform = ShaderUniform::getInstance(program);
     glUseProgram(program);
+    shaderUniform = ShaderUniform::getInstance(program);
     printf("OpenGL %s, GLSL %s\n", glGetString(GL_VERSION), glGetString(GL_SHADING_LANGUAGE_VERSION));
 }
 
@@ -140,7 +141,10 @@ void Game::render3D() {
     glUniform4fv(shaderUniform->get("light_pos"), 1, glm::value_ptr(light));
 
     level->render(program, timer->getInGameFrameDuration());
+
+    glUseProgram(particle_shader);
     emitter->update(timer->getInGameFrameDuration(), camera->getRotation());
+    glUseProgram(program);
 }
 
 void Game::render2D() {

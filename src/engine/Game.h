@@ -46,6 +46,7 @@ private:
     SDL_Window* g_pWindow;
     SDL_GLContext glContext;
     GLuint program;
+    GLuint particle_shader;
     bool m_bRunning;
     GLenum mode;
     TextureFactory* txFactory;    

@@ -74,5 +74,6 @@ configure_file(src/resources/textures/textures.xml ${CMAKE_BINARY_DIR}/cmake-bui
 configure_file(src/resources/models/crate.obj ${CMAKE_BINARY_DIR}/cmake-build-debug/models/crate.obj COPYONLY)
 configure_file(src/resources/models/crate.mtl ${CMAKE_BINARY_DIR}/cmake-build-debug/models/crate.mtl COPYONLY)
 configure_file(src/resources/shaders/vertex_shader.vert ${CMAKE_BINARY_DIR}/cmake-build-debug/shaders/vertex_shader.vert COPYONLY)
+configure_file(src/resources/shaders/particle_vertex_shader.vert ${CMAKE_BINARY_DIR}/cmake-build-debug/shaders/particle_vertex_shader.vert COPYONLY)
 configure_file(src/resources/shaders/fragment_shader.frag ${CMAKE_BINARY_DIR}/cmake-build-debug/shaders/fragment_shader.frag COPYONLY)
 configure_file(src/resources/map.txt ${CMAKE_BINARY_DIR}/cmake-build-debug/map.txt COPYONLY)
