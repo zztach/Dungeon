@@ -42,17 +42,16 @@ void Particle::bindVAO()
 
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5*sizeof(GLfloat), (const GLvoid*)(3 * sizeof(GLfloat)));
     glEnableVertexAttribArray(1);
+    glBindVertexArray(0);
 }
 
 void Particle::render(const GLuint program, const double timeElapsed) {
-    
     if (!active)
         return;
 
     // number of seconds since our last update
-//    float change = (float) (timeElapsed - lastTime) / 10000.0f;
     const float fadeTime = 0.5f;
-
+    glBindVertexArray(vao);
 
     if (totalLife - life < fadeTime) {
         glVertexAttrib4fv(3, glm::value_ptr(glm::vec4(glm::vec3(color), (totalLife - life) / fadeTime * alpha)));
@@ -65,13 +64,6 @@ void Particle::render(const GLuint program, const double timeElapsed) {
     GLuint mv_location = ShaderUniform::getInstance(program)->get("mv_matrix");
     glUniformMatrix4fv(mv_location, 1, GL_FALSE, glm::value_ptr(mv_matrix));
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-
-    float change = (float)timeElapsed/ 20.0f;
-    life -= change * 17;
-
-    if (life <= 0.0f) {
-        active = false;
-    }
 }
 
 void Particle::setMvMatrix(glm::mat4 x4) {

@@ -75,7 +75,12 @@ void Emitter::update(double time, float rotY) {
 
         particle->setMvMatrix(mv_matrix);
 
-        particle->render(program, time);
+//        particle->render(program, time);
+
+        life -= change * 17;
+        if (life <= 0.0f) {
+            particle->active = false;
+        }
 
         if (!particle->active) {
             delete particle;
