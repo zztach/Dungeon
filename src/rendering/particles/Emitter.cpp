@@ -48,6 +48,9 @@ void Emitter::update(double time, float rotY) {
     for (int i = 0; i < numEmission; i++)
         addParticle(rotY, time);
 
+    glm::mat4* particle_matrices = new glm::mat4[particles.size()];
+
+    int counter = 0;
     for (auto it = particles.begin(); it != particles.end();) {
         Particle *particle = (*it);
 
@@ -73,8 +76,8 @@ void Emitter::update(double time, float rotY) {
                                                                         particle->position.z - z_offset))
                               * glm::rotate(glm::mat4(1.0f), -rotY, glm::vec3(0.0f,1.0f, 0.0f));
 
-        particle->setMvMatrix(mv_matrix);
-
+        particle_matrices[counter++] = mv_matrix;
+//        particle->setMvMatrix(mv_matrix);
 //        particle->render(program, time);
 
         life -= change * 17;
@@ -92,6 +95,8 @@ void Emitter::update(double time, float rotY) {
     glEnable(GL_DEPTH_TEST);
     glDisable(GL_BLEND);
     glDepthMask(GL_TRUE);
+
+    delete[] particle_matrices;
 }
 
 void Emitter::setTexture(Texture *tex) {
