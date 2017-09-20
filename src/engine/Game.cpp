@@ -33,11 +33,11 @@ void Game::initSDL(int &width, int &height) {
     SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
     // Declare display mode structure to be filled in.
-    SDL_DisplayMode modeInUse;
+    SDL_DisplayMode modeInUse{};
 
     // Get current display mode of all displays.
     for (int i = 0; i < SDL_GetNumVideoDisplays(); ++i) {
-        SDL_DisplayMode current;
+        SDL_DisplayMode current{};
         int errorCode = SDL_GetCurrentDisplayMode(i, &current);
 
         if (errorCode != 0)

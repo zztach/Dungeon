@@ -34,10 +34,6 @@ Emitter::~Emitter() {
 }
 
 void Emitter::update(double time, float rotY) {
-    GLint vertexUVID = glGetAttribLocation(program, "proj_matrix");
-    if(vertexUVID < 0)
-        std::cout << "vertexUVID not found ..." << std::endl;
-
     if (texture == nullptr)
         return;
 
@@ -130,11 +126,11 @@ void Emitter::update(double time, float rotY) {
         glEnableVertexAttribArray(4);
         glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, 4 * vec4Size, (void*)0);
         glEnableVertexAttribArray(5);
-        glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, 4 * vec4Size, (void*)(vec4Size));
+        glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, 4 * vec4Size, (void*)(intptr_t)(vec4Size));
         glEnableVertexAttribArray(6);
-        glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, 4 * vec4Size, (void*)(2 * vec4Size));
+        glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, 4 * vec4Size, (void*)(intptr_t)(2 * vec4Size));
         glEnableVertexAttribArray(7);
-        glVertexAttribPointer(7, 4, GL_FLOAT, GL_FALSE, 4 * vec4Size, (void*)(3 * vec4Size));
+        glVertexAttribPointer(7, 4, GL_FLOAT, GL_FALSE, 4 * vec4Size, (void*)(intptr_t)(3 * vec4Size));
 
         glVertexAttribDivisor(4, 1);
         glVertexAttribDivisor(5, 1);

@@ -6,7 +6,7 @@
  */
 
 #ifndef SHADERUNIFORM_H
-#define    SHADERUNIFORM_H
+#define SHADERUNIFORM_H
 
 #include <glew.h>
 #include <map>
@@ -16,7 +16,7 @@ private:
     GLuint program;
     std::map<std::string, GLuint> uniforms;
 
-    ShaderUniform(GLuint program) {
+    explicit ShaderUniform(GLuint program) {
         this->program = program;
         uniforms["camera_matrix"] = (unsigned int) glGetUniformLocation(program, "camera_matrix");
         uniforms["proj_matrix"] = (unsigned int) glGetUniformLocation(program, "proj_matrix");
@@ -26,12 +26,12 @@ private:
     }
 
 public:
-    GLuint get(std::string name) const {
+    GLuint get(const std::string &name) const {
         return uniforms.at(name);
     }
 
     static ShaderUniform *getInstance(GLuint program) {
-        static ShaderUniform *instance = new ShaderUniform(program);
+        static auto *instance = new ShaderUniform(program);
         return instance;
     }
 
